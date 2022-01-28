@@ -8,7 +8,7 @@ let dbcache = readJson()
 //Fin de lectura del Json -->
 
 
-// Código que te permite crear la tarea y escribir en Json
+// Código que te permite modificar el estado de la tarea
 const questionRun = () => {
   inquirer
       .prompt(state)

@@ -64,7 +64,7 @@ const state = [ // Revisado Pere OK.
     type: 'list',
     name: 'state',
     message: 'introduce el NUEVO estado',
-    choices: ['pendiente', 'finalizada', 'en proceso'],
+    choices: ['Pendiente', 'Finalizada', 'En proceso'],
   }
 ];
 
