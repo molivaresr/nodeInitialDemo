@@ -7,8 +7,6 @@ const {readJson} = require('../controllers/json')
 let dbcache = readJson()
 //Fin de lectura del Json -->
 
-
-
 // Código que te permite buscar la tarea en Json
 const questionsRun = (questions) => {
     inquirer.prompt(questions).then((answers) =>{
@@ -22,6 +20,10 @@ class Find {
     json = async() => {
       // Pendiente mostrar resumen de dbcache (index y name) 
       await questionsRun(findOne)
+    }
+    showJson = async() => {
+      // Pendiente mostrar resumen de dbcache (index y name) 
+      await console.table(dbcache)
     }
     sql = async () => {
       await console.log('SQL no soportado... Estamos trabajando en ello!')
