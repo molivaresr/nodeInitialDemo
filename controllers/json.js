@@ -10,7 +10,7 @@ const readJson = () => {
   catch (error) {
     let dbcache = []
     let data = JSON.stringify(dbcache,null,2)
-    fs.mkdirSync('./database')  
+    //fs.mkdirSync('./database')  
     writeJson(data)
     return dbcache
   }
