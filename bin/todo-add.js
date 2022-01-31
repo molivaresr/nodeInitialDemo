@@ -1,6 +1,9 @@
 const program = require('commander');
 const Add = require('../cmds/create');
 const add = new Add();
+const message = require('../src/bienvenida')
+program.description(message)
+
 program
   .command('json')
   .alias('j')

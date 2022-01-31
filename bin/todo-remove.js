@@ -1,6 +1,9 @@
 const program = require('commander');
 const Del = require('../cmds/delete');
 const del = new Del() 
+const message = require('../src/bienvenida')
+program.description(message)
+
 program
     .command('json')
     .alias('j')

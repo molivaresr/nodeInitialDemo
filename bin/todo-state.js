@@ -1,6 +1,8 @@
 const program = require('commander');
 const setState = require('../cmds/setState');
 const state = new setState();
+const message = require('../src/bienvenida')
+program.description(message)
 
   program
     .command('json')

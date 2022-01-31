@@ -1,6 +1,8 @@
 const program = require('commander');
 const Find = require('../cmds/find');
 const find = new Find()
+const message = require('../src/bienvenida')
+program.description(message)
 
   program
     .command('json')

@@ -4,10 +4,13 @@
 
 Para Iniciar  
 ``npm i``  
-``cd ~/projects/node-redis    # go into the package directory ``  
+``cd ~/nodeInitalDemo    # go into the package directory ``  
 ``npm link                    # creates global link ``  
-``cd ~/projects/node-bloggy   # go into some other package directory. ``  
-``npm link redis ``  
+``cd ~/  # go into some other package directory. ``  
+``npm link todo ``  
+``Es necesario ejecutar desde el repositorio /nodeInitialDemo``  
+``todo a `` -> Para crear una tarea 
+``todo -h`` -> Para ver todos los comandos    
 ## Comandos 
 Options:
   -v, --version   Para consultar la versión del programa
