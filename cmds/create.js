@@ -1,34 +1,31 @@
 const inquirer = require('inquirer'); // Para iniicar  preguntas por consola
 const fs = require('fs');
-const { state } = require('../src/questions') // Importa las preguntas de creación
+const { create } = require('../src/questions') // Importa las preguntas de creación
 const { writeJson, readJson } = require('../controllers/json')
+
 
 // Inicia lectura de Json <--
 let dbcache = readJson()
+
 //Fin de lectura del Json -->
 
-
-// Código que te permite modificar el estado de la tarea
+// Código que te permite crear la tarea y escribir en Json
 const questionRun = () => {
   inquirer
-      .prompt(state)
+      .prompt(create)
       .then( answers => {
-        console.log('\nHas elegido modificar la tarea: ' + answers.taskindex);
-        let index = answers.taskIndex;
-        let newState = answers.state;
-        dbcache[index].state = newState
-        //console.log(dbcache[index].state);
-        //console.log(todos);
+        dbcache.push(answers)
         let todos = JSON.stringify(dbcache, null, 2);
         writeJson(todos)
-        console.log('\nTarea Modificada, aquí tienes todas las tareas.');
+        console.log('Tarea Creada');
         console.table(dbcache);
       });
 }
-class setState {
+
+// Clase que exporta resultados y permite ser llamados mediante la app
+class Add {
   json = async () => {
-    console.table(dbcache);
-    await questionRun();
+    await questionRun() 
   }
   sql = async () => {
     await console.log('SQL no soportado... Estamos trabajando en ello!')
@@ -38,4 +35,4 @@ class setState {
   }
 }
 
-module.exports = setState;   
+module.exports = Add;

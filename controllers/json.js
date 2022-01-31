@@ -1,10 +1,22 @@
-const fs = require('fs')
+const fs = require('fs');
 const path = './database/tasks.json'
+
 // Inicia lectura de Json <--
 const readJson = () => { 
-  let dbcache = JSON.parse(fs.readFileSync(path))
-     return dbcache
+  try {
+    let dbcache = JSON.parse(fs.readFileSync(path))
+    return dbcache 
   }
+  catch (error) {
+    let dbcache = []
+    let data = JSON.stringify(dbcache,null,2)
+    fs.mkdirSync('./database')  
+    writeJson(data)
+    return dbcache
+  }
+}
+
+
 // Fin de lectura del Json
 // -->
 

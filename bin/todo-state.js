@@ -1,23 +1,23 @@
 const program = require('commander');
-const Find = require('../cmds/find');
-const find = new Find()
+const setState = require('../cmds/setState');
+const state = new setState();
 const message = require('../src/bienvenida')
 program.description(message)
 
   program
     .command('json')
     .alias('j')
-    .description('Buscar una tarea en Json')
-    .action(find.json)
+    .description('Modificar Estado en Json')
+    .action(state.json)
   program
     .command('sql')
     .alias('s')
-    .description('Buscar en SQL')
-    .action(find.sql)
+    .description('Modificar Estado en SQL')
+    .action(state.sql)
   program
     .command('mongo')
     .alias('m')
-    .description('Buscar en Mongo')
-    .action(find.mongo)
+    .description('Modificar Estado en Mongo')
+    .action(state.mongo)
 
 program.parse(process.argv);

@@ -1,4 +1,8 @@
+##Node Modules
 node_modules/
+
+##Database
 /database/tasks.json
+
 ##MacOs
 .DS_Store
