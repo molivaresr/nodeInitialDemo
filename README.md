@@ -14,15 +14,15 @@ Para Iniciar
    
 ## Comandos 
 Options:
-  -v, --version   Para consultar la versión del programa
-  -h, --help      display help for command
+  -v, --version   Para consultar la versión del programa  
+  -h, --help      display help for command  
 
-Commands:
-  add|a           Crear una nueva tarea
-  remove|r        Eliminar una tarea
-  update|u        Modificar una tarea
-  find|f          Buscar una tarea
-  help [command]  display help for command
+Commands:  
+  add|a           Crear una nueva tarea  
+  remove|r        Eliminar una tarea  
+  update|u        Modificar una tarea  
+  find|f          Buscar una tarea  
+  help [command]  display help for command  
 ## Authors
 
 👤 **Mauricio, Pere Ruiz, Bianca Inga**
