@@ -10,7 +10,8 @@ Para Iniciar
 ``npm link todo ``  
 ``Es necesario ejecutar desde el repositorio /nodeInitialDemo``  
 ``todo a `` -> Para crear una tarea 
-``todo -h`` -> Para ver todos los comandos    
+``todo -h`` -> Para ver todos los comandos 
+   
 ## Comandos 
 Options:
   -v, --version   Para consultar la versión del programa
