@@ -3,7 +3,7 @@
 > Pequeño programa en node.js para hacer y administrar &#34;Tareas&#34;  
 
 Para Iniciar  
-``npm i`` 
+``npm i``  
 ``cd ~/projects/node-redis    # go into the package directory ``  
 ``npm link                    # creates global link ``  
 ``cd ~/projects/node-bloggy   # go into some other package directory. ``  
