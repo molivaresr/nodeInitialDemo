@@ -9,7 +9,7 @@ Para Iniciar
 ``cd ~/  # go into some other package directory. ``  
 ``npm link todo ``  
 ``Es necesario ejecutar desde el repositorio /nodeInitialDemo``  
-``todo a `` -> Para crear una tarea 
+``todo a `` -> Para crear una tarea  
 ``todo -h`` -> Para ver todos los comandos 
    
 ## Comandos 
