@@ -3,11 +3,10 @@
 > Pequeño programa en node.js para hacer y administrar &#34;Tareas&#34;  
 
 Para Iniciar  
-``npm install todoappit``  
-``cd ~/nodeInitalDemo    # Ir al directorio del repositorio ``  
-``npm link                    # creates a link ``   
+``npm i``  
 ``Es necesario ejecutar desde el repositorio /nodeInitialDemo``  
 ``todo`` -> Para iniciar una tarea  
+> Ejemplos  
 ``todo -h`` -> Para ver todos los comandos  
 ``todo a json ``  -> Para crear una tarea en Json
 
