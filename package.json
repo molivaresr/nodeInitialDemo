@@ -1,0 +1,28 @@
+{
+  "name": "sprint41",
+  "version": "1.0.0",
+  "description": "REST Server",
+  "main": "index.js",
+  "scripts": {
+    "test": "NO"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/molivaresr/nodeInitialDemo.git"
+  },
+  "keywords": [
+    "REST",
+    "Node"
+  ],
+  "author": "Mauricio Olivares",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/molivaresr/nodeInitialDemo/issues"
+  },
+  "homepage": "https://github.com/molivaresr/nodeInitialDemo#readme",
+  "dependencies": {
+    "express": "^4.17.2",
+    "joi": "^17.6.0",
+    "nodemon": "^2.0.15"
+  }
+}

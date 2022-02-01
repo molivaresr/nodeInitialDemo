@@ -1,1 +1,1 @@
-//Conecta con BD
+//Conectar BD

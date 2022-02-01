@@ -1,50 +1,15 @@
-<h1 align="center">Welcome to Developers Team - Todo App👋</h1>
+<h1 align="center">Welcome to Node Rest Server👋</h1>
+Nivell 1  
+- Exercici 1  
+Crea un servidor amb Express que retorni a una petició GET a l'endpoint /user un json amb el teu nom, edat i la url des d'on es fa la petició.  
 
-> Pequeño programa en node.js para hacer y administrar &#34;to-dos&#34;  
+- Exercici 2
+Afegeix un endpoint /upload per a pujar al servidor un arxiu de tipus png, jpg o gif que retorni un missatge d'error en cas que l'extensió de l'arxiu no coincideixi amb aquestes.  
 
-Para probar el modulo inquirer:  
-`npm install inquirer`  
-`node inquirerTest.js` -> Prueba de como ingresar datos por consola.  
-`node createTest.js`-> Prueba de como crear una tarea por consola.  
+Nivell 2  
+- Exercici 1  
+Creu un endpoint /time que rebi per POST com a paràmetre un JSON amb el nom d'usuari i retorni un objecte JSON que contingui l'hora i data actual. Inclogui un middleware que afegeixi la capçalera Cache-control: no-cache. Habiliti CORS (Cross-Origin Resource Sharing) en les respostes, ja sigui mitjançant Express o mitjançant un altre middleware.  
 
-Propuesta de la tarea, la idea es que todos usemos el mismo objeto para que sea más fácil integrar cada funcionalidad:  
-const toDo = {   
-taskName: 'Nombre de tarea',  
-taskStartDate: 'Fecha de Inicio',  
-taskEndDate: 'Fecha de Fin',  
-taskDescription:'Descripción y/o detalles',  
-taskUser:'Usuario Asignado'  
-}
-     
-## Install
-Para instalar inquirer -> 
-```sh
-npm install inquirer 
-```
-
-## Usage
-
-```sh
-npm start
-```
-
-## Run tests
-
-```sh
-npm run test
-```
-
-## Authors
-
-👤 **Mauricio, Pere Ruiz, Bianca Inga**
-
-- Github: [@molivaresr] (https://github.com/molivaresr), [En\_Pere] (https://github.com/En_Pere), [Blanket25] (https://github.com/Blanket25)
-## Our Organization sheet
-[Trello](https://trello.com/b/2ujcduIe/developer-team)
-## Show your support
-
-Give a ⭐️ if this project helped you!
-
----
-
-_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
+Nivell 3
+- Exercici 1
+Afegeixi un middleware a l'endpoint anterior que retorni un HTTP Status 401 - Unauthorized si la capçalera de la petició no conté autenticació bàsica (usuari i contrasenya).  
