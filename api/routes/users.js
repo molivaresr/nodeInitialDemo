@@ -18,7 +18,7 @@ router.get('/', (req,res) => {
 router.post('/', (req, res) => {
     const schema = Joi.object ({
         name: Joi.string().required().min(3),
-        age: Joi.number().greater(17).required(),
+        age: Joi.number().required().greater(17),
     });
     
     const {error, result} = schema.validate(req.body);
