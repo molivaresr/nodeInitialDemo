@@ -1,8 +1,9 @@
 <h1 align="center">Welcome to Node Rest Server👋</h1>
-**Para iniciar servidor**.  
-``npm i``-> Instala modulos requeridos.  
-``node .\api\app.js``.  
+**Para iniciar servidor**  
 
+``npm i``-> Instala modulos requeridos.  
+
+``node .\api\app.js``.    
 
 Nivell 1  
 - Exercici 1  
