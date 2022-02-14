@@ -4,6 +4,7 @@ const router = express.Router();
 const Joi = require('joi');
 const users = [] // "Persistencia"
 
+// Obtener datos de usuario
 router.get('/', (req,res) => {
     const user = {
         id: users.length + 1,
@@ -14,7 +15,8 @@ router.get('/', (req,res) => {
     res.status(200).send(user)
 });
 
-//Create new user
+
+// Create new player
 router.post('/', (req, res) => {
     const schema = Joi.object ({
         name: Joi.string().required().min(3),

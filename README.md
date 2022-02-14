@@ -5,17 +5,24 @@
 
 ``npm start`` -> Inicializa servidor.    
 
-Nivell 1  
-- Exercici 1  
-Crea un servidor amb Express que retorni a una petició GET a l'endpoint /user un json amb el teu nom, edat i la url des d'on es fa la petició.  
+Construirem una API que doni suport a un joc de daus ;)
 
-- Exercici 2
-Afegeix un endpoint /upload per a pujar al servidor un arxiu de tipus png, jpg o gif que retorni un missatge d'error en cas que l'extensió de l'arxiu no coincideixi amb aquestes.  
+Al joc de daus s’hi juga amb dos daus de sis cares:
 
-Nivell 2  
-- Exercici 1  
-Creu un endpoint /time que rebi per POST com a paràmetre un JSON amb el nom d'usuari i retorni un objecte JSON que contingui l'hora i data actual. Inclogui un middleware que afegeixi la capçalera Cache-control: no-cache. Habiliti CORS (Cross-Origin Resource Sharing) en les respostes, ja sigui mitjançant Express o mitjançant un altre middleware.  
-
-Nivell 3
-- Exercici 1
-Afegeixi un middleware a l'endpoint anterior que retorni un HTTP Status 401 - Unauthorized si la capçalera de la petició no conté autenticació bàsica (usuari i contrasenya).  
+En cas que el resultat dels dos daus sigui 7 la partida es guanya, si no es perd.
+Per poder jugar al joc t’has de registrar com a jugador amb un nom. Un jugador pot veure un llistat de totes les tirades que ha fet i el seu percentatge d’èxit.
+Per poder realitzar una tirada, un usuari s’ha de registrar amb un nom no repetit. Al ser creat, se li assigna un identificador únic i una data de registre.
+Si l’usuari ho desitja, pot no afegir cap nom i es dirà “ANÒNIM”. Pot haver-hi més d’un jugador “ANÒNIM”.
+Cada jugador pot veure un llistat de totes les tirades que ha fet amb el valor de cada dau i si s’ha guanyat o no la partida. A més, pot saber el percentatge d’èxit de les tirades que ha realitzat.
+No es pot eliminar una partida en concret, però si que es pot eliminar tot el llistat de tirades d'un jugador. El software ha de permetre llistar tots els jugadors que hi ha al sistema, el percentatge d’èxit de cada jugador i el percentatge d’èxit mig de tots els jugadors en el sistema.
+El software ha de respectar els principals patrons de disseny.
+Has de tenir en compte els següents detalls de construcció:
+POST /players: crea un jugador
+PUT /players: modifica el nom del jugador
+POST /players/{id}/games: un jugador específic realitza una tirada
+DELETE /players/{id}/games: elimina les tirades del jugador
+GET /players: retorna el llistat de tots els jugadors del sistema amb el seu percentatge mig d’èxits
+GET /players/{id}/games: retorna el llistat de jugades per un jugador.
+GET /players/ranking: retorna el percentatge mig d’èxits del conjunt de tots els jugadors
+GET /players/ranking/loser: retorna el jugador amb pitjor percentatge d’èxit
+GET /players/ranking/winner: retorna el jugador amb millor percentatge d’èxit
