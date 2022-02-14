@@ -1,7 +1,7 @@
 {
-  "name": "sprint41",
+  "name": "dicegame",
   "version": "1.0.0",
-  "description": "REST Server",
+  "description": "<h1 align=\"center\">Welcome to Node Rest Server👋</h1>\r **Para iniciar servidor**",
   "main": "index.js",
   "scripts": {
     "test": "NO",
@@ -24,10 +24,14 @@
   "dependencies": {
     "body-parser": "^1.19.1",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
     "express": "^4.17.2",
     "joi": "^17.6.0",
     "morgan": "^1.10.0",
     "multer": "^1.4.4",
-    "nodemon": "^2.0.15"
-  }
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.15",
+    "sequelize": "^6.16.1"
+  },
+  "devDependencies": {}
 }

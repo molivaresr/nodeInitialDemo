@@ -16,6 +16,9 @@ Si l’usuari ho desitja, pot no afegir cap nom i es dirà “ANÒNIM”. Pot ha
 Cada jugador pot veure un llistat de totes les tirades que ha fet amb el valor de cada dau i si s’ha guanyat o no la partida. A més, pot saber el percentatge d’èxit de les tirades que ha realitzat.
 No es pot eliminar una partida en concret, però si que es pot eliminar tot el llistat de tirades d'un jugador. El software ha de permetre llistar tots els jugadors que hi ha al sistema, el percentatge d’èxit de cada jugador i el percentatge d’èxit mig de tots els jugadors en el sistema.
 El software ha de respectar els principals patrons de disseny.
+
+----
+
 Has de tenir en compte els següents detalls de construcció:
 POST /players: crea un jugador
 PUT /players: modifica el nom del jugador

@@ -1,7 +1,17 @@
 //Crea servidor
-const express = require('express');
-const multer = require('multer');
-const cors = require('cors');
+const dotenv = require('dotenv');
+const Server = require('./models/server');
+
+/* import express from 'express';
+import cors from 'cros'; */
+
+dotenv.config();
+const server = new Server()
+
+server.listen();
+
+/* const multer = require('multer');
+
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
@@ -28,4 +38,4 @@ app.use('/api/time', time)
 //app.use(express.static(__dirname + '/public'));
 //Port 
 const port = process.env.PORT || 3000; //Variable de entorno que captura el puerto que esta desginado en el ordenador
-app.listen(port, () => console.log(`Listening on port ${port}...`))
+app.listen(port, () => console.log(`Listening on port ${port}...`)) */
