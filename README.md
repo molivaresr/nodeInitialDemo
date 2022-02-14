@@ -5,10 +5,10 @@
 Para Iniciar  
 ``npm i``  
 ``Es necesario ejecutar desde el repositorio /nodeInitialDemo``  
-``todo`` -> Para iniciar una tarea  
+``todoappit`` -> Para iniciar una tarea  
 > Ejemplos  
-``todo -h`` -> Para ver todos los comandos  
-``todo a json ``  -> Para crear una tarea en Json
+``todoappit -h`` -> Para ver todos los comandos  
+``todoappit a json ``  -> Para crear una tarea en Json
 
 ## Comandos 
 Options:
