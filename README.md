@@ -3,6 +3,7 @@
 > Pequeño programa en node.js para hacer y administrar &#34;Tareas&#34;  
 
 Para Iniciar  
+**WINDOWS: Commands Prompt**  
 ``npm i``  
 ``Es necesario ejecutar desde el repositorio /nodeInitialDemo``  
 ``todoappit`` -> Para iniciar una tarea  
