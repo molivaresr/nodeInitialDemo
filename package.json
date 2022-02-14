@@ -4,7 +4,8 @@
   "description": "REST Server",
   "main": "index.js",
   "scripts": {
-    "test": "NO"
+    "test": "NO",
+    "start": "node ./api/app.js"
   },
   "repository": {
     "type": "git",
