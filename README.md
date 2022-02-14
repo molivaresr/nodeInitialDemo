@@ -3,7 +3,7 @@
 
 ``npm i``-> Instala modulos requeridos.  
 
-``node .\api\app.js`` -> Inicializa servidor.    
+``npm start`` -> Inicializa servidor.    
 
 Nivell 1  
 - Exercici 1  
