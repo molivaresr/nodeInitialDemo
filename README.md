@@ -4,14 +4,12 @@
 
 Para Iniciar  
 **WINDOWS: Commands Prompt**  
-``Es necesario ejecutar desde el repositorio /nodeInitialDemo``  
 ``npm i``  
-``npm link``  
-``todo`` -> Para ver el comando principial  
-
+``Es necesario ejecutar desde el repositorio /nodeInitialDemo``  
+``todoappit`` -> Para iniciar una tarea  
 > Ejemplos  
-``todo -h`` -> Para ver todos los comandos  
-``todo a json ``  -> Para crear una tarea en Json
+``todoappit -h`` -> Para ver todos los comandos  
+``todoappit a json ``  -> Para crear una tarea en Json
 
 ## Comandos 
 Options:
