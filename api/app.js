@@ -1,12 +1,11 @@
 //Crea servidor
 const dotenv = require('dotenv');
-const Server = require('./models/server');
-
-/* import express from 'express';
-import cors from 'cros'; */
+const Server = require('./config/server');
+const connectDb = require('./config/sqlconnect')
 
 dotenv.config();
 const server = new Server()
+connectDb()
 
 server.listen();
 

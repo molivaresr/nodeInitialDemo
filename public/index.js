@@ -3,8 +3,6 @@ const throwDices = () => {
 }
 
 //Nueva Partida
-//
-
 const diceOne = throwDices();
 const diceTwo = throwDices();
 
