@@ -2,9 +2,9 @@ const {Sequelize} = require('sequelize');
 //const mysql = require('mysql2');
 
 // Conecta Base de Datos
-const db = new Sequelize('optica','root','123456789',{host:'localhost',dialect: 'mysql'}); 
+const db = new Sequelize('','root','123456789',{host:'localhost',dialect: 'mysql'}); 
 
-db.query("CREATE DATABASE IF NOT EXISTS dices", function (err){
+db.query("CREATE DATABASE IF NOT EXISTS dice", function (err){
   if(err) throw err;
   console.log("Database Created")
 })

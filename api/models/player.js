@@ -25,7 +25,6 @@ const Player = Sequelize.define('Player', {
     }
   },{
     timestamp: true,
-
   });
 
   module.exports = Player;
