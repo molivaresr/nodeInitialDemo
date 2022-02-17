@@ -1,28 +1,18 @@
 const express = require('express');
 const router = express.Router();
+const Players = require('../controllers/players')
+const players = new Players()
 
-router.post('/', (req, res) => {
-    res.status(200).send('Creando Jugador')
-});
+router.post('/', players.postPlayer);
 
-router.put('/', (req, res) => {
-    res.status(201).send('modificando Jugador')
-});
+router.put('/', players.putPlayer);
 
-router.get('/:id/', (req,res) => {
-    res.status(200).send('Mostrando un Jugador X_ID')
-});
+router.get('/:id/', players.getPlayer);
 
-router.post('/:id/games/', (req,res) => {
-    res.status(200).send('Guardando Jugada')
-})
+router.post('/:id/games/', players.postRoll)
 
-router.delete('/:id/games/', (req,res) => {
-    res.status(200).send('Eliminado jugadas de Jugador X_ID')
-})
+router.delete('/:id/games/', players.delPlayerRoll)
 
-router.get('/:id/games/', (req, res) => {
-    res.status(201).send('Listando Jugadas de Jugador X_ID')
-});
+router.get('/:id/games/', players.getPlayerRoll);
 
 module.exports = router
