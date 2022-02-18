@@ -19,8 +19,5 @@ async function connectDb () {
   }
 
 }
-const saveData = {
-  player: require('../models/player'),
-  //game: require('../models/diceRolls')
-}
-module.exports = connectDb, saveData;
+
+module.exports = connectDb;
