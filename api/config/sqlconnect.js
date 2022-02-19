@@ -1,23 +1,25 @@
 const {Sequelize} = require('sequelize');
-//const mysql = require('mysql2');
+const PlayerModel = require('../models/player')
+const mysql = require('mysql2');
 
 // Conecta Base de Datos
-const db = new Sequelize('','root','123456789',{host:'localhost',dialect: 'mysql'}); 
-
-db.query("CREATE DATABASE IF NOT EXISTS dice", function (err){
-  if(err) throw err;
-  console.log("Database Created")
-})
+const sequelize = new Sequelize('dice','root','123456789',{host:'localhost',dialect: 'mysql'}); 
 
 async function connectDb () {
-    try {
-    await db.authenticate();
-    console.log('Connection to database has been established successfully. By Sequelize');
-    
+  try {
+    const connection = mysql.createConnection({host:'localhost', user:'root', password:'123456789'});
+    connection.query("CREATE DATABASE IF NOT EXISTS film", function (err){
+        if(err) throw err;
+    }) 
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
-
 }
+
+const Player = PlayerModel(sequelize, Sequelize)
+
+sequelize.sync()
+  .then(() => console.log('Tablas sincronizadas'))
+  .catch((error) => console.error('Error en la sincronización de Tablas',error))
 
 module.exports = connectDb;

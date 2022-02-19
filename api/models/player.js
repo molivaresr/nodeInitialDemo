@@ -1,26 +1,27 @@
-const {Sequelize} = require("sequelize");
+//const Player = Sequelize.define('Player', atributos, options)
 
-const atributos = {
+module.exports = (sequelize, type) => {
+  const atributos = {
     _id: {
-      type: Sequelize.INTEGER,
+      type: type.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
     playerName: {
-      type: Sequelize.STRING,
+      type: type.STRING,
       allowNull: false
     }
     /* totalGames:{
-      type: Sequelize.INTEGER,
+      type: type.INTEGER,
       defaultValue: 0,
     },
     winGames:{
-      type: Sequelize.INTEGER,
+      type: type.INTEGER,
       defaultValue: 0,
 
     },
     winRate:{      
-      type: Sequelize.DECIMAL(10,2),
+      type: type.DECIMAL(10,2),
       defaultValue: 0
     } */
   }
@@ -29,7 +30,5 @@ const atributos = {
     createadAt: true,
     updatedAt: true
   };
-
-const Player = Sequelize.define('Player', atributos, options)
-
-module.exports = Player;
+  return sequelize.define('players',atributos,options)
+}
