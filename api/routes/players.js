@@ -1,18 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const Players = require('../controllers/players')
-const players = new Players()
+const {postPlayer, putPlayer, getPlayer, postRoll, delPlayerRoll, getPlayerRoll} = require('../controllers/players')
 
-router.post('/', players.postPlayer);
 
-router.put('/', players.putPlayer);
+router.post('/', postPlayer);
 
-router.get('/:id/', players.getPlayer);
+router.put('/', putPlayer);
 
-router.post('/:id/games/', players.postRoll)
+router.get('/:id/', getPlayer);
 
-router.delete('/:id/games/', players.delPlayerRoll)
+router.get('/', getPlayer);//test list players
 
-router.get('/:id/games/', players.getPlayerRoll);
+router.post('/:id/games/', postRoll)
+
+router.delete('/:id/games/', delPlayerRoll)
+
+router.get('/:id/games/', getPlayerRoll);
 
 module.exports = router

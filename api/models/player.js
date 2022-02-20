@@ -7,23 +7,10 @@ module.exports = (sequelize, type) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    playerName: {
-      type: type.STRING,
-      allowNull: false
-    }
-    /* totalGames:{
-      type: type.INTEGER,
-      defaultValue: 0,
-    },
-    winGames:{
-      type: type.INTEGER,
-      defaultValue: 0,
-
-    },
-    winRate:{      
-      type: type.DECIMAL(10,2),
-      defaultValue: 0
-    } */
+    playerName: type.STRING,
+    totalGames: type.INTEGER,
+    winGames: type.INTEGER,
+    winRate: type.DECIMAL(10,2)
   }
   const options = {
     timestamp: true,

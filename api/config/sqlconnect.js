@@ -1,5 +1,6 @@
 const {Sequelize} = require('sequelize');
-const PlayerModel = require('../models/player')
+const PlayerModel = require('../models/player');
+const DiceRollModel = require('../models/diceRolls');
 const mysql = require('mysql2');
 
 // Conecta Base de Datos
@@ -16,10 +17,11 @@ async function connectDb () {
   }
 }
 
-const Player = PlayerModel(sequelize, Sequelize)
+const Player = PlayerModel(sequelize, Sequelize);
+const diceRoll = DiceRollModel(sequelize, Sequelize);
 
 sequelize.sync()
   .then(() => console.log('Tablas sincronizadas'))
   .catch((error) => console.error('Error en la sincronización de Tablas',error))
 
-module.exports = connectDb;
+module.exports = {Player, diceRoll, connectDb};
