@@ -1,10 +1,12 @@
 const express = require('express');
 const players = require('../routes/players')
 const ranking = require('../routes/rankings')
+const bodyparser = require('body-parser')
 
 class Server {
     constructor(){
         this.app = express();
+        this.app.use(bodyparser.json());
         this.port = process.env.PORT || '3000';
         this.route();
     }

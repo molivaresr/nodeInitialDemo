@@ -2,8 +2,10 @@ const {request, response} = require('express');
 const {Player} = require('../config/sqlconnect');
 
 const postPlayer = async (req, res) => {
+    console.log('Guardando Jugador')
+    console.log(req.body)
     const player = await Player.create(req.body);
-     res.json(player)
+    res.json(player)
     //     // try { 
     //     //     const player = await Player.create(req.body);
     //     //     res.json({player})

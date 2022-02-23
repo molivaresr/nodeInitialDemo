@@ -9,7 +9,7 @@ const sequelize = new Sequelize('dice','root','123456789',{host:'localhost',dial
 async function connectDb () {
   try {
     const connection = mysql.createConnection({host:'localhost', user:'root', password:'123456789'});
-    connection.query("CREATE DATABASE IF NOT EXISTS film", function (err){
+    connection.query("CREATE DATABASE IF NOT EXISTS dice", function (err){
         if(err) throw err;
     }) 
   } catch (error) {

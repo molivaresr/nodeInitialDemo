@@ -8,9 +8,9 @@ module.exports = (sequelize, type) => {
       autoIncrement: true,
     },
     playerName: type.STRING,
-    totalGames: type.INTEGER,
-    winGames: type.INTEGER,
-    winRate: type.DECIMAL(10,2)
+    totalGames: type.INTEGER, //Default 0
+    winGames: type.INTEGER, // Default 0
+    winRate: type.DECIMAL(10,2) // Default 0% 
   }
   const options = {
     timestamp: true,
