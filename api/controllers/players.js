@@ -2,24 +2,28 @@ const {request, response} = require('express');
 const {Player} = require('../config/sqlconnect');
 
 const postPlayer = async (req, res) => {
-    console.log('Guardando Jugador')
-    console.log(req.body)
-    const player = await Player.create(req.body);
-    res.json(player)
-    //     // try { 
-    //     //     const player = await Player.create(req.body);
-    //     //     res.json({player})
-    //     // } 
-    //     // catch (error) {
-    //     //     console.log(error);
-    //     //     res.status(500).send('Llamar al administrador')
-    //     // }
-    //res.status(200).send('Creando Jugador')
+        try { 
+            const player = await Player.create(req.body);
+            res.json(player).status(200)
+        } 
+        catch (error) {
+            console.log(error);
+            res.status(500).send('Llamar al administrador')
+        }
 };
     
 const putPlayer = async (req, res) => {
-        res.status(201).send('modificando Jugador')
-    };
+    try { 
+        await Player.update(req.body,{
+            where: {id: req.params.id}
+        });
+        res.json(player).status(200)
+    } 
+    catch (error) {
+        console.log(error);
+        res.status(500).send('Llamar al administrador')
+    }
+};
 
 const getPlayer = async (req,res) => {
         const players = await Player.findAll();

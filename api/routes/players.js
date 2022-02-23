@@ -5,7 +5,7 @@ const {postPlayer, putPlayer, getPlayer, postRoll, delPlayerRoll, getPlayerRoll}
 
 router.post('/', postPlayer);
 
-router.put('/', putPlayer);
+router.put('/:id', putPlayer);
 
 router.get('/:id/', getPlayer);
 
