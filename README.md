@@ -7,7 +7,7 @@ Para Iniciar
 ``npm i``  
 ``Es necesario ejecutar desde el repositorio /nodeInitialDemo``  
 ``todoappit`` -> Para iniciar una tarea  
-> Ejemplos  
+> Ejemplos de tareas.   
 ``todoappit -h`` -> Para ver todos los comandos  
 ``todoappit a json ``  -> Para crear una tarea en Json
 
