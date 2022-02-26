@@ -13,9 +13,11 @@ const postPlayer = async (req, res) => {
 };
     
 const putPlayer = async (req, res) => {
+    console.log(req.params.id)
     try { 
+        const player = await Player.create(req.body);
         await Player.update(req.body,{
-            where: {id: req.params.id}
+            where: {_id: req.params.id}
         });
         res.json(player).status(200)
     } 
@@ -27,7 +29,7 @@ const putPlayer = async (req, res) => {
 
 const getPlayer = async (req,res) => {
         const players = await Player.findAll();
-        res.json(players)
+        res.json({players})
         //res.status(200).send('Mostrando un Jugador X_ID')
     };
 
