@@ -1,19 +1,16 @@
 const express = require('express');
 const router = express.Router();
+const {getPlayers, getRanking} = require('../controllers/rankings')
 
-router.get('/', (req, res) => {
-    res.status(200).send('Listando todos las jugadas')
-});
+router.get('/', getPlayers);
 
-router.get('/ranking/', (req, res) => {
-    res.status(200).send('Ranking de Jugadas')
-});
+router.get('/ranking/', getRanking);
 
-router.get('/ranking/looser/', (req, res) => {
+router.get('/ranking/lastplayer/', (req, res) => {
     res.status(200).send('Última posición')
 });
 
-router.get('/ranking/winner/', (req, res) => {
+router.get('/ranking/firstplayer/', (req, res) => {
     res.status(200).send('Primera Posición')
 });
 module.exports = router;

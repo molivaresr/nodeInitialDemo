@@ -1,5 +1,5 @@
 const {request, response} = require('express');
-const {Player} = require('../config/sqlconnect');
+const {Player, RollDice} = require('../config/sqlconnect');
 
 const postPlayer = async (req, res) => {
         try { 
@@ -13,13 +13,11 @@ const postPlayer = async (req, res) => {
 };
     
 const putPlayer = async (req, res) => {
-    console.log(req.params.id)
     try { 
-        const player = await Player.create(req.body);
         await Player.update(req.body,{
             where: {_id: req.params.id}
         });
-        res.json(player).status(200)
+        res.json({success:'Se ha modificado el nombre del jugador'})
     } 
     catch (error) {
         console.log(error);
@@ -28,21 +26,9 @@ const putPlayer = async (req, res) => {
 };
 
 const getPlayer = async (req,res) => {
-        const players = await Player.findAll();
-        res.json({players})
-        //res.status(200).send('Mostrando un Jugador X_ID')
+        const idPlayer = req.params.id
+        const playerRoll = await RollDice.findAll({where:{idPlayer:idPlayer}});
+        res.status(200).json({playerRoll})
     };
 
-const postRoll = async (req,res) => {
-        res.status(200).send('Guardando Jugada')
-    };
-    
-const delPlayerRoll = async (req,res) => {
-        res.status(200).send('Eliminado jugadas de Jugador X_ID')
-    };
-    
-const getPlayerRoll = async (req, res) => {
-        res.status(201).send('Listando Jugadas de Jugador X_ID')
-    };
-
-module.exports = {postPlayer, putPlayer, getPlayer, postRoll, delPlayerRoll, getPlayerRoll}
+module.exports = {postPlayer, putPlayer, getPlayer}

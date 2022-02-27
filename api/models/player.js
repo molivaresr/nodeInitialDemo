@@ -1,5 +1,3 @@
-//const Player = Sequelize.define('Player', atributos, options)
-
 module.exports = (sequelize, type) => {
   const atributos = {
     _id: {

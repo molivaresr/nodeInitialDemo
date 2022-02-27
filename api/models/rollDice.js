@@ -1,14 +1,14 @@
 module.exports = (sequelize, type) => {
     const atributos = {
-        id: {
+        _id: {
             type: type.INTEGER,
             primaryKey: true,
             autoIncrement: true,
         },
-        diceA: {
+        diceOne: {
             type: type.INTEGER
         },
-        diceB: {
+        diceTwo: {
             type: type.INTEGER
         },
         score: {
@@ -16,8 +16,10 @@ module.exports = (sequelize, type) => {
         },
         result: { 
             type: type.STRING
+        },
+        idPlayer: {
+            type: type.INTEGER
         }
-
     }
     const options = {
         timestamps: true
