@@ -4,18 +4,20 @@ const {postPlayer, putPlayer, getPlayer} = require('../controllers/players');
 const { getPlayers } = require('../controllers/rankings');
 const {postRoll, delPlayerRoll, getPlayerRoll} = require('../controllers/rollDice');
 
-router.post('/', postPlayer);
+router.get('/:id/', getPlayer); // Muestra un Jugador x el ID
 
-router.put('/:id', putPlayer);
+router.get('/', getPlayers);//test list players
 
-router.get('/:id/', getPlayer);
+router.get('/:id/games/', getPlayerRoll);
 
-//router.get('/', getPlayers);//test list players
+router.post('/', postPlayer); // Crea un usuario
 
 router.post('/:id/games/', postRoll)
 
+router.put('/:id', putPlayer); // Modifica el Nombre de usuario
+
 router.delete('/:id/games/', delPlayerRoll)
 
-router.get('/:id/games/', getPlayerRoll);
+
 
 module.exports = router

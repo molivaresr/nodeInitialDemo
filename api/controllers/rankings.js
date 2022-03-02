@@ -1,33 +1,33 @@
-const {request, response} = require('express');
+const {req, res} = require('express');
 const {Player, RollDice} = require('../config/sqlconnect')
 
 
-const getPlayers = async (request,response) => {
+const getPlayers = async (req,res) => {
     try {
         const players = await Player.findAll({attributes:['_id','playerName','winRate']});
-        response.status(200).send({players})
+        res.status(200).send({players})
     } catch (error) {
-        response.status(500).send('Llamar al Admin')
+        res.status(500).send('Llamar al Admin')
     }
-    
-}
-const getRanking = async (request, response) => {
- 
-    try {
-        const totalGames = await Player.findAll({attributes:['totalGames']});
-        const winGames = await Player.findAll({attributes:['winGames']});
-        const winRate = (winGames / totalGames)*100;
-        const overAll = {
-            JugadasTotal: totalGames,
-            Ganadas: winGames,
-            PorcentajeExito: winRate,
-        }
-        response.status(200).send({overAll})    
-    } catch (error) {
-        response.status(500).send('Llamar al administrador')
-    }
+}   
+const getRanking = async (req, res) => {
+    res.send('Hola')
+    // try {
+    //     const totalGames = await Player.findAll({attributes:['totalGames']});
+    //     const winGames = await Player.findAll({attributes:['winGames']});
+    //     const winRate = (winGames / totalGames)*100;
+    //     const overAll = {
+    //         JugadasTotal: totalGames,
+    //         Ganadas: winGames,
+    //         PorcentajeExito: winRate,
+    //     }
+
+    //     res.sendstatus(200).send(overAll)    
+    // } catch (error) {
+    //     res.status(500).send('Llamar al administrador')
+    // }
 }
 const getLastPlayer = () => {}
 const getFirstPlayers = () => {}
 
-module.exports = {getFirstPlayers, getLastPlayer, getRanking, getPlayers}
+module.exports = {getRanking, getFirstPlayers, getLastPlayer, getPlayers}
