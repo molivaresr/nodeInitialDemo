@@ -28,7 +28,7 @@ Ok GET /players/{id}/games: retorna el llistat de jugades per un jugador.
 <!--- Jugadas --->
 Ok POST /players/{id}/games: un jugador específic realitza una tirada
 <!--- Jugadores --->
-Ok GET /players: retorna el llistat de tots els jugadors del sistema amb el seu percentatge mig d’èxits
-GET /players/ranking: retorna el percentatge mig d’èxits del conjunt de tots els jugadors
+Ok GET /players: retorna el llistat de tots els jugadors del sistema amb el seu percentatge mig d’èxits 
+Ok GET /players/ranking: retorna el percentatge mig d’èxits del conjunt de tots els jugadors (No funciona)
 GET /players/ranking/loser: retorna el jugador amb pitjor percentatge d’èxit
 GET /players/ranking/winner: retorna el jugador amb millor percentatge d’èxit
