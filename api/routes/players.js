@@ -18,6 +18,4 @@ router.put('/:id', putPlayer); // Modifica el Nombre de usuario
 
 router.delete('/:id/games/', delPlayerRoll)
 
-
-
 module.exports = router

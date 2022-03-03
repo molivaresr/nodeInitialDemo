@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const {getPlayers, getRanking} = require('../controllers/rankings')
+const {getPlayers, getRanking, getLastPlayer, getFirstPlayer} = require('../controllers/rankings')
 
 router.get('/', getPlayers);
 
 router.get('/ranking', getRanking); // Esta línea no funciona
 
-router.get('/ranking/lastplayer', getRanking); //Aqui funciona 
+router.get('/ranking/d', getRanking);
 
-router.get('/ranking/firstplayer', (req, res) => {
-    res.status(200).send('Primera Posición')
-});
+router.get('/ranking/lastplayer', getLastPlayer); //Aqui funciona 
+
+router.get('/ranking/firstplayer', getFirstPlayer);
 module.exports = router;
