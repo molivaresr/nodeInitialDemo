@@ -21,11 +21,13 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(morgan('dev'));
 app.use(express.json());
 
+//
+
 //Rutas
-app.use('/api/users', users)
-app.use('/api/uploads', uploads)
-app.use('/api/time', time)
-//app.use(express.static(__dirname + '/public'));
+app.use('/api/users', users);
+app.use('/api/uploads', uploads);
+app.use('/api/time', time);
+
 //Port 
 const port = process.env.PORT || 3000; //Variable de entorno que captura el puerto que esta desginado en el ordenador
 app.listen(port, () => console.log(`Listening on port ${port}...`))

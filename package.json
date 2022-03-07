@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "NO",
-    "start": "node ./api/app.js"
+    "start": "nodemon ./api/app.js"
   },
   "repository": {
     "type": "git",
