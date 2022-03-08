@@ -5,7 +5,7 @@
 Para Iniciar  
 **WINDOWS: Commands Prompt**  
 ``npm i``  
-``npm link''  
+``npm link``    
 ``Es necesario ejecutar desde el repositorio /nodeInitialDemo``  
 ``todoappit`` -> Para iniciar una tarea  
 > Ejemplos  
