@@ -7,7 +7,7 @@ Proyecto creado con:
 * Sequelize.
 * DotEnv.
 
-###Para iniciar servidor### 
+### Para iniciar servidor ### 
 
 
 ``npm i``-> Instala modulos requeridos.  
