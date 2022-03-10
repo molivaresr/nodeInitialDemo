@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-<h1 align="center">Welcome to Node Dice Game👋</h1>
-=======
 <h1 align="center">Welcome to Dice Game Node API Rest Server👋</h1>
->>>>>>> 31fa0ebcc2875ad18491ad7ada95fb9e300c13df
+
 Proyecto creado con:  
 **Javascript -> NodeJS.  
 **Express.  
@@ -10,11 +7,8 @@ Proyecto creado con:
 **Sequelize.  
 **DotEnv.  
 
-<<<<<<< HEAD
 ###Para iniciar servidor### 
-=======
-###Para iniciar servidor###
->>>>>>> 31fa0ebcc2875ad18491ad7ada95fb9e300c13df
+
 
 ``npm i``-> Instala modulos requeridos.  
 
