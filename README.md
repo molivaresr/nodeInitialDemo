@@ -1,5 +1,12 @@
 <h1 align="center">Welcome to Node Dice Game👋</h1>
-**Para iniciar servidor**  
+Proyecto creado con:  
+**Javascript -> NodeJS.  
+**Express.  
+**Bodyparser.  
+**Sequelize.  
+**DotEnv.  
+
+###Para iniciar servidor### 
 
 ``npm i``-> Instala modulos requeridos.  
 
