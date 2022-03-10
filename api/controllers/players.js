@@ -1,6 +1,5 @@
 const {request, response} = require('express');
 
-
 const {Player, RollDice} = require('../config/sqlconnect');
 
 // const bcrypt = require('bcryptjs');
@@ -15,7 +14,9 @@ const postPlayer = async (request, response) => {
         } 
         catch (error) {
             console.log(error);
-            response.status(500).send('Llamar al administrador')
+            response.status(500).json({
+                msg:'Llamar al administrador'
+            })
         }
 };
     
@@ -24,17 +25,21 @@ const putPlayer = async (request, response) => {
         await Player.update(request.body,{
             where: {_id: request.params.id}
         });
-        response.json({success:'Se ha modificado el nombre del jugador'})
+        response.json({
+            success:'Se ha modificado el nombre del jugador'
+        })
     } 
     catch (error) {
         console.log(error);
-        response.status(500).send('Llamar al administrador')
+        response.status(500).json({
+            msg:'Llamar al administrador'
+        })
     }
 };
 
 const getPlayer = async (request,response) => {
      const player = await Player.findAll({where:{_id: request.params.id}});
-     response.send(player)
+     response.json(player)
 }
 
 // const createToken = (admin) => {

@@ -2,12 +2,14 @@ const {request, response} = require('express');
 const {Player, RollDice} = require('../config/sqlconnect')
 
 
-const getPlayers = async (req,res) => {
+const getPlayers = async (request, response) => {
     try {
         const players = await Player.findAll({attributes:['_id','playerName','winRate']});
-        response.sendStatus(200).send({players})
+        response.json(players)
     } catch (error) {
-        response.sendStatus(500).send('Llamar al Admin')
+        response.sendStatus(500).json({
+            msg:'Llamar al Admin'
+        })
     }
 }   
 
@@ -15,8 +17,11 @@ const getRanking = async (request, response) => {
     try {
         const totalGames = await RollDice.count()
         const winGames = await RollDice.count({where:{result:['Win']}});
-        const winRate = ((winGames / totalGames)*100)
-        response.send(`El porcentaje jugadas ganadas es ${Math.round(winRate)}%`)
+        const winRate = Math.round(((winGames / totalGames)*100))
+        response.json({ 
+            msg: "El porcentaje jugadas ganadas es",
+            winRate
+        })
     } catch (error) {
         response.sendStatus(500)
     }

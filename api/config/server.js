@@ -1,7 +1,8 @@
 const express = require('express');
+const bodyparser = require('body-parser')
+
 const players = require('../routes/players')
 const ranking = require('../routes/rankings')
-const bodyparser = require('body-parser')
 
 class Server {
     constructor(){
@@ -10,6 +11,7 @@ class Server {
         this.port = process.env.PORT || '3000';
         this.route();
     }
+    
     route() {
         this.app.use('/api/players/', players);
         this.app.use('/api/players/', ranking);
