@@ -21,14 +21,14 @@ El software ha de respectar els principals patrons de disseny.
 
 Has de tenir en compte els següents detalls de construcció:
 ### Jugador ###
-**POST /players: crea un jugador
-**PUT /players: modifica el nom del jugador
-**DELETE /players/{id}/games: elimina les tirades del jugador
-**GET /players/{id}/games: retorna el llistat de jugades per un jugador.
+**POST /players: crea un jugador.  
+**PUT /players: modifica el nom del jugador.  
+**DELETE /players/{id}/games: elimina les tirades del jugador.  
+**GET /players/{id}/games: retorna el llistat de jugades per un jugador.  
 ### Jugadas ###
-**POST /players/{id}/games: un jugador específic realitza una tirada
+**POST /players/{id}/games: un jugador específic realitza una tirada.  
 ### Jugadores ###
-**GET /players: retorna el llistat de tots els jugadors del sistema amb el seu percentatge mig d’èxits 
-**GET /players/ranking: retorna el percentatge mig d’èxits del conjunt de tots els jugadors (No funciona)
-**GET /players/ranking/loser: retorna el jugador amb pitjor percentatge d’èxit
-**GET /players/ranking/winner: retorna el jugador amb millor percentatge d’èxit
+**GET /players: retorna el llistat de tots els jugadors del sistema amb el seu percentatge mig d’èxits.  
+**GET /players/ranking: retorna el percentatge mig d’èxits del conjunt de tots els jugadors (No funciona).  
+**GET /players/ranking/loser: retorna el jugador amb pitjor percentatge d’èxit.  
+**GET /players/ranking/winner: retorna el jugador amb millor percentatge d’èxit.  
