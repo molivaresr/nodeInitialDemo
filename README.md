@@ -1,4 +1,4 @@
-<h1 align="center">Welcome to Node Rest Server👋</h1>
+<h1 align="center">Welcome to Node Dice Game👋</h1>
 **Para iniciar servidor**  
 
 ``npm i``-> Instala modulos requeridos.  
