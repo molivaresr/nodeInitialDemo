@@ -1,8 +1,12 @@
 <h1 align="center">Welcome to Dice Game Node API Rest Server👋</h1>
 Proyecto creado con:  
-Javascript -> NodeJS  
+**Javascript -> NodeJS.  
+**Express.  
+**Bodyparser.  
+**Sequelize.  
+**DotEnv.  
 
-**Para iniciar servidor**  
+###Para iniciar servidor###
 
 ``npm i``-> Instala modulos requeridos.  
 
