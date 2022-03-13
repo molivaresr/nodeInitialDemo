@@ -1,14 +1,16 @@
+import React, {useState} from 'react';
 import '../App.css';
 
 const Login = () => {
+
     return(
-        <div className='wrapper'>
-            <h2 className='Login-title'>Bienvenido al iTChat</h2>
-            <form>
-                <input type="text" className='Login-input' placeholder='Nombre de usuario'></input>
-                <input type="password" className='Login-input' placeholder='Password'></input>
-                <button className='Login-button'>Registro</button>
-                <button className='Login-button'>Entrar</button>
+        <div className='wrapper row'>
+            <h2 className='login-title'>Bienvenido al iTChat</h2>
+            <form className="form">
+                <input type="text" className='login-input' placeholder='Nombre de usuario'></input>
+                <input type="password" className='login-input' placeholder='Password'></input>
+                <button className='login-button'>Registro</button>
+                <button className='login-button'>Entrar</button>
             </form>
         </div>
     )
