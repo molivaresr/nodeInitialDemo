@@ -1,17 +1,33 @@
-import '../App.css';
+import socket from './Socket'
+import '../App';
 
 const Chat = () => {
+    socket.emit('conectado', 'hola desde el cliente');
+    
     return(
         <div className='wrapper row'>
             <h2 className='login-title'>iTChat</h2>
-            <div className='chatFeed'>
-                <div className='roomList'>
-                    <p>My Rooms<button>New Room</button></p>
+            <div className='chat'>
+                <div className='chat__roomList'>
+                    <p className='chat__title'>My ChatRooms <button>+</button></p>
+                    <ul>
+                        <li>Room 1</li>
+                        <li>Room 2</li>
+                        <li>Room 3</li>
+                    </ul>
                 </div>
-                <div className='msgList'>Mensajes</div>
-                <div className='userList'>Usuarios</div>
+                <div className='chat__msgList'>Mensajes</div>
+                <div className='chat__userList'>
+                    <p className='chat__title'>Usuarios</p>
+                    <ul>
+                        <li> User 1</li>
+                        <li> User 2</li>
+                        <li> User 3</li>
+                    </ul>
+                </div>
             </div>
-            <div className='textBox'><input type={"text"} placeholder="Hola!"></input><button>Enviar</button></div>
+
+            <div className='chat__textBox'><input type={"text"} placeholder="Say Hello!"></input><button>Enviar</button></div>
         </div>
     )
 }

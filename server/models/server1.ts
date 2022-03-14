@@ -8,7 +8,7 @@ import userRoutes from '../routes/user';
 class Server {
     private app: Application;
     private port: string;
-    private apiPaths = {
+    private paths = {
         users: '/api/users'
     }
     
@@ -27,7 +27,7 @@ class Server {
     }
 
     routes(){
-        this.app.use(this.apiPaths.users, userRoutes);
+        this.app.use(this.paths.users, userRoutes);
     }
 
     listen() {

@@ -1,17 +1,17 @@
 import React, {useState} from 'react';
 
-import Login from './components/login'
-import Chat from './components/chat'
+import Login from './components/Login'
+import Chat from './components/Chat'
 import './App.css';
 
 function App() {
-
-  // const [on, setOn] = useState(0)
+  // const [login, setLogin] = useState(false)
   // const handleClick = () => {
   //   console.log('Clicked')
   // }
-  let on = 1
-  if (on === 0) {
+
+  let login = false;
+  if (login === true) {
     return (
       <Login />
     )
@@ -19,6 +19,7 @@ function App() {
   return (
     <Chat />
   );
+
 }
 
 export default App;

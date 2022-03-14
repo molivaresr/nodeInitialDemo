@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
 
-let Socket = io('//localhost:3001');
+let socket = io('//localhost:4000');
 
-export default Socket;
+export default socket;
