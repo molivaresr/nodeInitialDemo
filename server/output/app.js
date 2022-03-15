@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const http_1 = require("http");
 const socket_io_1 = require("socket.io");
 const config_1 = __importDefault(require("config"));
+const socket_1 = __importDefault(require("./controllers/socket"));
 const logger_1 = __importDefault(require("./utils/logger"));
 const port = config_1.default.get('port');
 const host = config_1.default.get('host');
@@ -19,17 +20,12 @@ const io = new socket_io_1.Server(httpServer, {
         credentials: true
     },
 });
-io.on('connection', socket => {
-    socket.on('conectado', () => {
-        console.log('Usuario conectado');
-    });
-});
 app.get('/', (req, res) => {
     res.send(`Server is up and running version 1`);
 });
 httpServer.listen(port, host, () => {
     logger_1.default.info(`🚀 Chat Server version is listening 🚀`);
     logger_1.default.info(`http://${host}:${port}`);
-    //socket({io});
+    (0, socket_1.default)({ io });
 });
 //# sourceMappingURL=app.js.map

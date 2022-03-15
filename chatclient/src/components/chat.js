@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 
 import socket from './Socket'
-import '../App';
+import '../styles/App.css';
 
 const Chat = ({userName}) => {
    
@@ -9,8 +9,21 @@ const Chat = ({userName}) => {
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
-        socket.emit('conectado')
-    })
+        socket.emit('conectado', userName)
+    },[userName]);
+
+    useEffect(() => {
+        socket.on('mensajes', message => {
+            setMessages([...messages, message])
+        })
+        return () => {socket.off()}
+    }, [messages])
+    
+    const submit = (e) => {
+        e.preventDefault();
+        socket.emit('mensaje',userName, message);
+
+    }
 
     return(
         <div className='wrapper row'>
@@ -24,7 +37,7 @@ const Chat = ({userName}) => {
                         <li>Room 3</li>
                     </ul>
                 </div>
-                <div className='chat__msgList'>Mensajes</div>
+                <div className='chat__msgList'>{messages.map((e,i) => <p key={i}>{e.message}</p>)}</div>
                 <div className='chat__userList'>
                     <p className='chat__title'>Usuarios</p>
                     <ul>
@@ -35,7 +48,13 @@ const Chat = ({userName}) => {
                 </div>
             </div>
 
-            <div className='chat__textBox'><input type={"text"} placeholder="Say Hello!"></input><button>Enviar</button></div>
+            <div >
+                <form onSubmit={submit} className='chat__textBox'>
+                <input type={"text"} placeholder="Say Hello!" value={message} onChange={e => setMessage(e.target.value)}></input>
+                <button>Enviar</button>
+                </form>
+            </div>
+                
         </div>
     )
 }
