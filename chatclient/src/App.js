@@ -5,19 +5,24 @@ import Chat from './components/Chat'
 import './App.css';
 
 function App() {
-  // const [login, setLogin] = useState(false)
-  // const handleClick = () => {
-  //   console.log('Clicked')
-  // }
-
-  let login = false;
+  
+  const [userName, setName] = useState("");
+  const [login, setLogin] = useState(false);
+  
+  const register = (e) => {
+      e.preventDefault();
+      console.log('Entrar')
+      if(!userName) {
+          setLogin(true)
+      }
+  }
   if (login === true) {
     return (
-      <Login />
+      <Chat />
     )
   }
   return (
-    <Chat />
+    <Login props = {register}/>
   );
 
 }

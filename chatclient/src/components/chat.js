@@ -1,9 +1,17 @@
+import React, {useState, useEffect, useRef} from 'react';
+
 import socket from './Socket'
 import '../App';
 
-const Chat = () => {
-    socket.emit('conectado', 'hola desde el cliente');
-    
+const Chat = ({userName}) => {
+   
+    const [message, setMessage] = useState("");
+    const [messages, setMessages] = useState([]);
+
+    useEffect(() => {
+        socket.emit('conectado')
+    })
+
     return(
         <div className='wrapper row'>
             <h2 className='login-title'>iTChat</h2>
