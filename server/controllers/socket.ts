@@ -12,7 +12,7 @@ function socket({io}:{io: Server}) {
 
     io.on(EVENTS.connection, (socket: Socket) =>{
         logger.info(`User connected ${socket.id}`);
-        socket.emit(EVENTS.SERVER.ROOMS);      
+        //socket.emit(EVENTS.SERVER.ROOMS);      
 
         //Usuario crea una sala
 
@@ -57,6 +57,7 @@ function socket({io}:{io: Server}) {
     
     io.on(EVENTS.disconnection, (socket: Socket) => { 
         logger.info(`User disconnected ${socket.id}`)
+        socket.emit(EVENTS.SERVER.LEFT_ROOM);
         //socket.disconnect();        
         // socket.on(EVENTS.CLIENT.LEFT_ROOM, (roomId) => {
         // socket.leave(roomId);

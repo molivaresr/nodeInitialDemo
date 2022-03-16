@@ -11,7 +11,7 @@ function socket({ io }) {
     logger_1.default.info(`Sockets enabled`);
     io.on(events_1.default.connection, (socket) => {
         logger_1.default.info(`User connected ${socket.id}`);
-        socket.emit(events_1.default.SERVER.ROOMS);
+        //socket.emit(EVENTS.SERVER.ROOMS);      
         //Usuario crea una sala
         socket.on(events_1.default.CLIENT.CREATE_ROOM, ({ roomName }) => {
             console.log({ roomName });
@@ -43,6 +43,7 @@ function socket({ io }) {
     //Usuario se desconecta
     io.on(events_1.default.disconnection, (socket) => {
         logger_1.default.info(`User disconnected ${socket.id}`);
+        socket.emit(events_1.default.SERVER.LEFT_ROOM);
         //socket.disconnect();        
         // socket.on(EVENTS.CLIENT.LEFT_ROOM, (roomId) => {
         // socket.leave(roomId);

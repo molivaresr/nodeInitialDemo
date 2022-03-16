@@ -14,6 +14,8 @@ class Server {
         };
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '3000';
+        this.http = require('http').Server(this.app);
+        this.io = require("socket.io")(this.http);
         //Definición de rutas 
         this.routes();
     }
@@ -22,6 +24,11 @@ class Server {
         //this.app.use(cors());
         this.app.use(body_parser_1.default.json());
         this.app.use(body_parser_1.default.urlencoded({ extended: true }));
+    }
+    sockets() {
+        this.io.on("connection", function (socket) {
+            console.log("A user connected");
+        });
     }
     routes() {
         this.app.use(this.apiPaths.users, user_1.default);

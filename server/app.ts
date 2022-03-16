@@ -8,6 +8,7 @@ import cors from 'cors';
 
 import socket from './controllers/socket';
 import logger from './utils/logger'
+import { version } from './package.json';
 
 
 const port = config.get<number>('port');
@@ -30,7 +31,7 @@ app.get('/', (req, res) => {
 })
 
 httpServer.listen(port, host, () => {
-    logger.info(`🚀 Chat Server version is listening 🚀`);
+    logger.info(`🚀 Chat Server version: ${version} is listening 🚀 `);
     logger.info(`http://${host}:${port}`);
     socket({io});
 })
