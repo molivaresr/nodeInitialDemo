@@ -13,7 +13,7 @@ function App() {
   
   const { socket } = useSockets();
 
-  const register = (e) => {
+  const register = (e:any) => {
       e.preventDefault();
       //console.log('Entrar')
       if(userName) {
@@ -25,7 +25,7 @@ function App() {
     return (
         <div>
         <Rooms />
-        <Chat userName = {userName}/>
+        {/* <Chat userName = {userName}/> */}
         <Users />
       </div>
     )

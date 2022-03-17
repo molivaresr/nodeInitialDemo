@@ -6,7 +6,7 @@ const socket = io(SOCKET_URL);
 
 const SocketContext = createContext ({socket});
 
-const SocketsProvider = (props) => {
+const SocketsProvider = (props:any) => {
     const [userName, setUserName] = useState("");
     return <SocketContext.Provider value={{socket, userName, setUserName}} {...props} />
 }
