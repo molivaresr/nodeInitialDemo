@@ -7,7 +7,7 @@ const Chat = () => {
    
     return(
         <div className='wrapper row'>
-            <h2 className='login-title'>iTChat - Hola! </h2>
+            <h2 className='login-title'>iTChat - Hola!  </h2>
             <div className='chat'>                
             <div className='chat__msgList'><p>Mensaje de usuarios</p></div>
                 <form className='chat__textBox'>

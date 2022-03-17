@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 
 //import Login from './components/Login'
 //import Chat from './components/Chat';
@@ -8,39 +8,40 @@ import { useSockets } from './context/socket.context';
 import './styles/App.css';
 
 function App() {
-  const [userName, setName] = useState("");
+  
   const [login, setLogin] = useState(false);
   
-  const { socket } = useSockets();
+  const { socket, userName, setUsername } = useSockets();
+  const usernameRef = useRef<HTMLInputElement>(null);
 
-  const register = (e:any) => {
-      e.preventDefault();
-      //console.log('Entrar')
-      if(userName) {
-        console.log(userName)
-          setLogin(true)
-      }
+  const handleSetUsername = () => {
+    const value = usernameRef?.current?.value;
+    if(!value){
+      return;
+    }
+    setUsername(value);
+    setLogin(true);
+    localStorage.setItem('userName', value);
   }
-  if (login === true) {
+  
+  if(!login) {
     return (
-        <div>
+      <div className='wrapper row'>
+      <h2 className='login-title'>Bienvenido al iTChat</h2>
+        <form className="form">
+          <input  className='login-input' placeholder='Nombre de usuario' ref={usernameRef}></input>
+            {/* <input type="password" className='login-input' placeholder='Password'></input> */}
+            {/* <button className='login-button'>Registro</button> */}
+            <button className='login-button' onClick={handleSetUsername}>Entrar</button>
+        </form>
+    </div>
+    )
+  } else {
+  return (
+      <div>
         <Rooms />
-        {/* <Chat userName = {userName}/> */}
         <Users />
       </div>
-    )
-  } else {   
-      return(
-            <div className='wrapper row'>
-                <h2 className='login-title'>Bienvenido al iTChat</h2>
-                <form className="form" onSubmit={register}>
-                    <input type="text" className='login-input' placeholder='Nombre de usuario' value={userName} onChange={e => setName(e.target.value)}></input>
-                    {/* <input type="password" className='login-input' placeholder='Password'></input> */}
-                    {/* <button className='login-button'>Registro</button> */}
-                    <button className='login-button'>Entrar</button>
-                </form>
-            </div>
-        )
-      }
+  )}
 }
 export default App;
