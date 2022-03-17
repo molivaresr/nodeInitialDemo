@@ -1,10 +1,16 @@
 import { createContext, useContext, useState } from 'react';
-import io from 'socket.io-client';
+import io, {Socket} from 'socket.io-client';
 import { SOCKET_URL } from '../config/defaultConf';
+
+interface Context {
+    socket: Socket;
+    userName?: string;
+    setUsername: Function
+}
 
 const socket = io(SOCKET_URL);
 
-const SocketContext = createContext ({socket});
+const SocketContext = createContext<Context>({socket, setUsername: () => false});
 
 const SocketsProvider = (props:any) => {
     const [userName, setUserName] = useState("");

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 
 //import Login from './components/Login'
-import Chat from './components/Chat';
+//import Chat from './components/Chat';
 import Rooms from './components/Rooms';
 import Users from './components/Users';
 import { useSockets } from './context/socket.context';
