@@ -19,6 +19,7 @@ const postPlayer = async (request, response) => {
             })
         }
 };
+
     
 const putPlayer = async (request, response) => {
     try { 
@@ -38,8 +39,9 @@ const putPlayer = async (request, response) => {
 };
 
 const getPlayer = async (request,response) => {
-     const player = await Player.findAll({where:{_id: request.params.id}});
-     response.json(player)
+    const {id} = reques.params.id
+    const player = await Player.findAll({where:{_id: id}});
+    response.json(player)
 }
 
 // const createToken = (admin) => {
