@@ -1,7 +1,7 @@
 import React, {useRef, useState} from 'react';
 
 //import Login from './components/Login'
-//import Chat from './components/Chat';
+import Chat from './components/Chat';
 import Rooms from './components/Rooms';
 import Users from './components/Users';
 import { useSockets } from './context/socket.context';
@@ -15,16 +15,19 @@ function App() {
   const usernameRef = useRef<HTMLInputElement>(null);
 
   const handleSetUsername = () => {
-    const value = usernameRef?.current?.value;
-    if(!value){
+    const userName = usernameRef?.current?.value;
+    if(!userName){
       return;
     }
-    setUsername(value);
+    setUsername(userName);
     setLogin(true);
-    localStorage.setItem('userName', value);
+    localStorage.setItem('username', userName);
   }
   
-  if(!login) {
+  const user = localStorage.getItem('username');
+  console.log(user,'d');
+  
+  if(!login && !user) {
     return (
       <div className='wrapper row'>
       <h2 className='login-title'>Bienvenido al iTChat</h2>
@@ -35,11 +38,12 @@ function App() {
             <button className='login-button' onClick={handleSetUsername}>Entrar</button>
         </form>
     </div>
-    )
-  } else {
+    ) 
+  } else  {
   return (
-      <div>
+      <div className='chat'>
         <Rooms />
+        <Chat />
         <Users />
       </div>
   )}
