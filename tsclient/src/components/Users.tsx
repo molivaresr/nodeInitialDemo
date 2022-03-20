@@ -7,7 +7,7 @@ import '../styles/App.css';
 const Users = () => {
 
     return(
-        <div >
+        <div className='chat'>
             <div className='chat__userList'>
                 <p className='chat__title'>Usuarios</p>
                     <ul>

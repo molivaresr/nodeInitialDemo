@@ -1,6 +1,5 @@
 import React, {useRef, useState} from 'react';
 
-//import Login from './components/Login'
 import Chat from './components/Chat';
 import Rooms from './components/Rooms';
 import Users from './components/Users';
@@ -25,23 +24,22 @@ function App() {
   }
   
   const user = localStorage.getItem('username');
-  console.log(user,'d');
+  console.log(user);
   
   if(!login && !user) {
     return (
       <div className='wrapper row'>
-      <h2 className='login-title'>Bienvenido al iTChat</h2>
-        <form className="form">
-          <input  className='login-input' placeholder='Nombre de usuario' ref={usernameRef}></input>
-            {/* <input type="password" className='login-input' placeholder='Password'></input> */}
-            {/* <button className='login-button'>Registro</button> */}
+        <h2 className='login-title'>Bienvenido al iTChat</h2>
+          <form className="form">
+            <input  className='login-input' placeholder='Nombre de usuario' ref={usernameRef}></input>
             <button className='login-button' onClick={handleSetUsername}>Entrar</button>
-        </form>
+          </form>
     </div>
     ) 
   } else  {
   return (
-      <div className='chat'>
+      <div className='chat wrapper row'>
+         <h2 className='login-title'>iTChat - {user}</h2>
         <Rooms />
         <Chat />
         <Users />

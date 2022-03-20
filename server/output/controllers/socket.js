@@ -16,9 +16,8 @@ function socket({ io }) {
         socket.on(events_1.default.CLIENT.CREATE_ROOM, ({ roomName }) => {
             console.log({ roomName });
             const roomId = (0, nanoid_1.nanoid)(); // Crear Id de la sala
-            rooms[roomId] = {
-                name: roomName
-            };
+            rooms[roomId] = { name: roomName };
+            console.log(rooms);
             socket.join(roomId);
             socket.broadcast.emit(events_1.default.SERVER.ROOMS, rooms); // Avisar a todos que hay una nueva sala
             socket.emit(events_1.default.SERVER.ROOMS, rooms); // Notifica al creador de la sala, todas las salas 

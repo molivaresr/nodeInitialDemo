@@ -18,12 +18,11 @@ function socket({io}:{io: Server}) {
 
         socket.on(EVENTS.CLIENT.CREATE_ROOM, ({roomName}) => {
             console.log({roomName})
-           
-            const roomId = nanoid();  // Crear Id de la sala
-            rooms[roomId] = {
-                name: roomName
-            };
             
+            const roomId = nanoid();  // Crear Id de la sala
+            
+            rooms[roomId] = {name: roomName};
+            console.log(rooms)
             socket.join(roomId);
             
             socket.broadcast.emit(EVENTS.SERVER.ROOMS, rooms); // Avisar a todos que hay una nueva sala
