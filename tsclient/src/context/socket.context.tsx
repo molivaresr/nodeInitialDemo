@@ -8,7 +8,7 @@ interface Context {
     userName?: string;
     setUsername: Function;
     roomId?: string;
-    rooms: {id: string, name:string}[]
+    rooms: {[index:string]:any};
 }
 
 const socket = io(SOCKET_URL);
@@ -16,7 +16,7 @@ const socket = io(SOCKET_URL);
 const SocketContext = createContext<Context>({
     socket, 
     setUsername: () => false,
-    rooms:[]
+    rooms:{}
 });
 
 const SocketsProvider = (props:any) => {

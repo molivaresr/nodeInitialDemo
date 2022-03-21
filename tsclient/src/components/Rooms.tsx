@@ -26,7 +26,7 @@ const Rooms = () => {
         
         //Agregar nombre al listado de salas
         roomName = '';
-        console.log(roomList);
+        // console.log(roomList);
     }
 
     
