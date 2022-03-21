@@ -8,7 +8,7 @@ interface Context {
     userName?: string;
     setUsername: Function;
     roomId?: string;
-    rooms: {[index:string]:any};
+    rooms: {id: string, name:string}[]
 }
 
 const socket = io(SOCKET_URL);

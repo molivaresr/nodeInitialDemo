@@ -39,7 +39,7 @@ function App() {
   } else  {
   return (
       <div className='chat wrapper row'>
-         <h2 className='login-title'>iTChat - {user}</h2>
+         <h2 className='login-title'>iTChat - Hola {user}!!!</h2>
         <Rooms />
         <Chat />
         <Users />

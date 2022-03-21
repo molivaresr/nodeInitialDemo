@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import SocketsProvider from './context/socket.context';
+
 import './styles/index.css'
 import App from './App';
 import reportWebVitals from './reportWebVitals';

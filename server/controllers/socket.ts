@@ -5,14 +5,15 @@ import { Server, Socket } from "socket.io";
 import EVENTS from '../config/events';
 import logger from "../utils/logger";
 
-const rooms : Record<string, {name: string}> = {};
+//const rooms : Array<{id: string, name: string}> = new Array();
+const rooms : Record< string, {name: string}> = {};
 
 function socket({io}:{io: Server}) {
-    logger.info(`Sockets enabled`);
+    logger.info(`Sockets Habilitados`);
 
     io.on(EVENTS.connection, (socket: Socket) =>{
-        logger.info(`User connected ${socket.id}`);
-        //socket.emit(EVENTS.SERVER.ROOMS);      
+        logger.info(`Usuario Conectado ${socket.id}`);
+        socket.emit(EVENTS.SERVER.ROOMS);      
 
         //Usuario crea una sala
 
@@ -22,6 +23,7 @@ function socket({io}:{io: Server}) {
             const roomId = nanoid();  // Crear Id de la sala
             
             rooms[roomId] = {name: roomName};
+            //rooms.push({id:roomId, name:roomName})
             console.log(rooms)
             socket.join(roomId);
             

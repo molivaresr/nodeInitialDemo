@@ -1,12 +1,11 @@
 // Listado de salas
 //import React, {useState, useEffect, useRef} from 'react';
-import socket from '../context/socket.context'
+import { socket } from '../context/socket.context'
 import '../styles/App.css';
 
 const Rooms = () => {
     return(
         <div className='wrapper row'>
-       
             <div className='chat'>
                 <div className='chat__roomList'>
                     <p className='chat__title'>My ChatRooms <button>+</button></p>

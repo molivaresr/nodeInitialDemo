@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import useRef from 'react';
 
 import socket from '../context/socket.context'
 import '../styles/App.css';

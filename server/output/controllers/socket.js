@@ -6,17 +6,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const nanoid_1 = require("nanoid");
 const events_1 = __importDefault(require("../config/events"));
 const logger_1 = __importDefault(require("../utils/logger"));
+//const rooms : Array<{id: string, name: string}> = new Array();
 const rooms = {};
 function socket({ io }) {
-    logger_1.default.info(`Sockets enabled`);
+    logger_1.default.info(`Sockets Habilitados`);
     io.on(events_1.default.connection, (socket) => {
-        logger_1.default.info(`User connected ${socket.id}`);
-        //socket.emit(EVENTS.SERVER.ROOMS);      
+        logger_1.default.info(`Usuario Conectado ${socket.id}`);
+        socket.emit(events_1.default.SERVER.ROOMS);
         //Usuario crea una sala
         socket.on(events_1.default.CLIENT.CREATE_ROOM, ({ roomName }) => {
             console.log({ roomName });
             const roomId = (0, nanoid_1.nanoid)(); // Crear Id de la sala
             rooms[roomId] = { name: roomName };
+            //rooms.push({id:roomId, name:roomName})
             console.log(rooms);
             socket.join(roomId);
             socket.broadcast.emit(events_1.default.SERVER.ROOMS, rooms); // Avisar a todos que hay una nueva sala

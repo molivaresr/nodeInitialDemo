@@ -1,17 +1,24 @@
 // Listado de salas
 import {useRef} from 'react';
 import EVENTS from '../config/events';
-import socket, { useSockets } from '../context/socket.context'
+import { useSockets } from '../context/socket.context'
 import '../styles/App.css';
+
+const roomList = new Array(0);
 
 const Rooms = () => {
     const {socket, roomId, rooms} = useSockets();
     const newRoomRef = useRef<HTMLInputElement>(null)
     
     const handleCreateRoom = () => {
+
         //Obtener Nombre de la sala
         let roomName = newRoomRef.current?.value || '';
+
         if(!String(roomName).trim()) return;
+
+        roomList.push(roomName);
+
         console.log('Creando Salas')
         
         //Avisar que la sala se ha creado
@@ -19,8 +26,10 @@ const Rooms = () => {
         
         //Agregar nombre al listado de salas
         roomName = '';
+        console.log(roomList);
     }
 
+    
     return(
         <div className='chat'>
             <div>
@@ -30,10 +39,21 @@ const Rooms = () => {
             <div className='chat__roomList'>
                 <p className='chat__title'>My ChatRooms</p>
                 <ul>
-                    {Object.keys(rooms).map((key) => {
+                    {roomList.map((index) => {
+                        return (
+                        <li key={index}>{roomList}</li>
+                        )
+                    })}
+                                  
+                   {/*   {roomList.map(key => {
+                        return (
+                            <li key={key}>{key}</li>
+                        )})} */}
+
+                    {/* {Object.keys(rooms).map((key) => {
                     return(
                     <li key={key}>{rooms[key].name}</li>
-                    )})}
+                    )})} */}
                 </ul>
             </div>
         </div>
