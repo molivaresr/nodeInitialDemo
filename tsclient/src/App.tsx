@@ -21,6 +21,7 @@ function App() {
     setUsername(userName);
     setLogin(true);
     localStorage.setItem('username', userName);
+    console.log(userName)
   }
   
   const user = localStorage.getItem('username');

@@ -1,24 +1,32 @@
 import React, {useState} from 'react';
 
-import Login from './components/login'
+// import Login from './components/login'
 import Chat from './components/chat'
 import './App.css';
 
 function App() {
+  const [nombre, setNombre] = useState("");
+  const [registrado, setRegistrado] = useState(false);
 
-  // const [on, setOn] = useState(0)
-  // const handleClick = () => {
-  //   console.log('Clicked')
-  // }
-  let on = 1
-  if (on === 0) {
-    return (
-      <Login />
-    )
-  }
+  const registrar = (e) => {
+    e.preventDefault();
+    if (nombre !== "") {
+      setRegistrado(true);
+    }
+  };
+
   return (
-    <Chat />
+    <div className="App">
+      {!registrado && (
+        <form onSubmit={registrar}>
+          <label htmlFor="">Introduzca su nombre</label>
+          <input value={nombre} onChange={(e) => setNombre(e.target.value)} />
+          <button>Ir al chat</button>
+        </form>
+      )}
+
+      {registrado && <Chat nombre={nombre} />}
+    </div>
   );
 }
-
 export default App;

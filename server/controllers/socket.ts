@@ -53,18 +53,13 @@ function socket({io}:{io: Server}) {
             socket.emit(EVENTS.SERVER.JOINED_ROOM, roomId);
         }); 
 
-    });
         //Usuario se desconecta
-    
-    io.on(EVENTS.disconnection, (socket: Socket) => { 
-        logger.info(`User disconnected ${socket.id}`)
-        socket.emit(EVENTS.SERVER.LEFT_ROOM);
-        //socket.disconnect();        
-        // socket.on(EVENTS.CLIENT.LEFT_ROOM, (roomId) => {
-        // socket.leave(roomId);
-        // socket.emit(EVENTS.SERVER.LEFT_ROOM, roomId);
-        //}); 
-    })
+        socket.on(EVENTS.disconnection, () => { 
+            logger.info(`User disconnected ${socket.id}`)
+            socket.emit(EVENTS.SERVER.LEFT_ROOM);
+        })
+
+    });
 }
 
 export default socket;

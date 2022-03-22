@@ -2,14 +2,14 @@
 import {useRef} from 'react';
 import EVENTS from '../config/events';
 import { useSockets } from '../context/socket.context'
-import '../styles/App.css';
+// import '../styles/globals.css';
 
 const roomList = new Array(0);
 
 const Rooms = () => {
     const {socket, roomId, rooms} = useSockets();
     const newRoomRef = useRef<HTMLInputElement>(null)
-   
+    
     const handleCreateRoom = () => {
 
         //Obtener Nombre de la sala
@@ -26,7 +26,7 @@ const Rooms = () => {
         
         //Agregar nombre al listado de salas
         roomName = '';
-        console.log('Array',roomList);
+        console.log(`Array ${roomList}`);
         console.log(rooms)
     }
 
@@ -40,9 +40,9 @@ const Rooms = () => {
             <div className='chat__roomList'>
                 <p className='chat__title'>My ChatRooms</p>
                 <ul>
-                    {/* {roomList.map((key) => {
+                    {/* {roomList.map((index) => {
                         return (
-                        <li key={key}>{key}</li>
+                        <li key={index}>{roomList}</li>
                         )
                     })} */}
                                   

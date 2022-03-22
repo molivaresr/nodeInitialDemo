@@ -40,16 +40,11 @@ function socket({ io }) {
             socket.join(roomId);
             socket.emit(events_1.default.SERVER.JOINED_ROOM, roomId);
         });
-    });
-    //Usuario se desconecta
-    io.on(events_1.default.disconnection, (socket) => {
-        logger_1.default.info(`User disconnected ${socket.id}`);
-        socket.emit(events_1.default.SERVER.LEFT_ROOM);
-        //socket.disconnect();        
-        // socket.on(EVENTS.CLIENT.LEFT_ROOM, (roomId) => {
-        // socket.leave(roomId);
-        // socket.emit(EVENTS.SERVER.LEFT_ROOM, roomId);
-        //}); 
+        //Usuario se desconecta
+        socket.on(events_1.default.disconnection, () => {
+            logger_1.default.info(`User disconnected ${socket.id}`);
+            socket.emit(events_1.default.SERVER.LEFT_ROOM);
+        });
     });
 }
 exports.default = socket;
