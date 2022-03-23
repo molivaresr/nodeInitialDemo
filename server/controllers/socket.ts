@@ -12,7 +12,18 @@ function socket({io}:{io: Server}) {
     logger.info(`Sockets Habilitados`);
 
     io.on(EVENTS.connection, (socket: Socket) =>{
+        let usuario :string;
         logger.info(`Usuario Conectado ${socket.id}`);
+        
+        socket.on(EVENTS.connection, (name : string) => {
+            usuario = name;
+            socket.broadcast.emit ('mensajes', {
+                nombre: usuario,
+                mensaje: `${usuario} ha entrado a la sala de chat`
+            });
+        });
+
+        
         socket.emit(EVENTS.SERVER.ROOMS);      
 
         //Usuario crea una sala

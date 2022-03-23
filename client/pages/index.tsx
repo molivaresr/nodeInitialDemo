@@ -20,7 +20,6 @@ export default function Home () {
       return;
     }
     setUsername(value);
-
     localStorage.setItem("username", value);
   }
 

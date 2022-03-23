@@ -4,34 +4,29 @@ import EVENTS from '../config/events';
 import { useSockets } from '../context/socket.context'
 // import '../styles/globals.css';
 
-//const roomList = new Array(0);
-
 const Rooms = () => {
-    const {socket, roomId, rooms} = useSockets();
+    const {socket} = useSockets();
     const newRoomRef = useRef<HTMLInputElement>(null)
-    
-    const roomList = {...rooms}
+    let roomList = new Array();
 
     const handleCreateRoom = () => {
+        console.log('Creando Salas');
 
+        socket.on(EVENTS.SERVER.ROOMS, (room) => {
+            roomList.push(room);
+        })
         //Obtener Nombre de la sala
         let roomName = newRoomRef.current?.value || '';
-
         if(!String(roomName).trim()) return;
 
-        //roomList.push(roomName);
-
-        console.log('Creando Salas')
         
         //Avisar que la sala se ha creado
         socket.emit(EVENTS.CLIENT.CREATE_ROOM, {roomName})
-        
+
         //Agregar nombre al listado de salas
         roomName = '';
-        console.log(`Array ${roomList}`);
-        
+        console.log(roomList) 
     }
-
     
     return(
         <div className='chat'>
@@ -42,15 +37,9 @@ const Rooms = () => {
             <div className='chat__roomList'>
                 <p className='chat__title'>My ChatRooms</p>
                 <ul>
-                    {/* {roomList.map((index : number ) => {
-                        return (
-                        <li key={roomList[index].id}>{roomList[index].name}</li> 
-                        )
-                    })} */}
-                    {/* {Object.keys(rooms).map((i) => {
-                    return(
-                    <li key={rooms[i].id}>{rooms[i].name}</li>
-                    )})} */}
+                    {Object.keys(roomList).map((key,  i) => { 
+                    <li key={key[i]}>{roomList[i].name}</li>
+                    })}
                 </ul>
             </div>
         </div>

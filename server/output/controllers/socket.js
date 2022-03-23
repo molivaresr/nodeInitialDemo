@@ -11,7 +11,15 @@ const rooms = new Array();
 function socket({ io }) {
     logger_1.default.info(`Sockets Habilitados`);
     io.on(events_1.default.connection, (socket) => {
+        let usuario;
         logger_1.default.info(`Usuario Conectado ${socket.id}`);
+        socket.on(events_1.default.connection, (name) => {
+            usuario = name;
+            socket.broadcast.emit('mensajes', {
+                nombre: usuario,
+                mensaje: `${usuario} ha entrado a la sala de chat`
+            });
+        });
         socket.emit(events_1.default.SERVER.ROOMS);
         //Usuario crea una sala
         socket.on(events_1.default.CLIENT.CREATE_ROOM, ({ roomName }) => {

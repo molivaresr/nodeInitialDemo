@@ -30,6 +30,11 @@ const SocketsProvider = (props:any) => {
     socket.on(EVENTS.SERVER.ROOMS, (value) => {
         setRooms(value);
     });
+
+    socket.on(EVENTS.SERVER.JOINED_ROOM, (value) => {
+        setRoomId(value);
+    
+      });
     
     return <SocketContext.Provider value={{socket, userName, setUsername, rooms, roomId}} {...props} />
 }
