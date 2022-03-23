@@ -3,7 +3,7 @@ import React, {useRef, useState} from 'react';
 import Chat from './components/Chat';
 import Rooms from './components/Rooms';
 import Users from './components/Users';
-import { useSockets } from './context/socket.context';
+import SocketsProvider, { useSockets } from './context/socket.context';
 import './styles/App.css';
 
 function App() {
@@ -39,12 +39,14 @@ function App() {
     ) 
   } else  {
   return (
+    <SocketsProvider>
       <div className='chat wrapper row'>
          <h2 className='login-title'>iTChat - Hola {user}!!!</h2>
         <Rooms />
         <Chat />
         <Users />
       </div>
+    </SocketsProvider>
   )}
 }
 export default App;

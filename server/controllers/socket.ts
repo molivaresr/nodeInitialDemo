@@ -5,8 +5,8 @@ import { Server, Socket } from "socket.io";
 import EVENTS from '../config/events';
 import logger from "../utils/logger";
 
-//const rooms : Array<{id: string, name: string}> = new Array();
-const rooms : Record< string, {name: string}> = {};
+const rooms : Array<{id: string, name: string}> = new Array();
+// const rooms : Record< string, {name: string}> = {};
 
 function socket({io}:{io: Server}) {
     logger.info(`Sockets Habilitados`);
@@ -16,18 +16,18 @@ function socket({io}:{io: Server}) {
         socket.emit(EVENTS.SERVER.ROOMS);      
 
         //Usuario crea una sala
-
         socket.on(EVENTS.CLIENT.CREATE_ROOM, ({roomName}) => {
             console.log({roomName})
             
             const roomId = nanoid();  // Crear Id de la sala
             
-            rooms[roomId] = {name: roomName};
-            //rooms.push({id:roomId, name:roomName})
-            console.log(rooms)
+            // rooms[roomId] = {name: roomName};
+            rooms.push({id:roomId, name:roomName})
+            
             socket.join(roomId);
             
-            socket.broadcast.emit(EVENTS.SERVER.ROOMS, rooms); // Avisar a todos que hay una nueva sala
+            socket.broadcast.emit(EVENTS.SERVER.ROOMS, rooms);
+            console.log(rooms) // Avisar a todos que hay una nueva sala
             socket.emit(EVENTS.SERVER.ROOMS, rooms); // Notifica al creador de la sala, todas las salas 
             socket.emit(EVENTS.SERVER.JOINED_ROOM, roomId); // Avisa al creador de la sala que se a unido a la sala
         });

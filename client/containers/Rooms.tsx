@@ -4,12 +4,14 @@ import EVENTS from '../config/events';
 import { useSockets } from '../context/socket.context'
 // import '../styles/globals.css';
 
-const roomList = new Array(0);
+//const roomList = new Array(0);
 
 const Rooms = () => {
     const {socket, roomId, rooms} = useSockets();
     const newRoomRef = useRef<HTMLInputElement>(null)
     
+    const roomList = {...rooms}
+
     const handleCreateRoom = () => {
 
         //Obtener Nombre de la sala
@@ -17,7 +19,7 @@ const Rooms = () => {
 
         if(!String(roomName).trim()) return;
 
-        roomList.push(roomName);
+        //roomList.push(roomName);
 
         console.log('Creando Salas')
         
@@ -27,7 +29,7 @@ const Rooms = () => {
         //Agregar nombre al listado de salas
         roomName = '';
         console.log(`Array ${roomList}`);
-        console.log(rooms)
+        
     }
 
     
@@ -40,17 +42,11 @@ const Rooms = () => {
             <div className='chat__roomList'>
                 <p className='chat__title'>My ChatRooms</p>
                 <ul>
-                    {/* {roomList.map((index) => {
+                    {/* {roomList.map((index : number ) => {
                         return (
-                        <li key={index}>{roomList}</li>
+                        <li key={roomList[index].id}>{roomList[index].name}</li> 
                         )
                     })} */}
-                                  
-                   {/*   {roomList.map(key => {
-                        return (
-                            <li key={key}>{key}</li>
-                        )})} */}
-
                     {/* {Object.keys(rooms).map((i) => {
                     return(
                     <li key={rooms[i].id}>{rooms[i].name}</li>
