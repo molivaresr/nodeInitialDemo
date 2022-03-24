@@ -4,57 +4,50 @@ import EVENTS from '../config/events';
 import { useSockets } from '../context/socket.context'
 import '../styles/App.css';
 
-const roomList = new Array(0);
+let roomList = new Array(0);
+// let roomList
+
+const submit = (event) => {
+    event?.preventDefault();
+}
 
 const Rooms = () => {
-    const {socket, roomId, rooms} = useSockets();
+    const {socket} = useSockets();
     const newRoomRef = useRef(null)
     
     const handleCreateRoom = () => {
-
+        console.log('Creando Salas')
         //Obtener Nombre de la sala
         let roomName = newRoomRef.current?.value || '';
-
         if(!String(roomName).trim()) return;
 
-        roomList.push(roomName);
-
-        console.log('Creando Salas')
+        socket.on(EVENTS.SERVER.ROOMS, (rooms) => {
+            roomList.fill(rooms)
+            console.log(rooms)
+         
+        })
         
         //Avisar que la sala se ha creado
         socket.emit(EVENTS.CLIENT.CREATE_ROOM, {roomName})
-        console.log(rooms)
-        
+                
         //Agregar nombre al listado de salas
         roomName = '';
-        console.log(roomList);
+        // console.log(`Hola ${roomList.name}`)
+        // console.log('O',roomList);
     }
 
     
     return(
         <div className='chat'>
             <div>
-                <input placeholder='Nombre de la sala' ref={newRoomRef}></input>
-                <button onClick={handleCreateRoom}>+</button>
+                <form onSubmit={submit}>
+                    <input placeholder='Nombre de la sala' ref={newRoomRef}></input>
+                    <button onClick={handleCreateRoom}>+</button>
+                </form>
             </div>
             <div className='chat__roomList'>
                 <p className='chat__title'>My ChatRooms</p>
-                <ul>
-                    {roomList.map((name, index) => {
-                        return (
-                        <li key={index}>{name}</li>
-                        )
-                    })}
-                                  
-                     {/* {roomList.map(key => {
-                        return (
-                            <li key={key}>{key}</li>
-                        )})} */}
-
-                    {/* {Object.keys(rooms).map((i) => {
-                    return(
-                    <li key={rooms[i].id}>{rooms[i].name}</li>
-                    )})} */}
+                <ul> 
                 </ul>
             </div>
         </div>

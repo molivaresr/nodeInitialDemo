@@ -11,6 +11,10 @@ import { useSockets } from '../context/socket.context';
 
 export default function Home () {
 
+  const submit = (event:any) => {
+    event?.preventDefault();
+  }
+
   const { socket, userName, setUsername } = useSockets();
   const usernameRef = useRef<HTMLInputElement>(null);
 
@@ -33,10 +37,12 @@ export default function Home () {
       {!userName && (
         <div >
           <div>
-            <input placeholder="Username" ref={usernameRef} />
-            <button className="cta" onClick={handleSetUsername}>
-              START
-            </button>
+            <form onSubmit={submit}>
+                <input placeholder="Username" ref={usernameRef} />
+                <button className="cta" onClick={handleSetUsername}>
+                  START
+                </button>
+            </form>
           </div>
         </div>
       )}

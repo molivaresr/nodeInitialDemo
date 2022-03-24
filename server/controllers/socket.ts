@@ -10,7 +10,7 @@ const rooms : Array<{id: string, name: string}> = new Array();
 
 function socket({io}:{io: Server}) {
     logger.info(`Sockets Habilitados`);
-
+    
     io.on(EVENTS.connection, (socket: Socket) =>{
         let usuario :string;
         logger.info(`Usuario Conectado ${socket.id}`);
