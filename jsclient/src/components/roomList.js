@@ -1,16 +1,22 @@
+import React from "react";
 const ListRoom = (props) => {
-    return <li>{props.value}</li>;
+    return <li><button>{props.value}</button></li>;
 }
 
 const RoomList = (props) => {
     const rooms = props.rooms;
-    const listRooms = rooms.map((readRooms) => {
+    const roomName = Object.values(rooms);
+    const roomList = Object.values(roomName);
+
+    console.log('5555',roomList);
+
+    const listing = roomList.map((list) => {
         return (
-            <ListRoom key={readRooms.id} value={readRooms.name}/>
+            <ListRoom key={list.id} value={list.name} />
         )
     })
     return (
-        <ul>{listRooms}</ul>
+        <ul>{listing}</ul>
     )
 }
 

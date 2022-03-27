@@ -1,28 +1,25 @@
     
 import { nanoid } from "nanoid";
 import { Server, Socket } from "socket.io";
-
 import EVENTS from '../config/events';
 import logger from "../utils/logger";
 
 const rooms : Array<{id: string, name: string}> = new Array();
-// const rooms : Record< string, {name: string}> = {};
+const users : Array<{id: string, user:string, date:Date}> = new Array();
 
 function socket({io}:{io: Server}) {
     logger.info(`Sockets Habilitados`);
     
     io.on(EVENTS.connection, (socket: Socket) =>{
-        let usuario :string;
-        logger.info(`Usuario Conectado ${socket.id}`);
         
-        socket.on(EVENTS.connection, (name : string) => {
-            usuario = name;
-            socket.broadcast.emit ('mensajes', {
-                nombre: usuario,
-                mensaje: `${usuario} ha entrado a la sala de chat`
-            });
-        });
+        logger.info(`Usuario Conectado ${socket.id}`);
 
+        socket.on(EVENTS.CLIENT.USER, ({user}) => {
+            console.log(users)
+            const userId = nanoid();
+            users.push({id:userId, user: user, date: new Date()})
+            socket.broadcast.emit(EVENTS.SERVER.USER, user)
+        })
         
         socket.emit(EVENTS.SERVER.ROOMS);      
 

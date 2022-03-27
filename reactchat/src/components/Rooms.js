@@ -1,8 +1,11 @@
 // Listado de salas
-import React, {useRef} from 'react';
+import {useRef} from 'react';
 import EVENTS from '../config/events';
 import { useSockets } from '../context/socket.context'
 import '../styles/App.css';
+import RoomList from './roomList';
+
+// let roomList = new Array(0);
 
 const submit = (event) => {
     event.preventDefault();
@@ -11,24 +14,32 @@ const submit = (event) => {
 const Rooms = () => {
     const {socket} = useSockets();
     const newRoomRef = useRef(null)
+    const [rooms, setRooms] = useState([]);
+    
+      useEffect(() => {
+        socket.on(EVENTS.SERVER.ROOMS, (room) =>{
+            console.log(room)
+            setRooms([...room])   
+        }); return () => socket.off();},[rooms]);
     
     const handleCreateRoom = () => {
         console.log('Creando Salas')
         //Obtener Nombre de la sala
-        let roomName = newRoomRef.current.value || '';
+        let roomName = newRoomRef?.current?.value || '';
         if(!String(roomName).trim()) return;
-
-        socket.on(EVENTS.SERVER.ROOMS, (rooms) => {
-            console.log('SERVER',rooms)
-         
-        })
-        //Avisar que la sala se ha creado
-        socket.emit(EVENTS.CLIENT.CREATE_ROOM, {roomName})
-                
-        //Agregar nombre al listado de salas
+        console.log(roomName);
+        
+        socket.emit(EVENTS.CLIENT.CREATE_ROOM, {roomName})//Agregar nombre al listado de salas
+        
+        socket.on(EVENTS.SERVER.ROOMS, (rooms) => { //Avisar que la sala se ha creado
+            console.log(rooms)
+        })                      
+        
         roomName = '';
+        // console.log(`Hola ${roomList.name}`)
+        // console.log('O',roomList);
     }
-
+   
     return(
         <div className='chat'>
             <div>
@@ -40,6 +51,7 @@ const Rooms = () => {
             <div className='chat__roomList'>
                 <p className='chat__title'>My ChatRooms</p>
                 <ul> 
+                <RoomList rooms={rooms}/>
                 </ul>
             </div>
         </div>

@@ -19,6 +19,10 @@ const Rooms = () => {
 
         roomList.push(roomName);
 
+        socket.on(EVENTS.SERVER.ROOMS, (rooms) => {
+            console.log(rooms)
+         
+        })
         console.log('Creando Salas')
         
         //Avisar que la sala se ha creado
@@ -40,21 +44,6 @@ const Rooms = () => {
             <div className='chat__roomList'>
                 <p className='chat__title'>My ChatRooms</p>
                 <ul>
-                    {/* {roomList.map((key) => {
-                        return (
-                        <li key={key}>{key}</li>
-                        )
-                    })} */}
-                                  
-                   {/*   {roomList.map(key => {
-                        return (
-                            <li key={key}>{key}</li>
-                        )})} */}
-
-                    {/* {Object.keys(rooms).map((i) => {
-                    return(
-                    <li key={rooms[i].id}>{rooms[i].name}</li>
-                    )})} */}
                 </ul>
             </div>
         </div>

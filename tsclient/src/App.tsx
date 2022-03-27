@@ -39,14 +39,14 @@ function App() {
     ) 
   } else  {
   return (
-    <SocketsProvider>
+
       <div className='chat wrapper row'>
          <h2 className='login-title'>iTChat - Hola {user}!!!</h2>
         <Rooms />
         <Chat />
         <Users />
       </div>
-    </SocketsProvider>
+
   )}
 }
 export default App;

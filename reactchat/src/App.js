@@ -1,6 +1,5 @@
 import React, {useRef, useState, useEffect} from 'react';
-
-import Chat from './components/Chat'
+import Chat from './components/Chat';
 import Rooms from './components/Rooms';
 import RoomList from './components/roomList';
 import Users from './components/Users';
@@ -9,7 +8,17 @@ import { useSockets } from './context/socket.context';
 import './styles/App.css';
 
 const App = () => {
-
+  
+  // let rooms = [
+  //     {id:'ID1',
+  //     name:'NAME'},
+  //     {id:'I2',
+  //     name:'NAME'},
+  //     {id:'ID3',
+  //     name:'NAME'},
+  //     {id:'ID4',
+  //     name:'NAME'}
+  //   ]
   const [login, setLogin] = useState(false);
   const [rooms, setRooms] = useState([]);
     
@@ -17,17 +26,12 @@ const App = () => {
 
   useEffect(() => {
     socket.on(EVENTS.SERVER.ROOMS, (room) =>{
-        setRooms({...room})   
-    });
-
-    return () => {
-      socket.off();
-    };
-  }, [rooms]);
+        console.log(room)
+        setRooms([...room])   
+    }); return () => socket.off();},[rooms]);
   
   
-  console.log('Front', typeof rooms);
-
+  console.log('Salas',rooms)
   const usernameRef = useRef(null);
 
   const handleSetUsername = () => {
@@ -36,14 +40,12 @@ const App = () => {
       return;
     }
     setUsername(userName);
-    
     setLogin(true);
     localStorage.setItem('username', userName);
-    console.log(userName);
+    console.log(userName)
   }
   
   const user = localStorage.getItem('username');
-  socket.emit(EVENTS.CLIENT.USER, {user});
   console.log(user);
 
 
@@ -63,7 +65,7 @@ const App = () => {
       <div className=' wrapper row'>
          <h2 className='login-title'>iTChat - Hola {user}!!!</h2>
         <Rooms />
-        <RoomList rooms={rooms}/>
+        
         <Chat />
         <Users />
       </div>

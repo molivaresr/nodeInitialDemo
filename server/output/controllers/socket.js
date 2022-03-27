@@ -7,18 +7,16 @@ const nanoid_1 = require("nanoid");
 const events_1 = __importDefault(require("../config/events"));
 const logger_1 = __importDefault(require("../utils/logger"));
 const rooms = new Array();
-// const rooms : Record< string, {name: string}> = {};
+const users = new Array();
 function socket({ io }) {
     logger_1.default.info(`Sockets Habilitados`);
     io.on(events_1.default.connection, (socket) => {
-        let usuario;
         logger_1.default.info(`Usuario Conectado ${socket.id}`);
-        socket.on(events_1.default.connection, (name) => {
-            usuario = name;
-            socket.broadcast.emit('mensajes', {
-                nombre: usuario,
-                mensaje: `${usuario} ha entrado a la sala de chat`
-            });
+        socket.on(events_1.default.CLIENT.USER, ({ user }) => {
+            console.log(users);
+            const userId = (0, nanoid_1.nanoid)();
+            users.push({ id: userId, user: user, date: new Date() });
+            socket.broadcast.emit(events_1.default.SERVER.USER, user);
         });
         socket.emit(events_1.default.SERVER.ROOMS);
         //Usuario crea una sala
