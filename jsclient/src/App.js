@@ -1,37 +1,91 @@
 import React, {useRef, useState, useEffect} from 'react';
 
-import Chat from './components/Chat'
-import Rooms from './components/Rooms';
-import RoomList from './components/roomList';
+// import Chat from './components/Chat'
+// import Rooms from './components/Rooms';
 import Users from './components/Users';
+
+import RoomList from './components/roomList';
 import EVENTS from './config/events';
 import { useSockets } from './context/socket.context';
 import './styles/App.css';
 
-const App = () => {
+const submit = (event) => {
+  event.preventDefault();
+}
 
-  const [login, setLogin] = useState(false);
+const Chat = ({username}) => {
+  return(
+      <div className='chat__feed'>
+          {/* <h2 className='login-title'>iTChat - Hola! {username} </h2>               */}
+          <div className='chat__msgList'><p>Mensaje de usuarios</p></div>
+              <form className='chat__textBox'>
+                <input type={"text"} placeholder={`Hola a todos soy ${username}`}></input>
+                <button>Enviar</button>
+              </form>
+      </div>
+  )
+}
+
+const Rooms = () => {
+  // const [update, setUpdate] = useState(false);
   const [rooms, setRooms] = useState([]);
+  const {socket} = useSockets();
+  const newRoomRef = useRef(null)
     
-  const { socket, userName, setUsername } = useSockets();
-
   useEffect(() => {
-    socket.on(EVENTS.SERVER.ROOMS, (room) =>{
-        setRooms({...room})   
-    });
+      socket.on(EVENTS.SERVER.ROOMS, (room) =>{
+          setRooms({...room})   
+      });
 
-    return () => {
+      return () => {
       socket.off();
-    };
-  }, [rooms]);
-  
-  
+      };
+  }, [rooms, socket]);
+
+  const handleCreateRoom = () => {
+      console.log('Creando Salas')
+      //Obtener Nombre de la sala
+      let roomName = newRoomRef.current.value || '';
+      if(!String(roomName).trim()) return;
+
+      socket.on(EVENTS.SERVER.ROOMS, (rooms) => {
+          console.log('SERVER',rooms)
+       
+      })
+
+      // setUpdate(true);
+      //Avisar que la sala se ha creado
+      socket.emit(EVENTS.CLIENT.CREATE_ROOM, {roomName})
+              
+      //Agregar nombre al listado de salas
+      roomName = '';
+  }
+
+  return(
+      // <div className='chat chat__roomList'>
+          <div className='chat__roomList'>
+              <p className='chat__title'>My ChatRooms</p>
+                  <form onSubmit={submit}>
+                      <input placeholder='Nombre de la sala' ref={newRoomRef}></input>
+                      <button onClick={handleCreateRoom}>+</button>
+                  </form>
+              <RoomList rooms={rooms} />
+          </div>
+      // </div>
+  )
+}
+
+const App = () => {
+  const [login, setLogin] = useState(false);
+     
+  var { socket, userName, setUsername } = useSockets();
+ 
   console.log('Front', typeof rooms);
 
   const usernameRef = useRef(null);
 
   const handleSetUsername = () => {
-    const userName = usernameRef.current.value;
+    userName = usernameRef.current.value;
     if(!userName){
       return;
     }
@@ -55,18 +109,23 @@ const App = () => {
             <input  className='login-input' placeholder='Nombre de usuario' ref={usernameRef}></input>
             <button className='login-button' onClick={handleSetUsername}>Entrar</button>
           </form>
-    </div>
+      </div>
+      // <Login />
     ) 
   } else  {
   return (
       
-      <div className=' wrapper row'>
+    <div className=' wrapper row'>
          <h2 className='login-title'>iTChat - Hola {user}!!!</h2>
+      <div className='chat'>
         <Rooms />
-        <RoomList rooms={rooms}/>
-        <Chat />
-        <Users />
+      <div className='contenedor'>
+      <Chat username={user}/>
+      <Users />
+        
       </div>
+      </div>
+    </div>
   )}
 }
 export default App;

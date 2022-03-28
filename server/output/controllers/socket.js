@@ -12,12 +12,12 @@ function socket({ io }) {
     logger_1.default.info(`Sockets Habilitados`);
     io.on(events_1.default.connection, (socket) => {
         logger_1.default.info(`Usuario Conectado ${socket.id}`);
-        socket.on(events_1.default.CLIENT.USER, ({ user }) => {
-            console.log(users);
-            const userId = (0, nanoid_1.nanoid)();
-            users.push({ id: userId, user: user, date: new Date() });
-            socket.broadcast.emit(events_1.default.SERVER.USER, user);
-        });
+        // socket.on(EVENTS.CLIENT.USER, ({user}) => {
+        //     console.log(users)
+        //     const userId = nanoid();
+        //     users.push({id:userId, user: user, date: new Date()})
+        //     socket.broadcast.emit(EVENTS.SERVER.USER, user)
+        // })
         socket.emit(events_1.default.SERVER.ROOMS);
         //Usuario crea una sala
         socket.on(events_1.default.CLIENT.CREATE_ROOM, ({ roomName }) => {

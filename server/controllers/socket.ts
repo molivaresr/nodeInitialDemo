@@ -14,15 +14,14 @@ function socket({io}:{io: Server}) {
         
         logger.info(`Usuario Conectado ${socket.id}`);
 
-        socket.on(EVENTS.CLIENT.USER, ({user}) => {
-            console.log(users)
-            const userId = nanoid();
-            users.push({id:userId, user: user, date: new Date()})
-            socket.broadcast.emit(EVENTS.SERVER.USER, user)
-        })
+        // socket.on(EVENTS.CLIENT.USER, ({user}) => {
+        //     console.log(users)
+        //     const userId = nanoid();
+        //     users.push({id:userId, user: user, date: new Date()})
+        //     socket.broadcast.emit(EVENTS.SERVER.USER, user)
+        // })
         
         socket.emit(EVENTS.SERVER.ROOMS);      
-
         //Usuario crea una sala
         socket.on(EVENTS.CLIENT.CREATE_ROOM, ({roomName}) => {
             console.log({roomName})

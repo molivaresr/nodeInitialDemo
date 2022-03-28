@@ -1,11 +1,8 @@
 import express from "express";
 import { createServer} from 'http';
 import { Server } from 'socket.io';
+
 import  config from 'config';
-
-import socketio from 'socket.io';
-import cors from 'cors';
-
 import socket from './controllers/socket';
 import logger from './utils/logger'
 import { version } from './package.json';
@@ -27,7 +24,7 @@ const io = new Server(httpServer, {
 });
 
 app.get('/', (req, res) => {
-    res.send(`Server is up and running version 1`)
+    res.send(`Server is up and running version 2`)
 })
 
 httpServer.listen(port, host, () => {
@@ -35,3 +32,4 @@ httpServer.listen(port, host, () => {
     logger.info(`http://${host}:${port}`);
     socket({io});
 })
+

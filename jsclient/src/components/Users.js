@@ -7,7 +7,7 @@ import '../styles/App.css';
 const Users = () => {
 
     return(
-        <div className='chat'>
+        // <div /* className='chat' */>
             <div className='chat__userList'>
                 <p className='chat__title'>Usuarios</p>
                     <ul>
@@ -15,7 +15,7 @@ const Users = () => {
                         <li> User 2</li>
                         <li> User 3</li>
                     </ul>
-            </div>
+            {/* </div> */}
         </div>               
     )
 }

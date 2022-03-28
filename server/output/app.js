@@ -22,7 +22,7 @@ const io = new socket_io_1.Server(httpServer, {
     },
 });
 app.get('/', (req, res) => {
-    res.send(`Server is up and running version 1`);
+    res.send(`Server is up and running version 2`);
 });
 httpServer.listen(port, host, () => {
     logger_1.default.info(`🚀 Chat Server version: ${package_json_1.version} is listening 🚀 `);
