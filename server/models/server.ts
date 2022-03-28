@@ -4,7 +4,7 @@ import socketio from 'socket.io';
 import http from 'http';
 //import cors from 'cors';
 
-import userRoutes from '../routes/user';
+import userRoutes from '../routes/route';
 
 
 class Server {

@@ -6,7 +6,7 @@ import  config from 'config';
 import socket from './controllers/socket';
 import logger from './utils/logger'
 import { version } from './package.json';
-
+import routes from './routes/route';
 
 const port = config.get<number>('port');
 const host = config.get<string>('host');
@@ -23,9 +23,9 @@ const io = new Server(httpServer, {
     },
 });
 
-app.get('/', (req, res) => {
-    res.send(`Server is up and running version 2`)
-})
+// app.use(express.static('public'));
+
+app.use(routes);
 
 httpServer.listen(port, host, () => {
     logger.info(`🚀 Chat Server version: ${version} is listening 🚀 `);

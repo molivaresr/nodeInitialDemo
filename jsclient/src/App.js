@@ -16,7 +16,7 @@ const submit = (event) => {
 const Chat = ({username}) => {
   return(
       <div className='chat__feed'>
-          {/* <h2 className='login-title'>iTChat - Hola! {username} </h2>               */}
+
           <div className='chat__msgList'><p>Mensaje de usuarios</p></div>
               <form className='chat__textBox'>
                 <input type={"text"} placeholder={`Hola a todos soy ${username}`}></input>
@@ -115,15 +115,15 @@ const App = () => {
   } else  {
   return (
       
-    <div className=' wrapper row'>
+    <div className='wrapper row'>
          <h2 className='login-title'>iTChat - Hola {user}!!!</h2>
       <div className='chat'>
         <Rooms />
-      <div className='contenedor'>
-      <Chat username={user}/>
-      <Users />
+        <div className='chat__container'>
+          <Chat username={user}/>
+          <Users />
         
-      </div>
+        </div>
       </div>
     </div>
   )}

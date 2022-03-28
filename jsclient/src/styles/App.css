@@ -121,7 +121,7 @@ ul {
   background-color: rgba(255,255,255,0.4);
 }
 
-.contenedor {
+.chat__container{
   display: flex;
 }
 

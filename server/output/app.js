@@ -10,6 +10,7 @@ const config_1 = __importDefault(require("config"));
 const socket_1 = __importDefault(require("./controllers/socket"));
 const logger_1 = __importDefault(require("./utils/logger"));
 const package_json_1 = require("./package.json");
+const route_1 = __importDefault(require("./routes/route"));
 const port = config_1.default.get('port');
 const host = config_1.default.get('host');
 const corsOrigin = config_1.default.get('corsOrigin');
@@ -21,9 +22,8 @@ const io = new socket_io_1.Server(httpServer, {
         credentials: true
     },
 });
-app.get('/', (req, res) => {
-    res.send(`Server is up and running version 2`);
-});
+// app.use(express.static('public'));
+app.use(route_1.default);
 httpServer.listen(port, host, () => {
     logger_1.default.info(`🚀 Chat Server version: ${package_json_1.version} is listening 🚀 `);
     logger_1.default.info(`http://${host}:${port}`);

@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 //import cors from 'cors';
-const user_1 = __importDefault(require("../routes/user"));
+const route_1 = __importDefault(require("../routes/route"));
 class Server {
     constructor() {
         this.apiPaths = {
@@ -31,7 +31,7 @@ class Server {
         });
     }
     routes() {
-        this.app.use(this.apiPaths.users, user_1.default);
+        this.app.use(this.apiPaths.users, route_1.default);
     }
     listen() {
         this.app.listen(this.port, () => {
