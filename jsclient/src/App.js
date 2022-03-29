@@ -1,7 +1,7 @@
 import React, {useRef, useState, useEffect} from 'react';
 
 // import Chat from './components/Chat'
-// import Rooms from './components/Rooms';
+import Rooms from './components/Rooms';
 import Users from './components/Users';
 
 import RoomList from './components/roomList';
@@ -31,59 +31,57 @@ const Chat = ({username}) => {
   )
 }
 
-const Rooms = () => {
-  // const [update, setUpdate] = useState(false);
-  const [rooms, setRooms] = useState([]);
-  const {socket} = useSockets();
-  const newRoomRef = useRef(null)
+// const Rooms = () => {
+//   // const [update, setUpdate] = useState(false);
+//   const {socket, rooms, setRooms} = useSockets();
+//   const newRoomRef = useRef(null)
     
-  useEffect(() => {
-      socket.on(EVENTS.SERVER.ROOMS, (room) =>{
-          setRooms({...room})   
-      });
-      return () => {
-      socket.off();
-      };
-  }, [rooms, socket]);
+//   useEffect(() => {
+//       socket.on(EVENTS.SERVER.ROOMS, (room) =>{
+//           setRooms({...room})   
+//       });
+//       return () => {
+//       socket.off();
+//       };
+//   }, [rooms, socket]);
 
-  const handleCreateRoom = () => {
-      console.log('Creando Salas')
-      //Obtener Nombre de la sala
-      let roomName = newRoomRef.current.value || '';
-      if(!String(roomName).trim()) return;
+//   const handleCreateRoom = () => {
+//       console.log('Creando Salas')
+//       //Obtener Nombre de la sala
+//       let roomName = newRoomRef.current.value || '';
+//       if(!String(roomName).trim()) return;
 
-      socket.on(EVENTS.SERVER.ROOMS, (rooms) => {
-          console.log('SERVER',rooms)
+//       socket.on(EVENTS.SERVER.ROOMS, (rooms) => {
+//           console.log('SERVER',rooms)
        
-      })
+//       })
 
-      // setUpdate(true);
-      //Avisar que la sala se ha creado
-      socket.emit(EVENTS.CLIENT.CREATE_ROOM, {roomName})
+//       // setUpdate(true);
+//       //Avisar que la sala se ha creado
+//       socket.emit(EVENTS.CLIENT.CREATE_ROOM, {roomName})
               
-      //Agregar nombre al listado de salas
-      roomName = '';
-  }
+//       //Agregar nombre al listado de salas
+//       roomName = '';
+//   }
 
-  return(
-      // <div className='chat chat__roomList'>
-          <div className='chat__roomList'>
-              <p className='chat__title'>Create a Room!</p>
-                  <form className='chat__newRoom' onSubmit={submit}>
-                      <input placeholder='Nombre de la sala' ref={newRoomRef}></input>
-                      <button onClick={handleCreateRoom}>+</button>
-                  </form>
-                  <p className='chat__title'>Join!</p>
-              <RoomList rooms={rooms} />
-          </div>
-      // </div>
-  )
-}
+//   return(
+//       // <div className='chat chat__roomList'>
+//           <div className='chat__roomList'>
+//               <p className='chat__title'>Create a Room!</p>
+//                   <form className='chat__newRoom' onSubmit={submit}>
+//                       <input placeholder='Nombre de la sala' ref={newRoomRef}></input>
+//                       <button onClick={handleCreateRoom}>+</button>
+//                   </form>
+//                   <p className='chat__title'>Join!</p>
+//               <RoomList rooms={rooms} />
+//           </div>
+//       // </div>
+//   )
+// }
 
 const App = () => {
   const [login, setLogin] = useState(false);
-     
-  var { socket, userName, setUsername } = useSockets();
+  const { socket, userName, setUsername } = useSockets();
  
   console.log('Front', typeof rooms);
 
@@ -115,15 +113,13 @@ const App = () => {
             <button className='login-button' onClick={handleSetUsername}>Entrar</button>
           </form>
       </div>
-      // <Login />
     ) 
   } else  {
   return (
-      <SocketsProvider>
+    <SocketsProvider >
         <div className='wrapper row'>
             <h2 className='login-title'>iTChat - Hola {user}!!!</h2>
           <div className='chat'>
-            
             <div className='chat__container'>
               <Rooms />
               <Chat username={user}/>
@@ -132,7 +128,7 @@ const App = () => {
             <SendMsg user={user}/>
           </div>
         </div>
-      </SocketsProvider>
+    </SocketsProvider>
   )}
 }
 export default App;

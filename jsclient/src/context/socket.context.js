@@ -1,37 +1,64 @@
-import React, { createContext, useContext, useState, useEffect} from 'react';
-import io, {Socket} from 'socket.io-client';
+import React, { createContext, useContext, useState, useEffect, Children} from 'react';
+import io, { Socket } from 'socket.io-client';
 import { SOCKET_URL } from '../config/defaultConf';
 import EVENTS from '../config/events';
-
-// interface Context {
-//     socket: Socket;
-//     userName?: string;
-//     setUsername: Function;
-//     roomId?: string;
-//     //rooms: {id: string, name:string}[]
-//     //rooms: object;
-//     rooms: {[index:string]:any}
-// }
 
 const socket = io(SOCKET_URL);
 
 const SocketContext = createContext({
-    socket, 
-    setUsername: () => false,
-    rooms:{}
+  socket,
+  setUsername: () => false,
+  setMessages: () => false,
+  rooms: {},
+  messages: [],
 });
 
-const SocketsProvider = (props) => {
-    const [userName, setUserName] = useState("");
-    const [roomId, setRoomId] = useState("");
-    const [rooms, setRooms] = useState({});
-    
+function SocketsProvider(props) {
+  const [username, setUsername] = useState("");
+  const [roomId, setRoomId] = useState("");
+  const [rooms, setRooms] = useState({});
+  const [messages, setMessages] = useState([]);
 
-    socket.on(EVENTS.SERVER.ROOMS, (value) => {
-        setRooms(value);
+  useEffect(() => {
+    window.onfocus = function () {
+      document.title = "Chat app";
+    };
+  }, []);
+
+  socket.on(EVENTS.SERVER.ROOMS, (value) => {
+    setRooms(value);
+  });
+
+  socket.on(EVENTS.SERVER.JOINED_ROOM, (value) => {
+    setRoomId(value);
+
+    setMessages([]);
+  });
+
+  useEffect(() => {
+    socket.on(EVENTS.SERVER.ROOM_MESSAGE, ({ message, username, time }) => {
+      if (!document.hasFocus()) {
+        document.title = "New message...";
+      }
+
+      setMessages((messages) => [...messages, { message, username, time }]);
     });
-    
-    return <SocketContext.Provider value={{socket, userName, setUserName, rooms, roomId}} {...props} />
+  }, [socket]);
+
+  return (
+    <SocketContext.Provider
+      value={{
+        socket,
+        username,
+        setUsername,
+        rooms,
+        roomId,
+        messages,
+        setMessages,
+      }}
+      {...props}
+    />
+  );
 }
 
 export const useSockets = () => useContext(SocketContext);
