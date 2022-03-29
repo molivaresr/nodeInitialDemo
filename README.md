@@ -7,10 +7,10 @@ Para Iniciar
 ``npm i``  
 ``npm link``
 ``Es necesario ejecutar desde el repositorio /nodeInitialDemo``  
-``todoappit`` -> Para iniciar una tarea  
+``todo`` -> Para iniciar una tarea  
 > Ejemplos de tareas.   
-``todoappit -h`` -> Para ver todos los comandos  
-``todoappit a json ``  -> Para crear una tarea en Json
+``todo -h`` -> Para ver todos los comandos  
+``todo a json ``  -> Para crear una tarea en Json
 
 ## Comandos 
 Options:
