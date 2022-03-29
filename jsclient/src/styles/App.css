@@ -113,37 +113,52 @@ ul {
   font-weight: 900;
   text-align: center;
 }
-.chat__roomList { 
-  margin: 4px;
-  width: 100%;
- /*  border: salmon solid 1px; */
-  border-radius: 4px;
-  background-color: rgba(255,255,255,0.4);
-}
 
 .chat__container{
   display: flex;
 }
-
-.chat__roomList ul { 
-  list-style: none;
-  text-align: center;
+.chat__roomList { 
+  margin: 4px;
+  padding: 0 1rem;
+  /* width: 20%; */
+  flex-grow: 0;
+  /* border: salmon solid 1px; */
+  border-radius: 4px;
+  min-height: 200px;
+  background-color: rgba(255,255,255,0.4);
 }
 
-.chat__roomList ul li { 
+
+
+/* .chat__roomList select option { 
   text-align: center;
   display: inline;
   margin: 2px;
   
+} */
+
+.chat__newRoom {
+margin: auto;
+width: 100%;
+
 }
 
-.chat__roomList button {
+.chat__roomList select { 
+  margin: 0 0.5rem;
+  width: 100%;
+}
+
+.chat__newRoom input {
+  margin: 0.5rem;
+}
+.chat__newRoom button {
   background-color:rgba(117,84,160,1);
   border-style: none;
   border-radius: 2px;
   color: #fff;
   font-size: 1rem;
   font-weight: 400;
+  margin: 0.5rem;
   
 }
 
@@ -159,12 +174,12 @@ ul {
 
 .chat__feed {
    flex-basis: 200px; 
-   flex-grow: 4;
+   flex-grow: 3;
 }
 .chat__msgList {
   margin: 4px;
  /*  width: 60%; */
-
+  height: 200px;
   border-radius: 4px;
   background-color: rgba(255,255,255,0.5);
   overflow-y: scroll;
@@ -174,11 +189,11 @@ ul {
 
 .chat__textBox {
   margin: 4px auto; 
- /*  width: 60%; */
+  width: 100%;
   max-width:1080px;
   display: flex;
   flex-direction: row;
- /*  border: salmon solid 1px; */
+  /* border: salmon solid 1px; */
   border-radius: 4px;
   /* background-color: rgba(255,255,255,0.6); */
 }

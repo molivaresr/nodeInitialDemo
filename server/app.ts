@@ -23,8 +23,6 @@ const io = new Server(httpServer, {
     },
 });
 
-// app.use(express.static('public'));
-
 app.use(routes);
 
 httpServer.listen(port, host, () => {

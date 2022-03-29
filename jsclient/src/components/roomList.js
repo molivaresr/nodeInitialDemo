@@ -1,7 +1,7 @@
 import React from "react";
 import '../styles/App.css'
 const ListRoom = (props) => {
-    return <li><button>{props.value}</button></li>;
+    return <option>{props.value}</option>
 }
 
 const RoomList = (props) => {
@@ -17,7 +17,7 @@ const RoomList = (props) => {
         )
     })
     return (
-        <ul>{listing}</ul>
+        <select>{listing}</select>
     )
 }
 

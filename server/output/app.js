@@ -22,7 +22,6 @@ const io = new socket_io_1.Server(httpServer, {
         credentials: true
     },
 });
-// app.use(express.static('public'));
 app.use(route_1.default);
 httpServer.listen(port, host, () => {
     logger_1.default.info(`🚀 Chat Server version: ${package_json_1.version} is listening 🚀 `);
