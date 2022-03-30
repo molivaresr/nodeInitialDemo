@@ -9,6 +9,7 @@ const SocketContext = createContext({
   socket,
   setUsername: () => false,
   setMessages: () => false,
+  setRooms: () => false,
   rooms: {},
   messages: [],
 });
@@ -31,7 +32,6 @@ function SocketsProvider(props) {
 
   socket.on(EVENTS.SERVER.JOINED_ROOM, (value) => {
     setRoomId(value);
-
     setMessages([]);
   });
 
@@ -43,7 +43,7 @@ function SocketsProvider(props) {
 
       setMessages((messages) => [...messages, { message, username, time }]);
     });
-  }, [socket]);
+  }, []);
 
   return (
     <SocketContext.Provider

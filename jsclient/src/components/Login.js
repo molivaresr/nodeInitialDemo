@@ -32,7 +32,7 @@ const Login = () => {
               <input  className='login-input' placeholder='Nombre de usuario' ref={usernameRef}></input>
               <button className='login-button' onClick={handleSetUsername}>Entrar</button>
             </form>
-      </div>
+        </div>
       ) 
     }
 }

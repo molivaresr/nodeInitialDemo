@@ -18,7 +18,7 @@ function socket({ io }) {
         //     users.push({id:userId, user: user, date: new Date()})
         //     socket.broadcast.emit(EVENTS.SERVER.USER, user)
         // })
-        socket.emit(events_1.default.SERVER.ROOMS);
+        socket.emit(events_1.default.SERVER.ROOMS, rooms);
         //Usuario crea una sala
         socket.on(events_1.default.CLIENT.CREATE_ROOM, ({ roomName }) => {
             console.log({ roomName });
@@ -32,24 +32,19 @@ function socket({ io }) {
             socket.emit(events_1.default.SERVER.JOINED_ROOM, roomId); // Avisa al creador de la sala que se a unido a la sala
         });
         //Enviar un mensaje
-        socket.on(events_1.default.CLIENT.SEND_ROOM_MSG, ({ roomId, message, userName }) => {
+        socket.on(events_1.default.CLIENT.SEND_ROOM_MSG, ({ /* roomId, */ message, userName }) => {
             const date = new Date();
-            socket.to(roomId).emit(events_1.default.SERVER.ROOM_MSG),
-                {
-                    message,
-                    userName,
-                    time: `${date.getHours}:${date.getMinutes}`
-                };
+            socket.emit(events_1.default.SERVER.ROOM_MSG, {
+                message,
+                userName,
+                time: `${date.getHours}:${date.getMinutes}`,
+            });
+            console.log('Mensaje Recibido');
         });
         //Cuando un usuario se une
         socket.on(events_1.default.CLIENT.JOIN_ROOM, (roomId) => {
             socket.join(roomId);
             socket.emit(events_1.default.SERVER.JOINED_ROOM, roomId);
-        });
-        //Usuario se desconecta
-        socket.on(events_1.default.disconnection, () => {
-            logger_1.default.info(`User disconnected ${socket.id}`);
-            socket.emit(events_1.default.SERVER.LEFT_ROOM);
         });
     });
 }

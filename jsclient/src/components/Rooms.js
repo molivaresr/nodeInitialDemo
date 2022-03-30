@@ -6,29 +6,28 @@ import EVENTS from '../config/events';
 import { useSockets } from '../context/socket.context'
 import '../styles/App.css';
 
+
 const submit = (event) => {
     event.preventDefault();
 }
 
 const Rooms = () => {
-    // const [update, setUpdate] = useState(false);
     const [rooms, setRooms] = useState([]);
-    const {socket} = useSockets();
+    const {socket, roomId/* , rooms, setRooms */} = useSockets();
     const newRoomRef = useRef(null)
       
     useEffect(() => {
         socket.on(EVENTS.SERVER.ROOMS, (room) =>{
-            setRooms({...room})   
+            setRooms({...room})
         });
 
         return () => {
         socket.off();
         };
-    }, [rooms, socket]);
+    }, [rooms, setRooms, socket]);
   
-
-
-    const handleCreateRoom = () => {
+    const handleCreateRoom = (event) => {
+        event.preventDefault()
         console.log('Creando Salas')
         //Obtener Nombre de la sala
         let roomName = newRoomRef.current.value || '';
@@ -36,7 +35,7 @@ const Rooms = () => {
 
         socket.on(EVENTS.SERVER.ROOMS, (rooms) => {
             console.log('SERVER',rooms)
-         
+            
         })
 
         // setUpdate(true);
@@ -47,15 +46,27 @@ const Rooms = () => {
         roomName = '';
     }
 
+    function handleJoinRoom(key) {
+        if (key === roomId) return;
+    
+        socket.emit(EVENTS.CLIENT.JOIN_ROOM, key);
+      }
+
     return(
         <div className='chat chat__roomList'>
             <div>
-                <p className='chat__title'>My ChatRooms</p>
+                {/* <p className='chat__title'>Create a room</p> */}
+                    <label className='chat__title'>Create a Room</label>
                     <form onSubmit={submit}>
                         <input placeholder='Nombre de la sala' ref={newRoomRef}></input>
                         <button onClick={handleCreateRoom}>+</button>
                     </form>
-                <RoomList rooms={rooms} />
+                    <label className='chat__title'>Join a room</label>
+                    <form onSubmit={submit}>
+                        <RoomList rooms={rooms} />
+                        <button onClick={handleJoinRoom}>Unirse</button>
+                    </form>
+                
             </div>
         </div>
     )

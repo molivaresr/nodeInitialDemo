@@ -21,7 +21,7 @@ function socket({io}:{io: Server}) {
         //     socket.broadcast.emit(EVENTS.SERVER.USER, user)
         // })
         
-        socket.emit(EVENTS.SERVER.ROOMS);      
+        socket.emit(EVENTS.SERVER.ROOMS, rooms);      
         //Usuario crea una sala
         socket.on(EVENTS.CLIENT.CREATE_ROOM, ({roomName}) => {
             console.log({roomName})
@@ -43,15 +43,17 @@ function socket({io}:{io: Server}) {
 
         socket.on(
             EVENTS.CLIENT.SEND_ROOM_MSG,
-            ({roomId, message, userName}) => { 
+            ({/* roomId, */ message, userName}) => { 
                 const date = new Date();
 
-                socket.to(roomId).emit(EVENTS.SERVER.ROOM_MSG),
-                    {
-                        message, 
-                        userName, 
-                        time: `${date.getHours}:${date.getMinutes}`}
-        });
+            socket.emit(EVENTS.SERVER.ROOM_MSG,{
+                    message, 
+                    userName, 
+                    time: `${date.getHours}:${date.getMinutes}`, 
+                });
+                console.log('Mensaje Recibido')
+            }
+        );
 
         //Cuando un usuario se une
         socket.on(EVENTS.CLIENT.JOIN_ROOM, (roomId) => {
@@ -60,12 +62,7 @@ function socket({io}:{io: Server}) {
             socket.emit(EVENTS.SERVER.JOINED_ROOM, roomId);
         }); 
 
-        //Usuario se desconecta
-        socket.on(EVENTS.disconnection, () => { 
-            logger.info(`User disconnected ${socket.id}`)
-            socket.emit(EVENTS.SERVER.LEFT_ROOM);
-        })
-
+   
     });
 }
 
