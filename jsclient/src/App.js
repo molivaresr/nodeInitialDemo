@@ -1,77 +1,45 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useState, useRef } from "react";
 
-import Chat from './components/Chat'
-import Rooms from './components/Rooms';
-import Users from './components/Users';
-// import Login from './components/Login';
+import User from './components/Users'
+import Feed from "./components/Feed";
+// import { socket } from "./context/socket";
+import "./App.css";
 
-// import RoomList from './components/roomList';
-import EVENTS from './config/events';
+function App() {
+  const [nombre, setNombre] = useState("");
+  const [registrado, setRegistrado] = useState(false);
 
-import SocketsProvider from './context/socket.context';
-import { useSockets } from './context/socket.context';
+  console.log('Inicio')
 
-import './styles/App.css';
+  const usernameRef = useRef(null); 
 
-const submit = (event) => {
-  event.preventDefault();
-}
-
-const App = () => {
-  const [login, setLogin] = useState(false);
-  const { socket, userName, setUsername } = useSockets();
- 
-  // console.log('Front', typeof rooms);
-
-  const usernameRef = useRef(null);
-
-  const handleSetUsername = () => {
+  const registrar = (e) => {
+    e.preventDefault();
     const value = usernameRef.current.value;
-    if(!value){
+    if (!value) {
       return;
     }
-    setUsername(userName);
-    
-    setLogin(true);
-    localStorage.setItem('username', value);
-    console.log(userName);
+    setNombre(value)
+    setRegistrado(true);
   }
-  
-  const user = localStorage.getItem('username');
-  socket.emit(EVENTS.CLIENT.USER, {user});
-  // console.log(user);
 
-
-  if(!login && !user) {
-    return (
-      <div className='wrapper row'>
-      <h2 className='login-title'>Bienvenido al iTChat</h2>
-        <form className="form" onSubmit={submit}>
-          <input  className='login-input' placeholder='Nombre de usuario' ref={usernameRef}></input>
-          <button className='login-button' onClick={handleSetUsername}>Entrar</button>
-        </form>
-        <div>
-          <section>
-                      
-          </section>
-        </div>
-    </div>
-    ) 
-  } else  {
   return (
-    <SocketsProvider >
-        <div className='wrapper row'>
-            <h2 className='login-title'>iTChat - Hola {user}!!!</h2>
-          <div className='chat'>
-            <div className='chat__container'>
-              <Rooms />
-              <Chat username={user}/>
-              <Users />
-            </div>
-            {/* <SendMsg user={user}/> */}
-          </div>
-        </div>
-    </SocketsProvider>
-  )}
+    <div className="App">
+      {!registrado && (
+        <form onSubmit={registrar}>
+          <label htmlFor="">Introduzca su nombre</label>
+          <input ref={usernameRef} /* value={nombre} onChange={(e) => setNombre(e.target.value) }*/ />
+          <button >Ir al chat</button>
+        </form>
+      )}
+
+      {registrado && 
+      <>
+      <Feed nombre={nombre} />
+      <User />
+      </>}
+    </div>
+  );
 }
+
 export default App;

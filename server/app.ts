@@ -3,7 +3,8 @@ import { createServer} from 'http';
 import { Server } from 'socket.io';
 
 import  config from 'config';
-import socket from './controllers/socket';
+// import socket from './controllers/socket';
+import socket from './controllers/socketsimple'
 import logger from './utils/logger'
 import { version } from './package.json';
 import routes from './routes/route';

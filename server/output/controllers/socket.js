@@ -44,6 +44,7 @@ function socket({ io }) {
         //Cuando un usuario se une
         socket.on(events_1.default.CLIENT.JOIN_ROOM, (roomId) => {
             socket.join(roomId);
+            console.log(`Usuario conectado a sala ${roomId}`);
             socket.emit(events_1.default.SERVER.JOINED_ROOM, roomId);
         });
     });

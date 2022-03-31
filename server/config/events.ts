@@ -2,6 +2,7 @@ const EVENTS = {
     connection: "connection",
     disconnection: "disconnection",
     CLIENT:{
+        CONNECTED: 'CONNECTED',
         USER:'USER',
         CREATE_ROOM:'CREATE_ROOM',
         SEND_ROOM_MSG:'SEND_ROOM_MSG',

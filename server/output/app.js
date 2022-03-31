@@ -7,7 +7,8 @@ const express_1 = __importDefault(require("express"));
 const http_1 = require("http");
 const socket_io_1 = require("socket.io");
 const config_1 = __importDefault(require("config"));
-const socket_1 = __importDefault(require("./controllers/socket"));
+// import socket from './controllers/socket';
+const socketsimple_1 = __importDefault(require("./controllers/socketsimple"));
 const logger_1 = __importDefault(require("./utils/logger"));
 const package_json_1 = require("./package.json");
 const route_1 = __importDefault(require("./routes/route"));
@@ -26,6 +27,6 @@ app.use(route_1.default);
 httpServer.listen(port, host, () => {
     logger_1.default.info(`🚀 Chat Server version: ${package_json_1.version} is listening 🚀 `);
     logger_1.default.info(`http://${host}:${port}`);
-    (0, socket_1.default)({ io });
+    (0, socketsimple_1.default)({ io });
 });
 //# sourceMappingURL=app.js.map

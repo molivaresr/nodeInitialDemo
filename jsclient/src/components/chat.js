@@ -37,13 +37,7 @@ const Chat = ({user}) => {
     useEffect(() => {
       messageEndRef.current.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
-
     
-    // if (!roomId) {
-    // return <div />;
-    // }
-
-    // console.log(user)
     return(
         <div className='chat'>
             {/* <h2 className='login-title'>iTChat - Hola! {userName} </h2>               */}

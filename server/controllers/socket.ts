@@ -58,7 +58,7 @@ function socket({io}:{io: Server}) {
         //Cuando un usuario se une
         socket.on(EVENTS.CLIENT.JOIN_ROOM, (roomId) => {
             socket.join(roomId);
-
+            console.log(`Usuario conectado a sala ${roomId}`)
             socket.emit(EVENTS.SERVER.JOINED_ROOM, roomId);
         }); 
 

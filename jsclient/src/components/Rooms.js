@@ -45,13 +45,7 @@ const Rooms = () => {
         //Agregar nombre al listado de salas
         roomName = '';
     }
-
-    function handleJoinRoom(key) {
-        if (key === roomId) return;
     
-        socket.emit(EVENTS.CLIENT.JOIN_ROOM, key);
-      }
-
     return(
         <div className='chat chat__roomList'>
             <div>
@@ -64,7 +58,6 @@ const Rooms = () => {
                     <label className='chat__title'>Join a room</label>
                     <form onSubmit={submit}>
                         <RoomList rooms={rooms} />
-                        <button onClick={handleJoinRoom}>Unirse</button>
                     </form>
                 
             </div>
