@@ -1,41 +1,75 @@
 import React, { useState, useRef, useEffect } from "react";
+import EVENTS from "./config/events";
 
-import SocketContext, {sockets} from "./context/socket";
+import {SocketProvider, socket} from "./context/socket";
+const submit = (event) => {
+  event.preventDefault();
+}
 
-function Room() {
-return (
-  <div>
-    <p>ROOMS</p>
-  </div>
-)};
+// function Room() {
+//   const [rooms, setRooms] = useState([]);
+//   const [roomId, setRoomId] = useState('');
+//   const newRoomRef = useRef(null);
+
+//   useEffect(() => {
+//     socket.on(EVENTS.SERVER.ROOMS, (rooms) => {
+//       setRooms({...rooms})
+//     });
+//     return () => {socket.off()};
+//   },[rooms, setRooms]);
+
+//   const  createRoom = (event) =>{ 
+//     event.preventDefault();
+//     let room = newRoomRef.current.value || '';
+//     console.log(room)
+//     if(!String(room).trim()) return;
+
+//     socket.on(EVENTS.SERVER.ROOMS, (rooms) => {
+//       console.log('Escuchando salas del server', rooms)
+//     })
+
+//     socket.emit(EVENTS.CLIENT.CREATE_ROOM, {room})
+//     room = '';
+
+//   }
+
+// return (
+//   <div>
+//       <label className='chat__title'>Create a Room</label>
+//         <form onSubmit={submit}>
+//             <input placeholder='Nombre de la sala' ref={newRoomRef}></input>
+//               <button onClick={createRoom}>+</button>
+//         </form>
+//         <label className='chat__title'>Join a room</label>
+//         {/* <form onSubmit={submit}>
+//           <RoomList rooms={rooms} />
+//         </form> */}
+//   </div>
+// )};
 
 function Feed({usersession}) {
   let nombre = usersession;
   const [mensaje, setMensaje] = useState("");
   const [mensajes, setMensajes] = useState([]);
-
+  
   useEffect(() => {
-    sockets.emit("conectado", nombre);
-  }, [nombre]);
-
-  useEffect(() => {
-    sockets.on("mensajes", (mensaje) => {
+    socket.on("mensajes", (mensaje) => {
       setMensajes([...mensajes, mensaje]);
     });
 
-    return () => {
-      sockets.off();
-    };
+    // return () => {socket.off()};
   }, [mensajes]);
 
-  const divRef = useRef(null);
+
+  useEffect(() => {
+    socket.emit(EVENTS.connection, nombre);
+  }, [nombre]);
+  // const divRef = useRef(null);
   
-  // useEffect(() => {
-  //   divRef.current.scrollIntoView({ behavior: "smooth" });
-  // });
   const handleMsg = (e) => {
     e.preventDefault();
-    sockets.emit("mensaje", nombre, mensaje);
+    socket.emit("mensaje", nombre, mensaje);
+    console.log(nombre, mensaje)
     setMensaje("");
   }
 
@@ -52,9 +86,9 @@ function Feed({usersession}) {
         </ul>
       </div>
       <div>
-          <form onSubmit={handleMsg}>
+          <form onSubmit={submit}>
             <input type='text' placeholder={`Hola soy ${nombre}`} value={mensaje} onChange={(e) => setMensaje(e.target.value)}/>
-            <button>Enviar</button>
+            <button onClick={handleMsg}>Enviar</button>
           </form>
         </div>
     </div>
@@ -81,7 +115,7 @@ function App() {
     }
     setUsername(value);
     setLogin(true);
-    localStorage.setItem('usuario',value);
+    localStorage.setItem('usuario',username);
   }
 
   const usersession = localStorage.getItem('usuario')
@@ -89,23 +123,23 @@ function App() {
   if(!usersession) {
     return (
       <div>
-         <form onSubmit={handleUsername}>
+         <form onSubmit={submit}>
            <input ref={usernameRef} />
-           <button>Login</button>
+           <button onClick={handleUsername}>Login</button>
          </form>
       </div>
     )}
   return (
-    
+
       <div>
         {/* Salas */}
-        <Room />
+        {/* <Room /> */}
         {/* Chat Feed */}
         <Feed usersession={usersession}/>
         {/* Usuarios */}
         <Users />  
       </div>
-    
+
   )
 }
 
