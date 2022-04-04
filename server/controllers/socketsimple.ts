@@ -1,10 +1,12 @@
 import { nanoid } from "nanoid";
 import { Server, Socket } from "socket.io";
 import EVENTS from '../config/events';
+import UserModel from '../models/users';
+import mongoose, {connect} from 'mongoose';
 
 let nombre: string;
 const rooms : Array<{id: string, name: string}> = new Array();
-
+const users : Array<{id: string, user:string, date:Date}> = new Array();
 
 function socket ({io}:{io: Server}) {
     
@@ -12,29 +14,45 @@ function socket ({io}:{io: Server}) {
         console.log(`Usuario conectado ${socket.id}`)
         // nombre;
 
-        //Crear salas
+        //Crear salas REVISAR!
         socket.emit(EVENTS.SERVER.ROOMS, rooms);      
         //Usuario crea una sala
         socket.on(EVENTS.CLIENT.CREATE_ROOM, ({room}) => {
             console.log({room})
-            
             const roomId = nanoid();  // Crear Id de la sala
-            
-            // rooms[roomId] = {name: room};
             rooms.push({id:roomId, name:room})
-            
             socket.join(roomId);
-            
             socket.broadcast.emit(EVENTS.SERVER.ROOMS, rooms);
             console.log(rooms) // Avisar a todos que hay una nueva sala
             socket.emit(EVENTS.SERVER.ROOMS, rooms); // Notifica al creador de la sala, todas las salas 
             socket.emit(EVENTS.SERVER.JOINED_ROOM, roomId); // Avisa al creador de la sala que se a unido a la sala
         });
 
-      
-        //Envío de mensajes
+              //Envío de mensajes
         socket.on(EVENTS.connection, (nomb) => {
           nombre = nomb;
+          const userId = nanoid();
+          // users.push({id:userId, user: nombre, date: new Date()})
+
+          run().catch((err:string) => console.log(err));
+          async function run(): Promise<void> {
+            await mongoose.connect('mongodb://localhost:27017/itchat',{
+
+            });
+        
+            const doc = new UserModel({
+                nickname: nombre,
+                email: 'bill@itacademy.cat',
+        
+            })
+        
+            await doc.save();
+        
+            console.log(doc);
+            mongoose.connection.close()
+          }
+
+          console.log(users)
           //socket.broadcast.emit manda el mensaje a todos los clientes excepto al que ha enviado el mensaje
           socket.broadcast.emit("mensajes", {
             nombre: nombre,
@@ -51,8 +69,7 @@ function socket ({io}:{io: Server}) {
       
         socket.on("disconnect", () => {
             // console.log(socket.id)
-          io.emit("mensajes", {
-            
+          io.emit("mensajes", {            
             servidor: "Servidor",
             mensaje: `${nombre} ha abandonado la sala`,
             log: console.log(`${nombre} ha abandonado`),
