@@ -6,8 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const http_1 = require("http");
 const socket_io_1 = require("socket.io");
+const body_parser_1 = __importDefault(require("body-parser"));
+// import {home, login, register, others}from './controllers/routes'
 const config_1 = __importDefault(require("config"));
-// import socket from './controllers/socket';
 const socketsimple_1 = __importDefault(require("./controllers/socketsimple"));
 const logger_1 = __importDefault(require("./utils/logger"));
 const package_json_1 = require("./package.json");
@@ -23,6 +24,7 @@ const io = new socket_io_1.Server(httpServer, {
         credentials: true
     },
 });
+app.use(body_parser_1.default.json());
 app.use(route_1.default);
 httpServer.listen(port, host, () => {
     logger_1.default.info(`🚀 Chat Server version: ${package_json_1.version} is listening 🚀 `);

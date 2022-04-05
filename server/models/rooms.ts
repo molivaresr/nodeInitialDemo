@@ -32,21 +32,22 @@ const RoomModel = model<Rooms, RoomModelType>('Room', new Schema<Rooms, RoomMode
 
 const doc = new RoomModel({});
 
-run().catch(err => console.log(err));
+//Test BD
+// run().catch(err => console.log(err));
 
-async function run():Promise<void> {
-    await connect('mongodb://localhost:27017/itchat');
+// async function run():Promise<void> {
+//     await connect('mongodb://localhost:27017/itchat');
 
-    const doc = new RoomModel({
-            roomName: 'NodeJs',
-            roomId: '9asdasd09',
-            messages: [{
-                user: 'Bill',
-                message: 'Hola a todos!',
-            }]
-    });
-    await doc.save();
+//     const doc = new RoomModel({
+//             roomName: 'NodeJs',
+//             roomId: '9asdasd09',
+//             messages: [{
+//                 user: 'Bill',
+//                 message: 'Hola a todos!',
+//             }]
+//     });
+//     await doc.save();
 
-    console.log(doc);
-    mongoose.connection.close()
-}
+//     console.log(doc);
+//     mongoose.connection.close()
+// }

@@ -1,13 +1,18 @@
 import express from "express";
 import { createServer} from 'http';
 import { Server } from 'socket.io';
+import bodyParser from 'body-parser';
 
+import apiPaths from "./routes/path";
+// import {home, login, register, others}from './controllers/routes'
 import  config from 'config';
-// import socket from './controllers/socket';
+
 import socket from './controllers/socketsimple'
 import logger from './utils/logger'
 import { version } from './package.json';
-import routes from './routes/route';
+import router from "./routes/route";
+
+
 
 const port = config.get<number>('port');
 const host = config.get<string>('host');
@@ -24,7 +29,9 @@ const io = new Server(httpServer, {
     },
 });
 
-app.use(routes);
+app.use(bodyParser.json())
+
+app.use(router)
 
 httpServer.listen(port, host, () => {
     logger.info(`🚀 Chat Server version: ${version} is listening 🚀 `);
