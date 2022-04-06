@@ -7,7 +7,6 @@ const express_1 = __importDefault(require("express"));
 const http_1 = require("http");
 const socket_io_1 = require("socket.io");
 const body_parser_1 = __importDefault(require("body-parser"));
-// import {home, login, register, others}from './controllers/routes'
 const config_1 = __importDefault(require("config"));
 const socketsimple_1 = __importDefault(require("./controllers/socketsimple"));
 const logger_1 = __importDefault(require("./utils/logger"));

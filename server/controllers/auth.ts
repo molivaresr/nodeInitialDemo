@@ -12,6 +12,7 @@ export const loginPost = async (req: Request, res: Response) => {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hash(password, salt);
 
+
     try {
        
         let user 
@@ -20,7 +21,7 @@ export const loginPost = async (req: Request, res: Response) => {
             await mongoose.connect('mongodb://localhost:27017/itchat');
              // Verificar email
             user = await UserModel.findOne({email:email})
-            
+            console.log(email, password)
             let token = jwt.sign({email: email, password: password}, PRIVATEKEY);
         
             

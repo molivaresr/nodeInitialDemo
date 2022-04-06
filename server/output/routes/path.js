@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const apiPaths = {
+const api = {
     home: '/',
-    login: '/auth/login',
-    register: '/auth/register',
+    login: '/api/auth/login',
+    register: '/api/auth/register',
     others: '*'
 };
-exports.default = apiPaths;
+exports.default = api;
 //# sourceMappingURL=path.js.map

@@ -30,6 +30,7 @@ const loginPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 yield mongoose_1.default.connect('mongodb://localhost:27017/itchat');
                 // Verificar email
                 user = yield users_1.default.findOne({ email: email });
+                console.log(email, password);
                 let token = jsonwebtoken_1.default.sign({ email: email, password: password }, privatekey_1.default);
                 if (!user) {
                     return res.status(400).json({

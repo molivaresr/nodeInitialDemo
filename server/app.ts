@@ -3,8 +3,6 @@ import { createServer} from 'http';
 import { Server } from 'socket.io';
 import bodyParser from 'body-parser';
 
-import apiPaths from "./routes/path";
-// import {home, login, register, others}from './controllers/routes'
 import  config from 'config';
 
 import socket from './controllers/socketsimple'

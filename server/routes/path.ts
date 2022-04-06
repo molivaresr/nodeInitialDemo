@@ -1,8 +1,8 @@
-const apiPaths = {
+const api = {
     home: '/',
-    login:'/auth/login',
-    register: '/auth/register',
+    login:'/api/auth/login',
+    register: '/api/auth/register',
     others:'*'
 }
 
-export default apiPaths;
+export default api;

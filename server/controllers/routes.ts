@@ -28,6 +28,7 @@ export const registerPost = (req: Request, res: Response) => {
     if(error) return res.json(error.details[0].message)
 
     const newUser = req.body
+    console.log(newUser.email, newUser.password)
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hash(newUser.password, salt);
     
@@ -37,7 +38,7 @@ export const registerPost = (req: Request, res: Response) => {
         await mongoose.connect('mongodb://localhost:27017/itchat');
 
         let findUser = await UserModel.findOne({email:newUser.email});
-    
+        
         let token = jwt.sign({email: newUser.email, password: newUser.password}, PRIVATEKEY);
         
         // console.log(token)
@@ -67,8 +68,8 @@ export const forbidden = (req: Request, res:Response) => {
 }
 
 export const others = (req: Request, res:Response) => {
-    res.json({msg:'Página no existe - 404'})
-    res.sendStatus(404);
+
+    res.status(404).json({msg:'Página no existe - 404'});
 }
 
 

@@ -37,6 +37,7 @@ const registerPost = (req, res) => {
     if (error)
         return res.json(error.details[0].message);
     const newUser = req.body;
+    console.log(newUser.email, newUser.password);
     const salt = bcryptjs_1.default.genSaltSync(10);
     const hash = bcryptjs_1.default.hash(newUser.password, salt);
     run().catch(err => console.log(err));
@@ -71,8 +72,7 @@ const forbidden = (req, res) => {
 };
 exports.forbidden = forbidden;
 const others = (req, res) => {
-    res.json({ msg: 'Página no existe - 404' });
-    res.sendStatus(404);
+    res.status(404).json({ msg: 'Página no existe - 404' });
 };
 exports.others = others;
 //# sourceMappingURL=routes.js.map
