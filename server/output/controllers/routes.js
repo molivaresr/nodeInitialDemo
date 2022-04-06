@@ -12,10 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.others = exports.forbidden = exports.gotoChat = exports.loginPost = exports.loginGet = exports.registerDel = exports.registerPatch = exports.registerPut = exports.registerPost = exports.registerGet = exports.home = void 0;
+exports.others = exports.forbidden = exports.registerPost = exports.registerGet = exports.home = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const joi_1 = __importDefault(require("joi"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const users_1 = __importDefault(require("../models/users"));
+const privatekey_1 = __importDefault(require("../env/privatekey"));
 const home = (req, res) => {
     res.redirect('/auth/login');
 };
@@ -28,56 +31,41 @@ const registerPost = (req, res) => {
     const schema = joi_1.default.object({
         nickname: joi_1.default.string().required().min(5),
         email: joi_1.default.string().email(),
-        password: joi_1.default.string().required().min(8)
+        password: joi_1.default.string().required().min(4)
     });
     const { error } = schema.validate(req.body);
     if (error)
         return res.json(error.details[0].message);
     const newUser = req.body;
+    const salt = bcryptjs_1.default.genSaltSync(10);
+    const hash = bcryptjs_1.default.hash(newUser.password, salt);
     run().catch(err => console.log(err));
     function run() {
         return __awaiter(this, void 0, void 0, function* () {
             yield mongoose_1.default.connect('mongodb://localhost:27017/itchat');
-            const user = new users_1.default({
-                nickname: newUser.nickname,
-                email: newUser.email,
-                password: newUser.password
-            });
-            yield user.save();
-            mongoose_1.default.connection.close();
+            let findUser = yield users_1.default.findOne({ email: newUser.email });
+            let token = jsonwebtoken_1.default.sign({ email: newUser.email, password: newUser.password }, privatekey_1.default);
+            // console.log(token)
+            // console.log('finUser',findUser)
+            if (!(findUser === null || findUser === void 0 ? void 0 : findUser.email)) {
+                const user = new users_1.default({
+                    nickname: newUser.nickname,
+                    email: newUser.email,
+                    password: token
+                });
+                yield user.save();
+                mongoose_1.default.connection.close();
+                res.json({
+                    msg: 'Usuario creado ',
+                });
+            }
+            else {
+                res.json({ msg: 'El email ya está en uso' });
+            }
         });
     }
-    res.json({
-        msg: 'Usuario creado ',
-    });
 };
 exports.registerPost = registerPost;
-const registerPut = (req, res) => {
-    res.json({ msg: 'User update ' });
-};
-exports.registerPut = registerPut;
-const registerPatch = (req, res) => {
-    res.json({ msg: 'User modify ' });
-};
-exports.registerPatch = registerPatch;
-const registerDel = (req, res) => {
-    res.json({ msg: 'Dar de baja usuario' });
-};
-exports.registerDel = registerDel;
-const loginGet = (req, res) => {
-    res.json({ msg: 'Login Get' });
-};
-exports.loginGet = loginGet;
-const loginPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.json({
-        msg: 'Inicio de sesión',
-    });
-});
-exports.loginPost = loginPost;
-const gotoChat = (req, res) => {
-    res.json({ msg: 'Pointing to Chat' });
-};
-exports.gotoChat = gotoChat;
 const forbidden = (req, res) => {
     res.json({ msg: 'Ups! No tienes acceso' });
 };

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { loginGet, registerGet, registerPost, registerPut, registerPatch, registerDel, gotoChat, others, home, forbidden } from "../controllers/routes";
+import { registerGet, registerPost, others, home, forbidden } from "../controllers/routes";
 import { loginPost } from "../controllers/auth";
 
 const router = Router();
@@ -8,7 +8,7 @@ const router = Router();
 router.get('/', home);
 
 //Login
-router.get('/api/auth/login',loginGet);
+router.get('/api/auth/login',forbidden);
 router.post('/api/auth/login',loginPost);
 router.patch('/api/auth/login',forbidden);
 router.put('/api/auth/login',forbidden);
@@ -17,11 +17,9 @@ router.delete('/api/auth/login',forbidden);
 //Register
 router.get('/api/auth/register', registerGet);
 router.post('/api/auth/register', registerPost);
-router.put('/api/auth/register', registerPut);
+router.put('/api/auth/register', forbidden);
 router.patch('/api/auth/register', forbidden);
-router.delete('/api/auth/register', registerDel);
-
-
+router.delete('/api/auth/register', forbidden);
 
 // 404 
 router.get('*', others);

@@ -2,10 +2,16 @@ import express, {Request, Response } from 'express';
 import bcryptjs from 'bcryptjs'; 
 import UserModel from '../models/users';
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+
+import PRIVATEKEY from '../env/privatekey';
 
 export const loginPost = async (req: Request, res: Response) => {
     const { email, password} = req.body
-    
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hash(password, salt);
+
     try {
        
         let user 
@@ -15,25 +21,30 @@ export const loginPost = async (req: Request, res: Response) => {
              // Verificar email
             user = await UserModel.findOne({email:email})
             
+            let token = jwt.sign({email: email, password: password}, PRIVATEKEY);
+        
+            
             if (!user) {
                 return res.status(400).json({
                     msg:'Usuario y/o Password incorrectos - email'
                 })
             }
-            // console.log(password);
-            // console.log(user.password);
+            console.log(user.password);
+            console.log(token);
             
              // Verificar password
-            const validatePass = bcryptjs.compare(password, user.password);
+            // const validatePass = await bcryptjs.compare(token, user.password);
+            
             // console.log(validatePass)
 
-            if(!validatePass) {
+            if(token !== user.password) {
                 return res.status(400).json({
                     msg:'Usuario y/o Password incorrectos - pass'
                 })
             }
             
             //Verificar estado
+            console.log(user.state);
             if(!user.state) {
                 return res.status(400).json({
                     msg:'Usuario y/o Password incorrectos - estado'
