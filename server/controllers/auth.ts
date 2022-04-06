@@ -1,5 +1,5 @@
 import express, {Request, Response } from 'express';
-import bcryptjs from 'bcryptjs'; 
+
 import UserModel from '../models/users';
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
