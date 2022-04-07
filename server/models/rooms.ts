@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import {Schema, Types, model, Model, connect} from "mongoose";
 
 interface Messages {

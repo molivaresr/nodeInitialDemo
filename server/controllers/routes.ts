@@ -7,9 +7,8 @@ import jwt from 'jsonwebtoken';
 import UserModel from "../models/users";
 import PRIVATEKEY from '../env/privatekey';
 
-
 export const home = (req: Request, res: Response) => {
-    res.redirect('/auth/login')
+    res.redirect('/api/auth/login')
 }
 
 export const registerGet = (req: Request, res: Response) => {
@@ -28,9 +27,10 @@ export const registerPost = (req: Request, res: Response) => {
     if(error) return res.json(error.details[0].message)
 
     const newUser = req.body
-    console.log(newUser.email, newUser.password)
+    // console.log(newUser.email, newUser.password)
     const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hash(newUser.password, salt);
+    // const passwordHash = bcrypt.hashSync(newUser.password, salt);
+    let key = PRIVATEKEY + newUser.password
     
     run().catch(err => console.log(err));
   
@@ -39,9 +39,8 @@ export const registerPost = (req: Request, res: Response) => {
 
         let findUser = await UserModel.findOne({email:newUser.email});
         
-        let token = jwt.sign({email: newUser.email, password: newUser.password}, PRIVATEKEY);
-        
-        // console.log(token)
+        let token = jwt.sign({nickname: newUser.nickname, email: newUser.email}, key);
+         // console.log(token)
         
         // console.log('finUser',findUser)
         
@@ -49,7 +48,7 @@ export const registerPost = (req: Request, res: Response) => {
             const user = new UserModel({
                 nickname: newUser.nickname,
                 email: newUser.email,
-                password: token
+                token: token
                 });
             await user.save();
             mongoose.connection.close()

@@ -20,7 +20,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const users_1 = __importDefault(require("../models/users"));
 const privatekey_1 = __importDefault(require("../env/privatekey"));
 const home = (req, res) => {
-    res.redirect('/auth/login');
+    res.redirect('/api/auth/login');
 };
 exports.home = home;
 const registerGet = (req, res) => {
@@ -37,22 +37,23 @@ const registerPost = (req, res) => {
     if (error)
         return res.json(error.details[0].message);
     const newUser = req.body;
-    console.log(newUser.email, newUser.password);
+    // console.log(newUser.email, newUser.password)
     const salt = bcryptjs_1.default.genSaltSync(10);
-    const hash = bcryptjs_1.default.hash(newUser.password, salt);
+    // const passwordHash = bcrypt.hashSync(newUser.password, salt);
+    let key = privatekey_1.default + newUser.password;
     run().catch(err => console.log(err));
     function run() {
         return __awaiter(this, void 0, void 0, function* () {
             yield mongoose_1.default.connect('mongodb://localhost:27017/itchat');
             let findUser = yield users_1.default.findOne({ email: newUser.email });
-            let token = jsonwebtoken_1.default.sign({ email: newUser.email, password: newUser.password }, privatekey_1.default);
+            let token = jsonwebtoken_1.default.sign({ nickname: newUser.nickname, email: newUser.email }, key);
             // console.log(token)
             // console.log('finUser',findUser)
             if (!(findUser === null || findUser === void 0 ? void 0 : findUser.email)) {
                 const user = new users_1.default({
                     nickname: newUser.nickname,
                     email: newUser.email,
-                    password: token
+                    token: token
                 });
                 yield user.save();
                 mongoose_1.default.connection.close();
