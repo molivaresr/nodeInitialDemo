@@ -5,7 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const routes_1 = require("../controllers/routes");
+const chat_1 = require("../controllers/chat");
 const auth_1 = require("../controllers/auth");
+const validate_1 = __importDefault(require("../middlewares/validate"));
 const path_1 = __importDefault(require("./path"));
 const router = (0, express_1.Router)();
 //Home
@@ -22,6 +24,10 @@ router.post(path_1.default.register, routes_1.registerPost);
 router.put(path_1.default.register, routes_1.forbidden);
 router.patch(path_1.default.register, routes_1.forbidden);
 router.delete(path_1.default.register, routes_1.forbidden);
+//Chat
+router.get(path_1.default.users, validate_1.default, chat_1.getUSers); // Leer usuarios
+router.get(path_1.default.rooms, validate_1.default, chat_1.getRooms); // Leer salas
+router.post(path_1.default.rooms, validate_1.default, chat_1.postRooms); // Crear salas
 // 404 
 router.get(path_1.default.others, routes_1.others);
 router.post(path_1.default.others, routes_1.others);

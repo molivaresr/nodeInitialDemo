@@ -4,22 +4,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-function default_1(key, token, res, req) {
-    if (token) {
-        jsonwebtoken_1.default.verify(token, key, (err, decoded) => {
-            if (err) {
-                return res.json({ msg: 'Token no válida' });
-            }
-            else {
-                console.log('Valido!');
-            }
-        });
+const config_1 = __importDefault(require("config"));
+const key = config_1.default.get('PRIVATEKEY');
+function tokenValidation(req, res, next) {
+    const token = req.header('auth-token');
+    if (!token)
+        return res.status(401).json({ error: 'Acceso denegado' });
+    try {
+        const verify = jsonwebtoken_1.default.verify(token, key);
+        next();
     }
-    else {
-        res.send({
-            msg: 'Token pendiente'
-        });
+    catch (err) {
+        res.status(400).json({ error: 'Token no válido' });
     }
 }
-exports.default = default_1;
+exports.default = tokenValidation;
 //# sourceMappingURL=validate.js.map

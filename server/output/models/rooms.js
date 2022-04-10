@@ -10,7 +10,8 @@ const RoomModel = (0, mongoose_1.model)('Room', new mongoose_1.Schema({
             // date: new Date()
         })]
 }));
-const doc = new RoomModel({});
+exports.default = RoomModel;
+// const doc = new RoomModel({});
 //Test BD
 // run().catch(err => console.log(err));
 // async function run():Promise<void> {

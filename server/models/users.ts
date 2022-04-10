@@ -1,9 +1,11 @@
-import mongoose, {Schema, model, connect} from 'mongoose';
+import {Schema, model} from 'mongoose';
 
 interface User {
     nickname: string;
     email: string;
     password: string,
+    passport: string,
+    token: string,
     state: boolean;
     google: boolean;
 }
@@ -19,6 +21,14 @@ const schema = new Schema<User>({
         required: true
     },    
     password :{
+        type: String,
+        required: true
+    },
+    passport: {
+        type: String,
+        required: true
+    },
+    token: {
         type: String,
         required: true
     },

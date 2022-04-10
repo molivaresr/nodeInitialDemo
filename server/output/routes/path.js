@@ -4,6 +4,8 @@ const api = {
     home: '/',
     login: '/api/auth/login',
     register: '/api/auth/register',
+    users: '/api/chat/users',
+    rooms: '/api/chat/rooms',
     others: '*'
 };
 exports.default = api;

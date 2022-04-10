@@ -1,6 +1,8 @@
 import { Router } from "express";
 import { registerGet, registerPost, others, home, forbidden } from "../controllers/routes";
+import {getRooms, getUSers, postRooms} from '../controllers/chat';
 import { loginPost } from "../controllers/auth";
+import tokenValidation from '../middlewares/validate';
 import api from './path'
 const router = Router();
 
@@ -20,6 +22,11 @@ router.post(api.register, registerPost);
 router.put(api.register, forbidden);
 router.patch(api.register, forbidden);
 router.delete(api.register, forbidden);
+
+//Chat
+router.get(api.users, tokenValidation, getUSers) // Leer usuarios
+router.get(api.rooms, tokenValidation, getRooms) // Leer salas
+router.post(api.rooms, tokenValidation, postRooms) // Crear salas
 
 // 404 
 router.get(api.others, others);

@@ -2,15 +2,12 @@ import express from "express";
 import { createServer} from 'http';
 import { Server } from 'socket.io';
 import bodyParser from 'body-parser';
-
 import  config from 'config';
 
 import socket from './controllers/socketsimple'
 import logger from './utils/logger'
 import { version } from './package.json';
 import router from "./routes/route";
-
-
 
 const port = config.get<number>('port');
 const host = config.get<string>('host');

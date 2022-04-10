@@ -15,6 +15,14 @@ const schema = new mongoose_1.Schema({
         type: String,
         required: true
     },
+    passport: {
+        type: String,
+        required: true
+    },
+    token: {
+        type: String,
+        required: true
+    },
     state: {
         type: Boolean,
         default: true

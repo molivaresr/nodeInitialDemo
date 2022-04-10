@@ -1,4 +1,4 @@
-import {Schema, Types, model, Model, connect} from "mongoose";
+import {Schema, Types, model, Model} from "mongoose";
 
 interface Messages {
     _id: Types.ObjectId;
@@ -29,7 +29,9 @@ const RoomModel = model<Rooms, RoomModelType>('Room', new Schema<Rooms, RoomMode
     })]
 }))
 
-const doc = new RoomModel({});
+export default RoomModel;
+
+// const doc = new RoomModel({});
 
 //Test BD
 // run().catch(err => console.log(err));
