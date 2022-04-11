@@ -2,6 +2,7 @@ import express from "express";
 import { createServer} from 'http';
 import { Server } from 'socket.io';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import  config from 'config';
 
 import socket from './controllers/socketsimple'
@@ -23,7 +24,8 @@ const io = new Server(httpServer, {
         credentials: true
     },
 });
-
+app.use(cors())
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 app.use(router)

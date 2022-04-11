@@ -5,6 +5,7 @@ const api = {
     login: '/api/auth/login',
     register: '/api/auth/register',
     users: '/api/chat/users',
+    user: '/api/chat/users/:id',
     rooms: '/api/chat/rooms',
     others: '*'
 };

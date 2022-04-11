@@ -31,27 +31,6 @@ function socket ({io}:{io: Server}) {
               //Envío de mensajes
         socket.on(EVENTS.connection, (nomb) => {
           nombre = nomb;
-          const userId = nanoid();
-          // users.push({id:userId, user: nombre, date: new Date()})
-
-          //Reestructurar para la creación de salas
-          // run().catch((err:string) => console.log(err));
-          // async function run(): Promise<void> {
-          //   await mongoose.connect('mongodb://localhost:27017/itchat',{
-
-          //   });
-        
-          //   const doc = new UserModel({
-          //       nickname: nombre,
-          //       email: 'bill@itacademy.cat',
-        
-          //   })
-        
-          //   await doc.save();
-        
-          //   console.log(doc);
-          //   mongoose.connection.close()
-          // }
 
           console.log(users)
           //socket.broadcast.emit manda el mensaje a todos los clientes excepto al que ha enviado el mensaje

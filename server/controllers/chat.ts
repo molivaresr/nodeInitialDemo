@@ -8,11 +8,20 @@ import UserModel from "../models/users";
 import RoomModel from "../models/rooms";
 
 const mongoURL = config.get<string>('mongodb');
-export const getUSers = async (req: Request, res: Response) => {
+export const getUsers = async (req: Request, res: Response) => {
     await mongoose.connect(mongoURL);
-    // Verificar email
+  
     const users = await UserModel.find({}) 
     res.json({users:users})
+    mongoose.connection.close()
+}
+
+export const getUser = async (req: Request, res: Response) => {
+
+    await mongoose.connect(mongoURL);
+    // Verificar email
+    const user = await UserModel.find({}) 
+    res.json({users:user})
     mongoose.connection.close()
 }
 

@@ -12,20 +12,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getRooms = exports.postRooms = exports.getUSers = void 0;
+exports.getRooms = exports.postRooms = exports.getUser = exports.getUsers = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const config_1 = __importDefault(require("config"));
 const users_1 = __importDefault(require("../models/users"));
 const rooms_1 = __importDefault(require("../models/rooms"));
 const mongoURL = config_1.default.get('mongodb');
-const getUSers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield mongoose_1.default.connect(mongoURL);
-    // Verificar email
     const users = yield users_1.default.find({});
     res.json({ users: users });
     mongoose_1.default.connection.close();
 });
-exports.getUSers = getUSers;
+exports.getUsers = getUsers;
+const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    yield mongoose_1.default.connect(mongoURL);
+    // Verificar email
+    const user = yield users_1.default.find({});
+    res.json({ users: user });
+    mongoose_1.default.connection.close();
+});
+exports.getUser = getUser;
 const postRooms = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const newRoom = req.body;
     yield mongoose_1.default.connect(mongoURL);

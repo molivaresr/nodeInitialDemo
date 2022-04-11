@@ -12,7 +12,8 @@ const mongoURL = config.get<string>('mongodb');
 const key = config.get<string>('PRIVATEKEY')
 
 export const home = (req: Request, res: Response) => {
-    res.redirect('/api/auth/login')
+    // res.redirect('/api/auth/login')
+    res.json({msg:'conexión Ok'})
 }
 
 export const registerGet = (req: Request, res: Response) => {
@@ -20,17 +21,16 @@ export const registerGet = (req: Request, res: Response) => {
 }
 
 export const registerPost = (req: Request, res: Response) => {
- 
 
-    const schema = Joi.object ({
-        nickname: Joi.string().required().min(5),
-        email: Joi.string().email(),
-        password: Joi.string().required().min(4)
-    });
+    // const schema = Joi.object ({
+    //     nickname: Joi.string().required().min(5),
+    //     email: Joi.string().email(),
+    //     password: Joi.string().required().min(4)
+    // });
 
-    const {error} = schema.validate(req.body)
+    // const {error} = schema.validate(req.body)
 
-    if(error) return res.json(error.details[0].message)
+    // if(error) return res.json(error.details[0].message)
 
     const newUser = req.body
     const newPassport = newUser.nickname+newUser.email;

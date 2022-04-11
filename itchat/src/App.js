@@ -1,7 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import EVENTS from "./config/events";
 
-import {SocketProvider, socket} from "./context/socket";
+import Login from "./components/Login.js";
+
+import { UserContextProvider } from "./context/UserContext";
+import {SocketProvider, socket} from "./context/SocketContext";
+import getUser from "./services/userdata";
+
 const submit = (event) => {
   event.preventDefault();
 }
@@ -32,9 +37,9 @@ const submit = (event) => {
 //     room = '';
 
 //   }
-
+//   // tryLogin() 
 // return (
-//   <div>
+//   <>
 //       <label className='chat__title'>Create a Room</label>
 //         <form onSubmit={submit}>
 //             <input placeholder='Nombre de la sala' ref={newRoomRef}></input>
@@ -44,7 +49,7 @@ const submit = (event) => {
 //         {/* <form onSubmit={submit}>
 //           <RoomList rooms={rooms} />
 //         </form> */}
-//   </div>
+//   </>
 // )};
 
 function Feed({usersession}) {
@@ -94,52 +99,70 @@ function Feed({usersession}) {
     </div>
 )};
 
-function Users() {
-  return (
-    <div>
-        <p>USUARIOS</p>
-      </div>      
-)};
+// function Users() {
+//   return (
+//     <div>
+//         <p>USUARIOS</p>
+//       </div>      
+// )};
 
-function App() {
-  const [username, setUsername] = useState('');
-  const [login, setLogin] = useState('');
+// function App() {
+//   const [username, setUsername] = useState('');
+//   const [login, setLogin] = useState('');
 
-  const usernameRef = useRef(null);
+//   const usernameRef = useRef(null);
   
-  const handleUsername = (e) => {
-    e.preventDefault();
-    const value = usernameRef.current.value;
-    if(!value) {
-      return;
-    }
-    setUsername(value);
-    setLogin(true);
-    localStorage.setItem('usuario',username);
-  }
+//   const handleUsername = (e) => {
+//     e.preventDefault();
+//     const value = usernameRef.current.value;
+//     if(!value) {
+//       return;
+//     }
+//     setUsername(value);
+//     setLogin(true);
+//     localStorage.setItem('usuario',username);
+//   }
 
-  const usersession = localStorage.getItem('usuario')
+//   const usersession = localStorage.getItem('usuario')
 
-  if(!usersession) {
+//   if(!usersession) {
+//     return (
+//       <div>
+//          <form onSubmit={submit}>
+//            <input ref={usernameRef} />
+//            <button onClick={handleUsername}>Login</button>
+//          </form>
+//       </div>
+//     )}
+//   return (
+
+//       <div>
+//         {/* Salas */}
+//         <Room />
+//         {/* Chat Feed */}
+//         <Feed usersession={usersession}/>
+//         {/* Usuarios */}
+//         <Users />  
+//       </div>
+
+//   )
+// }
+
+function App () {
+  const token = window.localStorage.getItem('jwt');
+  const usersession = window.localStorage.getItem('nickname');
+  
+  if (!token) {
     return (
-      <div>
-         <form onSubmit={submit}>
-           <input ref={usernameRef} />
-           <button onClick={handleUsername}>Login</button>
-         </form>
-      </div>
-    )}
+      <UserContextProvider>
+        <Login />
+      </UserContextProvider>
+    );
+  }
   return (
-
-      <div>
-        {/* Salas */}
-        {/* <Room /> */}
-        {/* Chat Feed */}
-        <Feed usersession={usersession}/>
-        {/* Usuarios */}
-        <Users />  
-      </div>
-
+    <>
+      <Feed usersession={usersession}/>
+    </>
   )
 }
 

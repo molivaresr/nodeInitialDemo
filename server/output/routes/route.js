@@ -25,7 +25,8 @@ router.put(path_1.default.register, routes_1.forbidden);
 router.patch(path_1.default.register, routes_1.forbidden);
 router.delete(path_1.default.register, routes_1.forbidden);
 //Chat
-router.get(path_1.default.users, validate_1.default, chat_1.getUSers); // Leer usuarios
+router.get(path_1.default.users, validate_1.default, chat_1.getUsers);
+router.get(path_1.default.user, validate_1.default, chat_1.getUser); // Leer usuarios
 router.get(path_1.default.rooms, validate_1.default, chat_1.getRooms); // Leer salas
 router.post(path_1.default.rooms, validate_1.default, chat_1.postRooms); // Crear salas
 // 404 

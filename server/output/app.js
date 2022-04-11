@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const http_1 = require("http");
 const socket_io_1 = require("socket.io");
 const body_parser_1 = __importDefault(require("body-parser"));
+const cors_1 = __importDefault(require("cors"));
 const config_1 = __importDefault(require("config"));
 const socketsimple_1 = __importDefault(require("./controllers/socketsimple"));
 const logger_1 = __importDefault(require("./utils/logger"));
@@ -23,6 +24,8 @@ const io = new socket_io_1.Server(httpServer, {
         credentials: true
     },
 });
+app.use((0, cors_1.default)());
+app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use(body_parser_1.default.json());
 app.use(route_1.default);
 httpServer.listen(port, host, () => {
