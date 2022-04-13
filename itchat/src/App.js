@@ -11,46 +11,46 @@ const submit = (event) => {
   event.preventDefault();
 }
 
-// function Room() {
-//   const [rooms, setRooms] = useState([]);
-//   const [roomId, setRoomId] = useState('');
-//   const newRoomRef = useRef(null);
+function Room() {
+  const [rooms, setRooms] = useState([]);
+  const [roomId, setRoomId] = useState('');
+  const newRoomRef = useRef(null);
 
-//   useEffect(() => {
-//     socket.on(EVENTS.SERVER.ROOMS, (rooms) => {
-//       setRooms({...rooms})
-//     });
-//     return () => {socket.off()};
-//   },[rooms, setRooms]);
+  useEffect(() => {
+    socket.on(EVENTS.SERVER.ROOMS, (rooms) => {
+      setRooms({...rooms})
+    });
+    return () => {socket.off()};
+  },[rooms, setRooms]);
 
-//   const  createRoom = (event) =>{ 
-//     event.preventDefault();
-//     let room = newRoomRef.current.value || '';
-//     console.log(room)
-//     if(!String(room).trim()) return;
+  const  createRoom = (event) =>{ 
+    event.preventDefault();
+    let room = newRoomRef.current.value || '';
+    console.log(room)
+    if(!String(room).trim()) return;
 
-//     socket.on(EVENTS.SERVER.ROOMS, (rooms) => {
-//       console.log('Escuchando salas del server', rooms)
-//     })
+    socket.on(EVENTS.SERVER.ROOMS, (rooms) => {
+      console.log('Escuchando salas del server', rooms)
+    })
 
-//     socket.emit(EVENTS.CLIENT.CREATE_ROOM, {room})
-//     room = '';
+    socket.emit(EVENTS.CLIENT.CREATE_ROOM, {room})
+    room = '';
 
-//   }
-//   // tryLogin() 
-// return (
-//   <>
-//       <label className='chat__title'>Create a Room</label>
-//         <form onSubmit={submit}>
-//             <input placeholder='Nombre de la sala' ref={newRoomRef}></input>
-//               <button onClick={createRoom}>+</button>
-//         </form>
-//         <label className='chat__title'>Join a room</label>
-//         {/* <form onSubmit={submit}>
-//           <RoomList rooms={rooms} />
-//         </form> */}
-//   </>
-// )};
+  }
+  // tryLogin() 
+return (
+  <>
+      <label className='chat__title'>Create a Room</label>
+        <form onSubmit={submit}>
+            <input placeholder='Nombre de la sala' ref={newRoomRef}></input>
+              <button onClick={createRoom}>+</button>
+        </form>
+        <label className='chat__title'>Join a room</label>
+        {/* <form onSubmit={submit}>
+          <RoomList rooms={rooms} />
+        </form> */}
+  </>
+)};
 
 function Feed({usersession}) {
   let nombre = usersession;
@@ -161,6 +161,7 @@ function App () {
   }
   return (
     <>
+      <Room />
       <Feed usersession={usersession}/>
     </>
   )

@@ -12,64 +12,40 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.messagesUpd = exports.messagesPut = exports.getRooms = exports.postRooms = exports.getUser = exports.getUsers = void 0;
+exports.messagesUpd = exports.messagesPut = exports.createRooms = exports.getRooms = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const config_1 = __importDefault(require("config"));
-const users_1 = __importDefault(require("../models/users"));
 const rooms_1 = __importDefault(require("../models/rooms"));
 const mongoURL = config_1.default.get('mongodb');
-const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    yield mongoose_1.default.connect(mongoURL);
-    const users = yield users_1.default.find({});
-    res.json({ users: users });
-    mongoose_1.default.connection.close();
-});
-exports.getUsers = getUsers;
-const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    yield mongoose_1.default.connect(mongoURL);
-    // Verificar email
-    const user = yield users_1.default.find({});
-    res.json({ users: user });
-    mongoose_1.default.connection.close();
-});
-exports.getUser = getUser;
-const postRooms = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const newRoom = req.body;
-    yield mongoose_1.default.connect(mongoURL);
-    const rooms = yield rooms_1.default.find({});
-    let findRoom = yield rooms_1.default.findOne({ roomName: newRoom.room });
-    if (!(findRoom === null || findRoom === void 0 ? void 0 : findRoom.roomName)) {
-        const room = new rooms_1.default({
-            roomName: newRoom.room,
-            roomId: newRoom.id,
-            messages: {},
-        });
-        yield room.save();
+const getRooms = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield mongoose_1.default.connect(mongoURL);
+        let rooms = yield rooms_1.default.find({});
         mongoose_1.default.connection.close();
-        res.json({ msg: 'Sala Creada' });
+        return rooms;
     }
-    else {
-        let repeatedRoom = findRoom.roomName + `${rooms.length + 1}`;
-        console.log(repeatedRoom);
-        const room = new rooms_1.default({
-            roomName: repeatedRoom,
-            roomId: newRoom.id,
-            messages: {},
-        });
-        yield room.save();
-        mongoose_1.default.connection.close();
-        res.json({ msg: 'Sala Creada' });
+    catch (error) {
+        console.log(error);
     }
-});
-exports.postRooms = postRooms;
-const getRooms = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    yield mongoose_1.default.connect(mongoURL);
-    // Verificar email
-    const rooms = yield rooms_1.default.find({});
-    res.json({ rooms: rooms });
-    mongoose_1.default.connection.close();
 });
 exports.getRooms = getRooms;
+const createRooms = (roomId, roomName) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield mongoose_1.default.connect(mongoURL);
+        let newRoom = new rooms_1.default({
+            roomName: roomName,
+            roomId: roomId,
+            messages: []
+        });
+        yield newRoom.save();
+        mongoose_1.default.connection.close();
+        console.log(newRoom);
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.createRooms = createRooms;
 const messagesPut = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { roomId, message } = req.body;
     try {
@@ -94,4 +70,4 @@ const messagesUpd = (roomId, message) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.messagesUpd = messagesUpd;
-//# sourceMappingURL=chat.js.map
+//# sourceMappingURL=rooms.js.map

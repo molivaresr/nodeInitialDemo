@@ -1,8 +1,8 @@
 import { nanoid } from "nanoid";
 import { Server, Socket } from "socket.io";
 import EVENTS from '../config/events';
-import UserModel from '../models/users';
-import mongoose, {connect} from 'mongoose';
+import {messagesUpd}from '../controllers/chat';
+import {createRooms} from '../controllers/rooms';
 
 let nombre: string;
 const rooms : Array<{id: string, name: string}> = new Array();
@@ -18,12 +18,12 @@ function socket ({io}:{io: Server}) {
         socket.emit(EVENTS.SERVER.ROOMS, rooms);      
         //Usuario crea una sala
         socket.on(EVENTS.CLIENT.CREATE_ROOM, ({room}) => {
-            console.log({room})
+            // console.log({room})
             const roomId = nanoid();  // Crear Id de la sala
-            rooms.push({id:roomId, name:room})
+            createRooms(roomId, room)
             socket.join(roomId);
             socket.broadcast.emit(EVENTS.SERVER.ROOMS, rooms);
-            console.log(rooms) // Avisar a todos que hay una nueva sala
+            // console.log(rooms) // Avisar a todos que hay una nueva sala
             socket.emit(EVENTS.SERVER.ROOMS, rooms); // Notifica al creador de la sala, todas las salas 
             socket.emit(EVENTS.SERVER.JOINED_ROOM, roomId); // Avisa al creador de la sala que se a unido a la sala
         });
@@ -32,7 +32,7 @@ function socket ({io}:{io: Server}) {
         socket.on(EVENTS.connection, (nomb) => {
           nombre = nomb;
 
-          console.log(users)
+          // console.log(users)
           //socket.broadcast.emit manda el mensaje a todos los clientes excepto al que ha enviado el mensaje
           socket.broadcast.emit("mensajes", {
             nombre: nombre,
@@ -42,9 +42,16 @@ function socket ({io}:{io: Server}) {
         });
       
         socket.on("mensaje", (nombre, mensaje) => {
+          let message = {
+            user: nombre,
+            message: mensaje
+          }
+          let roomId = '1234552'
           //io.emit manda el mensaje a todos los clientes conectados al chat
-          console.log(`${nombre}-> ${mensaje}`)
+          console.log(`${nombre} -> ${mensaje}`)
           io.emit("mensajes", { nombre, mensaje });
+          messagesUpd(roomId, message)
+
         });
       
         socket.on("disconnect", () => {

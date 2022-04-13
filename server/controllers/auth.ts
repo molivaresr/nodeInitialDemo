@@ -18,9 +18,7 @@ export const loginPost = async (req: Request, res: Response) => {
     try {
         console.log('Intento 2 de inicio')
         let user 
-        run().catch(err => console.log(err));
-        console.log('Intento 3 de inicio')
-        async function run() {
+       
             console.log('Intento 4 de inicio')
             await mongoose.connect(mongoURL);
              // Verificar email
@@ -59,7 +57,6 @@ export const loginPost = async (req: Request, res: Response) => {
             let token = jwt.sign(payload, key)
             console.log('Sesión Iniciada')
             res.status(200).json({user:user, token: token});
-        }
  
     } catch (error) {
         console.log(error);

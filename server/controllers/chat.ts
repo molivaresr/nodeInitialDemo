@@ -1,13 +1,11 @@
 import { Request, Response} from "express";
-import mongoose, {connect} from "mongoose";
-import Joi from 'joi';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
+import mongoose from "mongoose";
 import config from 'config';
 import UserModel from "../models/users";
 import RoomModel from "../models/rooms";
 
 const mongoURL = config.get<string>('mongodb');
+
 export const getUsers = async (req: Request, res: Response) => {
     await mongoose.connect(mongoURL);
   
@@ -28,8 +26,6 @@ export const getUser = async (req: Request, res: Response) => {
 export const postRooms = async (req: Request, res: Response) => {
 
     const newRoom = req.body
-    
-
     await mongoose.connect(mongoURL);
     const rooms = await RoomModel.find({})
     let findRoom = await RoomModel.findOne({roomName: newRoom.room})
@@ -38,7 +34,7 @@ export const postRooms = async (req: Request, res: Response) => {
         const room = new RoomModel({
             roomName: newRoom.room,
             roomId: newRoom.id,
-            messages: [],
+            messages: {},
         });
         await room.save();
         mongoose.connection.close()
@@ -50,7 +46,7 @@ export const postRooms = async (req: Request, res: Response) => {
         const room = new RoomModel({
             roomName: repeatedRoom, 
             roomId: newRoom.id,
-            messages: [],
+            messages: {},
         });
         await room.save();
         mongoose.connection.close()
@@ -66,3 +62,24 @@ export const getRooms = async (req: Request, res: Response) => {
     mongoose.connection.close()
 }
 
+export const messagesPut = async (req: Request, res: Response) => {
+    const { roomId, message} = req.body;
+    try {      
+        await mongoose.connect(mongoURL);
+
+        await RoomModel.findOne({roomId: roomId }).updateOne({$push: {messages: message}});
+        
+        mongoose.connection.close(); 
+        res.json({msg:`Mensajes actualizados`})
+    } 
+    catch (error) {console.log(error)}
+}
+
+export const messagesUpd= async (roomId:string, message: object) => {
+    try {      
+        await mongoose.connect(mongoURL);
+        await RoomModel.findOne({roomId: roomId }).updateOne({$push: {messages: message}}); 
+        mongoose.connection.close(); 
+    } 
+    catch (error) {console.log(error)}
+}
