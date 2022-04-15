@@ -5,7 +5,7 @@ const EVENTS = {
         CONNECTED: 'CONNECTED',
         USER:'USER',
         CREATE_ROOM:'CREATE_ROOM',
-        SEND_ROOM_MSG:'SEND_ROOM_MSG',
+        SEND_MSG:'SEND_ROOM_MSG',
         JOIN_ROOM:'JOIN_ROOM',
         LEFT_ROOM:'LEFT_ROOM'
     },

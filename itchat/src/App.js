@@ -5,76 +5,106 @@ import Login from "./components/Login.js";
 
 import { UserContextProvider } from "./context/UserContext";
 import {SocketProvider, socket} from "./context/SocketContext";
-import getUser from "./services/userdata";
+import useLogin from './hooks/useLogin'
+import getUsers from "./services/getUsers";
+import getRooms from "./services/getRooms";
 
-const submit = (event) => {
-  event.preventDefault();
+
+const submit = (e) => {
+  e.preventDefault();
 }
 
 function Room() {
   const [rooms, setRooms] = useState([]);
   const [roomId, setRoomId] = useState('');
   const newRoomRef = useRef(null);
+  const joinRoomRef = useRef(null);
+  const jwt = window.sessionStorage.getItem('jwt');
+  const user = window.sessionStorage.getItem('nickname')
+  
 
   useEffect(() => {
-    socket.on(EVENTS.SERVER.ROOMS, (rooms) => {
-      setRooms({...rooms})
-    });
-    return () => {socket.off()};
-  },[rooms, setRooms]);
+    getRooms(jwt)
+    .then(response => {
+      // console.log(response)
+      setRooms(response.rooms)
+      
+    })
+  },[setRooms])
 
-  const  createRoom = (event) =>{ 
-    event.preventDefault();
+  const  createRoom = () =>{ 
+    // e.preventDefault();
     let room = newRoomRef.current.value || '';
     console.log(room)
     if(!String(room).trim()) return;
-
-    socket.on(EVENTS.SERVER.ROOMS, (rooms) => {
-      console.log('Escuchando salas del server', rooms)
-    })
-
-    socket.emit(EVENTS.CLIENT.CREATE_ROOM, {room})
+    socket.emit(EVENTS.CLIENT.CREATE_ROOM, room);
     room = '';
-
   }
-  // tryLogin() 
+
+  const joinRoom = () => {
+    socket.emit(EVENTS.CLIENT.JOIN_ROOM,  roomId, user);
+    window.sessionStorage.setItem('RoomNow', roomId);
+  }
 return (
-  <>
-      <label className='chat__title'>Create a Room</label>
-        <form onSubmit={submit}>
-            <input placeholder='Nombre de la sala' ref={newRoomRef}></input>
-              <button onClick={createRoom}>+</button>
-        </form>
-        <label className='chat__title'>Join a room</label>
-        {/* <form onSubmit={submit}>
-          <RoomList rooms={rooms} />
-        </form> */}
+  <>     
+    <form>
+        <label className='chat__title'>Create a Room</label>
+        <input type='text' placeholder='Nombre de la sala' ref={newRoomRef} />
+        <button onClick={createRoom}>+</button>
+    </form>
+    <form>
+        {/* <label className='chat__title'>Join a room</label> */}
+        <select onChange={(e) => setRoomId(e.target.value)}>
+        {rooms.map((e,i) => 
+            <option key={i} value={e.roomId}>
+            {e.roomName}
+            </option>
+          )}
+        </select>
+        <button onClick={joinRoom}>Join a room</button>
+    </form>
   </>
 )};
 
-function Feed({usersession}) {
-  let nombre = usersession;
-  const [mensaje, setMensaje] = useState("");
+function Feed({user, id}) {
+  let nick = user;
+  let idRoom = id;
+  const jwt = window.sessionStorage.getItem('jwt');
+  const [message, setMensaje] = useState("");
   const [mensajes, setMensajes] = useState([]);
-  
-  useEffect(() => {
-    socket.on("mensajes", (mensaje) => {
-      setMensajes([...mensajes, mensaje]);
-    });
+  socket.emit(EVENTS.CLIENT.JOIN_ROOM,  idRoom, nick)
 
-    // return () => {socket.off()};
+  useEffect ( () => {
+    getRooms(jwt)
+    .then(response => {
+      console.log(response)
+      let rooms = response.rooms
+      let roomNow = rooms.find(m => m.roomId === idRoom)
+      console.log(roomNow)
+      let msg = roomNow.messages 
+      console.log(msg)
+      let lastMsgs = msg.slice(-5)
+      console.log(lastMsgs)
+      setMensajes(lastMsgs)
+    })
+  },[setMensajes])
+
+  useEffect(() => {
+    socket.on("mensajes", (message) => {
+      setMensajes([...mensajes, message]);
+    });
   }, [mensajes]);
 
-
   useEffect(() => {
-    socket.emit(EVENTS.connection, nombre);
-  }, [nombre]);
+    socket.emit(EVENTS.connection, nick);
+    socket.emit(EVENTS.CLIENT.CONNECTED, idRoom, nick)
+  }, [user]);
   // const divRef = useRef(null);
   
   const handleMsg = (e) => {
     e.preventDefault();
-    socket.emit("mensaje", nombre, mensaje);
-    console.log(nombre, mensaje)
+    socket.emit("mensaje", idRoom, nick, message);
+    console.log(nick, message)
     setMensaje("");
   }
 
@@ -85,26 +115,44 @@ function Feed({usersession}) {
         <ul>
           {mensajes.map((e,i) => 
             <li key={i}>
-            <span>{e.nombre}</span>: <span>{e.mensaje}</span>
+            <span>{e.user}</span>: <span>{e.message}</span>
             </li>
           )}
         </ul>
       </div>
       <div>
           <form onSubmit={submit}>
-            <input type='text' placeholder={`Hola soy ${nombre}`} value={mensaje} onChange={(e) => setMensaje(e.target.value)}/>
+            <input type='text' placeholder={`Hola soy ${user}`} value={message} onChange={(e) => setMensaje(e.target.value)}/>
             <button onClick={handleMsg}>Enviar</button>
           </form>
         </div>
     </div>
 )};
 
-// function Users() {
-//   return (
-//     <div>
-//         <p>USUARIOS</p>
-//       </div>      
-// )};
+function Users() {
+  const jwt = window.sessionStorage.getItem('jwt');
+  const [users, setUsers] = useState([])
+  
+  useEffect(() => {
+    getUsers(jwt)
+    .then(response => {
+      console.log(response)
+      setUsers(response.users)
+    })
+  },[setUsers])
+
+  return (
+    <div>
+        <p>USUARIOS</p>
+        <ul>
+          {users.map((e,i) => 
+            <li key={i}>
+            <span>{e.nickname}</span>
+            </li>
+          )}
+        </ul>
+      </div>      
+)};
 
 // function App() {
 //   const [username, setUsername] = useState('');
@@ -120,10 +168,10 @@ function Feed({usersession}) {
 //     }
 //     setUsername(value);
 //     setLogin(true);
-//     localStorage.setItem('usuario',username);
+//     sessionStorage.setItem('usuario',username);
 //   }
 
-//   const usersession = localStorage.getItem('usuario')
+//   const usersession = sessionStorage.getItem('usuario')
 
 //   if(!usersession) {
 //     return (
@@ -149,9 +197,10 @@ function Feed({usersession}) {
 // }
 
 function App () {
-  const token = window.localStorage.getItem('jwt');
-  const usersession = window.localStorage.getItem('nickname');
-  
+  const token = window.sessionStorage.getItem('jwt');
+  const usersession = window.sessionStorage.getItem('nickname');
+  const idRoom = window.sessionStorage.getItem('RoomNow');
+
   if (!token) {
     return (
       <UserContextProvider>
@@ -161,8 +210,11 @@ function App () {
   }
   return (
     <>
-      <Room />
-      <Feed usersession={usersession}/>
+
+        <Room />
+        <Feed user={usersession} id={idRoom}/>
+        {/* <Users /> */}
+   
     </>
   )
 }

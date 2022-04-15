@@ -1,10 +1,12 @@
 import { Router } from "express";
+
 import { registerGet, registerPost, others, home, forbidden } from "../controllers/routes";
 import {getRooms, getUsers, getUser, postRooms} from '../controllers/chat';
 import { loginPost } from "../controllers/auth";
 import tokenValidation from '../middlewares/validate';
 import api from './path'
-import {messagesPut} from "../controllers/rooms";
+import { putMessages } from "../controllers/rooms";
+
 const router = Router();
 
 //Home
@@ -29,7 +31,7 @@ router.get(api.users, tokenValidation, getUsers)
 router.get(api.user, tokenValidation, getUser)  // Leer usuarios
 router.get(api.rooms, tokenValidation, getRooms) // Leer salas
 router.post(api.rooms, tokenValidation, postRooms) // Crear salas
-router.put(api.rooms, tokenValidation, messagesPut) // Crear salas
+router.put(api.rooms, tokenValidation, putMessages) // Crear salas
 
 // 404 
 router.get(api.others, others);

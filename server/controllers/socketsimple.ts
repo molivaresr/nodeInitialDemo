@@ -2,66 +2,91 @@ import { nanoid } from "nanoid";
 import { Server, Socket } from "socket.io";
 import EVENTS from '../config/events';
 import {messagesUpd}from '../controllers/chat';
-import {createRooms} from '../controllers/rooms';
+import {createRooms, readRooms} from '../controllers/rooms';
 
-let nombre: string;
-const rooms : Array<{id: string, name: string}> = new Array();
-const users : Array<{id: string, user:string, date:Date}> = new Array();
+
+// const rooms : Array<{id: string, name: string}> = new Array();
+const users : Array<{id: string, user:string}> = new Array();
 
 function socket ({io}:{io: Server}) {
-    
-    io.on("connection", (socket) => {
-        console.log(`Usuario conectado ${socket.id}`)
-        // nombre;
+    io.on(EVENTS.connection, (socket) => {
+      socket.on(EVENTS.disconnection,() => {})
+    })
 
-        //Crear salas REVISAR!
-        socket.emit(EVENTS.SERVER.ROOMS, rooms);      
-        //Usuario crea una sala
-        socket.on(EVENTS.CLIENT.CREATE_ROOM, ({room}) => {
-            // console.log({room})
-            const roomId = nanoid();  // Crear Id de la sala
-            createRooms(roomId, room)
-            socket.join(roomId);
-            socket.broadcast.emit(EVENTS.SERVER.ROOMS, rooms);
-            // console.log(rooms) // Avisar a todos que hay una nueva sala
-            socket.emit(EVENTS.SERVER.ROOMS, rooms); // Notifica al creador de la sala, todas las salas 
-            socket.emit(EVENTS.SERVER.JOINED_ROOM, roomId); // Avisa al creador de la sala que se a unido a la sala
-        });
-
-              //Envío de mensajes
-        socket.on(EVENTS.connection, (nomb) => {
-          nombre = nomb;
-
-          // console.log(users)
-          //socket.broadcast.emit manda el mensaje a todos los clientes excepto al que ha enviado el mensaje
-          socket.broadcast.emit("mensajes", {
-            nombre: nombre,
-            mensaje: ` ${nombre} ha entrado en la sala del chat`,
-            log: console.log(`${nombre} ha entrado`),
-          });
-        });
-      
-        socket.on("mensaje", (nombre, mensaje) => {
-          let message = {
-            user: nombre,
-            message: mensaje
+    io.sockets.on(EVENTS.connection, (socket) => {
+      let nombre: string;
+      //Usuarios se conectan a socket  
+      socket.on(EVENTS.CLIENT.CONNECTED, (nick:string) => {
+        try {
+          let loadUser = {
+            id: socket.id,
+            user: nick
           }
-          let roomId = '1234552'
-          //io.emit manda el mensaje a todos los clientes conectados al chat
-          console.log(`${nombre} -> ${mensaje}`)
-          io.emit("mensajes", { nombre, mensaje });
-          messagesUpd(roomId, message)
+          users.push(loadUser)
+          console.log(`User conectado ${nick} - ${socket.id}`)
+          }
+          catch(error) {
+            console.log(error)
+          } 
+          // console.log(users)
+         })
+         
+      //Usuario crea una sala
+      socket.on(EVENTS.CLIENT.CREATE_ROOM, (roomName:string) => {
 
+        const roomId = nanoid();  // Crear Id de la sala
+        createRooms(roomId, roomName)
+      });
+
+      //Usuario se una a una sala
+      socket.on(EVENTS.CLIENT.JOIN_ROOM,  (roomId:string, user:string)=>{
+      //   let rooms 
+      //   readRooms().then(response => {
+      //     rooms = response?.map((e) => e.roomId);
+      //     console.log(rooms)
+      //     return rooms
+      // }).catch(error => console.log(error));
+      
+      socket.join(roomId)
+      console.log(`User ${user} conectado a la sala ${roomId}`)
+      console.log(socket.rooms)
+      io.to(roomId).emit(`User ${user} conectado a la sala`)
+      });
+
+      //Envío de mensajes
+      socket.on(EVENTS.CLIENT.CONNECTED, (roomId: string, nick:string) => {
+        nombre = nick;
+        let message = {
+          user: nombre,
+          message: ` ${nombre} ha entrado`
+        }
+        console.log(`${nombre} ha entrado`),
+        //socket.broadcast.emit manda el mensaje a todos los clientes excepto al que ha enviado el mensaje
+        io.to(roomId).emit("mensajes", message);
         });
       
-        socket.on("disconnect", () => {
-            // console.log(socket.id)
-          io.emit("mensajes", {            
-            servidor: "Servidor",
-            mensaje: `${nombre} ha abandonado la sala`,
-            log: console.log(`${nombre} ha abandonado`),
-          });
-        });
+      socket.on("mensaje", (roomId:string, nombre:string, mensaje:string) => {
+        let message = {
+          user: nombre,
+          message: mensaje
+        }
+        //io.emit manda el mensaje a todos los clientes conectados al chat
+        console.log(`${roomId}: ${nombre} -> ${mensaje}`)
+        io.to(roomId).emit("mensajes", message);
+        messagesUpd(roomId, message)
+
       });
+      
+      socket.on("disconnect", (roomId: string, nick:string) => {
+        nombre = nick;
+        let message = {
+          user: nombre,
+          message: ` ${nombre} ha salido`
+        }
+        console.log(`${nombre} ha salido`),
+        //socket.broadcast.emit manda el mensaje a todos los clientes excepto al que ha enviado el mensaje
+        io.to(roomId).emit("mensajes", message);
+        });
+    });
 }
 export default socket;

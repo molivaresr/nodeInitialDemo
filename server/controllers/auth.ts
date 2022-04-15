@@ -8,6 +8,7 @@ import UserModel from '../models/users';
 
 const mongoURL = config.get<string>('mongodb'); 
 const key = config.get<string>('PRIVATEKEY')
+const mongoOpt = config.get<object>('mongoOpt');
 
 export const loginPost = async (req: Request, res: Response) => {
 
@@ -20,7 +21,7 @@ export const loginPost = async (req: Request, res: Response) => {
         let user 
        
             console.log('Intento 4 de inicio')
-            await mongoose.connect(mongoURL);
+            await mongoose.connect(mongoURL, mongoOpt);
              // Verificar email
             user = await UserModel.findOne({email:email})
             console.log('Intento 5 de inicio')                                 

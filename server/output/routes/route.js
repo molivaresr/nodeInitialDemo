@@ -30,7 +30,7 @@ router.get(path_1.default.users, validate_1.default, chat_1.getUsers);
 router.get(path_1.default.user, validate_1.default, chat_1.getUser); // Leer usuarios
 router.get(path_1.default.rooms, validate_1.default, chat_1.getRooms); // Leer salas
 router.post(path_1.default.rooms, validate_1.default, chat_1.postRooms); // Crear salas
-router.put(path_1.default.rooms, validate_1.default, rooms_1.messagesPut); // Crear salas
+router.put(path_1.default.rooms, validate_1.default, rooms_1.putMessages); // Crear salas
 // 404 
 router.get(path_1.default.others, routes_1.others);
 router.post(path_1.default.others, routes_1.others);

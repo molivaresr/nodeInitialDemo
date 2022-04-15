@@ -20,6 +20,7 @@ const config_1 = __importDefault(require("config"));
 const users_1 = __importDefault(require("../models/users"));
 const mongoURL = config_1.default.get('mongodb');
 const key = config_1.default.get('PRIVATEKEY');
+const mongoOpt = config_1.default.get('mongoOpt');
 const loginPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
     console.log(req.body.email);
@@ -28,7 +29,7 @@ const loginPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         console.log('Intento 2 de inicio');
         let user;
         console.log('Intento 4 de inicio');
-        yield mongoose_1.default.connect(mongoURL);
+        yield mongoose_1.default.connect(mongoURL, mongoOpt);
         // Verificar email
         user = yield users_1.default.findOne({ email: email });
         console.log('Intento 5 de inicio');

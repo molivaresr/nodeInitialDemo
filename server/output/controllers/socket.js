@@ -32,7 +32,7 @@ function socket({ io }) {
             socket.emit(events_1.default.SERVER.JOINED_ROOM, roomId); // Avisa al creador de la sala que se a unido a la sala
         });
         //Enviar un mensaje
-        socket.on(events_1.default.CLIENT.SEND_ROOM_MSG, ({ /* roomId, */ message, userName }) => {
+        socket.on(events_1.default.CLIENT.SEND_MSG, ({ /* roomId, */ message, userName }) => {
             const date = new Date();
             socket.emit(events_1.default.SERVER.ROOM_MSG, {
                 message,

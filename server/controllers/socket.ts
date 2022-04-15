@@ -42,7 +42,7 @@ function socket({io}:{io: Server}) {
         //Enviar un mensaje
 
         socket.on(
-            EVENTS.CLIENT.SEND_ROOM_MSG,
+            EVENTS.CLIENT.SEND_MSG,
             ({/* roomId, */ message, userName}) => { 
                 const date = new Date();
 

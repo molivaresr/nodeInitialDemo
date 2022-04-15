@@ -12,13 +12,13 @@ export default function useLogin () {
     // console.log(email, password)
     loginService(email, password)
       .then(sessionData => {
-        window.localStorage.setItem('nickname', sessionData.nickname)
-        window.localStorage.setItem('jwt', sessionData.token)
+        window.sessionStorage.setItem('nickname', sessionData.nickname)
+        window.sessionStorage.setItem('jwt', sessionData.token)
         setState({loading: false, error: false })
         setJWT(jwt)
       })
       .catch(err => {
-        window.localStorage.removeItem('jwt')
+        window.sessionStorage.removeItem('jwt')
         setState({loading: false, error: true })
         console.error(err)
       })
@@ -33,7 +33,7 @@ export default function useLogin () {
   // }, [jwt, setFavs]) 
 
   const logout = useCallback(() => {
-    window.localStorage.removeItem('jwt')
+    window.sessionStorage.removeItem('jwt')
     setJWT(null)
   }, [setJWT])
 
