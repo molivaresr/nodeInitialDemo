@@ -37,15 +37,10 @@ function socket({ io }) {
         });
         //Usuario se una a una sala
         socket.on(events_1.default.CLIENT.JOIN_ROOM, (roomId, user) => {
-            //   let rooms 
-            //   readRooms().then(response => {
-            //     rooms = response?.map((e) => e.roomId);
-            //     console.log(rooms)
-            //     return rooms
-            // }).catch(error => console.log(error));
             socket.join(roomId);
             console.log(`User ${user} conectado a la sala ${roomId}`);
             console.log(socket.rooms);
+            (0, chat_1.joinRoom)(roomId, user);
             io.to(roomId).emit(`User ${user} conectado a la sala`);
         });
         //Envío de mensajes

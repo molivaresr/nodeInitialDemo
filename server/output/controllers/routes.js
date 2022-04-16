@@ -67,6 +67,7 @@ const registerPost = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         if (!(findUser === null || findUser === void 0 ? void 0 : findUser.email)) {
             if (findName) {
                 let nicknameRepeated = newUser.nickname + `${users.length}`;
+                yield mongoose_1.default.connect(mongoURL, mongoOpt);
                 const user = new users_1.default({
                     nickname: nicknameRepeated,
                     email: newUser.email,
@@ -75,12 +76,13 @@ const registerPost = (req, res) => __awaiter(void 0, void 0, void 0, function* (
                     token: token
                 });
                 yield user.save();
-                mongoose_1.default.connection.close();
+                // mongoose.connection.close()
                 res.json({
                     msg: 'Tu nickname ya existe, pero te hemos sugerido uno! Podrás modificarlo luego',
                     nickname: nicknameRepeated
                 });
             }
+            yield mongoose_1.default.connect(mongoURL, mongoOpt);
             const user = new users_1.default({
                 nickname: newUser.nickname,
                 email: newUser.email,
@@ -89,7 +91,7 @@ const registerPost = (req, res) => __awaiter(void 0, void 0, void 0, function* (
                 token: token
             });
             yield user.save();
-            mongoose_1.default.connection.close();
+            // mongoose.connection.close()
             res.json({
                 msg: 'Usuario creado ',
             });
@@ -100,7 +102,7 @@ const registerPost = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
     catch (error) {
         console.log(error);
-        res.status(400).json({ msg: 'Petición erronéa' });
+        res.status(400);
     }
 });
 exports.registerPost = registerPost;

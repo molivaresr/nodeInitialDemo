@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
 import { Server, Socket } from "socket.io";
 import EVENTS from '../config/events';
-import {messagesUpd}from '../controllers/chat';
+import {joinRoom, messagesUpd}from '../controllers/chat';
 import {createRooms, readRooms} from '../controllers/rooms';
 
 
@@ -39,19 +39,14 @@ function socket ({io}:{io: Server}) {
       });
 
       //Usuario se una a una sala
-      socket.on(EVENTS.CLIENT.JOIN_ROOM,  (roomId:string, user:string)=>{
-      //   let rooms 
-      //   readRooms().then(response => {
-      //     rooms = response?.map((e) => e.roomId);
-      //     console.log(rooms)
-      //     return rooms
-      // }).catch(error => console.log(error));
-      
-      socket.join(roomId)
-      console.log(`User ${user} conectado a la sala ${roomId}`)
-      console.log(socket.rooms)
-      io.to(roomId).emit(`User ${user} conectado a la sala`)
-      });
+      socket.on(EVENTS.CLIENT.JOIN_ROOM,  (roomId:string, user:string)=>{ 
+        socket.join(roomId)
+        
+        console.log(`User ${user} conectado a la sala ${roomId}`)
+        console.log(socket.rooms)     
+        joinRoom(roomId, user)
+        io.to(roomId).emit(`User ${user} conectado a la sala`)
+        });
 
       //Envío de mensajes
       socket.on(EVENTS.CLIENT.CONNECTED, (roomId: string, nick:string) => {

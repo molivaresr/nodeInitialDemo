@@ -3,7 +3,6 @@ import mongoose, {connect} from "mongoose";
 import Joi from 'joi';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-
 import UserModel from "../models/users";
 
 import config from 'config';
@@ -61,42 +60,44 @@ export const registerPost = async (req: Request, res: Response) => {
         console.log(users)
         if(!findUser?.email) {
             if(findName) {
-        let nicknameRepeated = newUser.nickname + `${users.length}`;
-        const user = new UserModel({
-            nickname: nicknameRepeated,
+            let nicknameRepeated = newUser.nickname + `${users.length}`;
+            await mongoose.connect(mongoURL, mongoOpt);
+            const user = new UserModel({
+                nickname: nicknameRepeated,
+                email: newUser.email,
+                password: passwordHashed,
+                passport: passport,
+                token: token
+                });
+            await user.save();
+            // mongoose.connection.close()
+            res.json({
+                msg:'Tu nickname ya existe, pero te hemos sugerido uno! Podrás modificarlo luego',
+                nickname: nicknameRepeated
+                });
+            }
+            await mongoose.connect(mongoURL, mongoOpt);
+            const user = new UserModel({
+            nickname: newUser.nickname,
             email: newUser.email,
             password: passwordHashed,
             passport: passport,
             token: token
             });
-        await user.save();
-        mongoose.connection.close()
-        res.json({
-            msg:'Tu nickname ya existe, pero te hemos sugerido uno! Podrás modificarlo luego',
-            nickname: nicknameRepeated
-        });
-            }
-            const user = new UserModel({
-        nickname: newUser.nickname,
-        email: newUser.email,
-        password: passwordHashed,
-        passport: passport,
-        token: token
-        });
             await user.save();
-            mongoose.connection.close()
+            // mongoose.connection.close()
             res.json({
-        msg:'Usuario creado ',
+                msg:'Usuario creado ',
             });    
-    } else {
-        res.json({msg:'El email ya está en uso'})
+        } else {
+            res.json({msg:'El email ya está en uso'})
+            }
+        }
+        catch (error) {
+            console.log(error)
+            res.status(400)
         }
     }
-    catch (error) {
-        console.log(error)
-        res.status(400).json({msg:'Petición erronéa'})
-    }
-}
 
 
 export const forbidden = (req: Request, res:Response) => {

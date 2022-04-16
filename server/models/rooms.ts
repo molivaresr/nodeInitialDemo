@@ -30,25 +30,3 @@ const RoomModel = model<Rooms, RoomModelType>('Room', new Schema<Rooms, RoomMode
 }))
 
 export default RoomModel;
-
-// const doc = new RoomModel({});
-
-//Test BD
-// run().catch(err => console.log(err));
-
-// async function run():Promise<void> {
-//     await connect('mongodb://localhost:27017/itchat');
-
-//     const doc = new RoomModel({
-//             roomName: 'NodeJs',
-//             roomId: '9asdasd09',
-//             messages: [{
-//                 user: 'Bill',
-//                 message: 'Hola a todos!',
-//             }]
-//     });
-//     await doc.save();
-
-//     console.log(doc);
-//     mongoose.connection.close()
-// }

@@ -1,4 +1,9 @@
-import {Schema, model} from 'mongoose';
+import {Schema, Types, Model, model} from 'mongoose';
+
+interface Rooms {
+    _id: Types.ObjectId;
+   roomId: string;
+}
 
 interface User {
     nickname: string;
@@ -8,9 +13,17 @@ interface User {
     token: string,
     state: boolean;
     google: boolean;
+    rooms: Rooms[];
 }
 
-const schema = new Schema<User>({
+type UserDocumentProps = { 
+    messages: Types.DocumentArray<Rooms>
+}
+
+type UserModelType = Model<User, {}, UserDocumentProps>;
+
+const UserModel = model<User, UserModelType>('User', new Schema<User, UserModelType>({
+
     nickname: {
         type: String,
         required: true
@@ -40,25 +53,9 @@ const schema = new Schema<User>({
         type: Boolean,
         default: false
     },
-});
-
-const UserModel = model<User>('User', schema);
-
-//Test BD
-// run().catch((err:string) => console.log(err));
-
-// async function run(): Promise<void> {
-//     await connect('mongodb://localhost:27017/itchat');
-
-//     const doc = new UserModel({
-//         nickname: 'Bill',
-//         email: 'bill@itacademy.cat'
-//     })
-
-//     await doc.save();
-
-//     console.log(doc.email);
-//     mongoose.connection.close()
-// }
+    rooms:[new Schema<Rooms>({
+        roomId: String,
+    })]
+}))
 
 export default UserModel;

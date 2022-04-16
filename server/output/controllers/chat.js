@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.messagesUpd = exports.getRooms = exports.postRooms = exports.getUser = exports.getUsers = void 0;
+exports.messagesUpd = exports.joinRoom = exports.getRooms = exports.postRooms = exports.getUser = exports.getUsers = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const config_1 = __importDefault(require("config"));
 const users_1 = __importDefault(require("../models/users"));
@@ -120,24 +120,20 @@ const getRooms = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getRooms = getRooms;
-// export const putMessages = async (req: Request, res: Response) => {
-//     const { roomId, message} = req.body;
-//     try {      
-//         await mongoose.connect(mongoURL, mongoOpt);
-//         await RoomModel.findOne({roomId: roomId }).updateOne({$push: {messages: message}});
-//         // // mongoose.connection.close(); 
-//         res.json({
-//             msg:`Mensajes actualizados`,
-//     })
-//     } 
-//     catch (error) {
-//         console.log(error)
-//         res.status(400).json({
-//             msg:'Petición erronéa',
-//             type: 'No se pudo guardar los mensajes'
-//         })
-//     }
-// }
+const joinRoom = (roomId, user) => __awaiter(void 0, void 0, void 0, function* () {
+    let newRoomJoin = {
+        roomId: roomId
+    };
+    try {
+        yield mongoose_1.default.connect(mongoURL, mongoOpt);
+        yield users_1.default.findOne({ nickname: user }).updateOne({ $push: { rooms: newRoomJoin } });
+        // // mongoose.connection.close(); 
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.joinRoom = joinRoom;
 const messagesUpd = (roomId, message) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield mongoose_1.default.connect(mongoURL, mongoOpt);

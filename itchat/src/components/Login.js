@@ -1,11 +1,9 @@
-import React, { useState, useEffect, useRef} from "react";
+import React, { useEffect, useRef} from "react";
 import useLogin from '../hooks/useLogin'
 
-// import './Login.css'
-
 export default function Login({onLogin}) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
 //   const [, navigate] = useLocation()
   const {isLoginLoading, hasLoginError, login, isLogged} = useLogin();
   const userRef = useRef(null);

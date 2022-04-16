@@ -111,26 +111,19 @@ export const getRooms = async (req: Request, res: Response) => {
     }
 }
 
-// export const putMessages = async (req: Request, res: Response) => {
-//     const { roomId, message} = req.body;
-//     try {      
-//         await mongoose.connect(mongoURL, mongoOpt);
-
-//         await RoomModel.findOne({roomId: roomId }).updateOne({$push: {messages: message}});
-        
-//         // // mongoose.connection.close(); 
-//         res.json({
-//             msg:`Mensajes actualizados`,
-//     })
-//     } 
-//     catch (error) {
-//         console.log(error)
-//         res.status(400).json({
-//             msg:'Petición erronéa',
-//             type: 'No se pudo guardar los mensajes'
-//         })
-//     }
-// }
+export const joinRoom= async (roomId:string, user:string) => {
+    let newRoomJoin = {
+        roomId: roomId
+    }
+    try {      
+        await mongoose.connect(mongoURL, mongoOpt);
+        await UserModel.findOne({nickname:user}).updateOne({$push: {rooms: newRoomJoin}}); 
+        // // mongoose.connection.close(); 
+    } 
+    catch (error) {
+        console.log(error)
+    }
+}
 
 export const messagesUpd= async (roomId:string, message: object) => {
     try {      

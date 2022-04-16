@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
-const schema = new mongoose_1.Schema({
+const UserModel = (0, mongoose_1.model)('User', new mongoose_1.Schema({
     nickname: {
         type: String,
         required: true
@@ -31,19 +31,9 @@ const schema = new mongoose_1.Schema({
         type: Boolean,
         default: false
     },
-});
-const UserModel = (0, mongoose_1.model)('User', schema);
-//Test BD
-// run().catch((err:string) => console.log(err));
-// async function run(): Promise<void> {
-//     await connect('mongodb://localhost:27017/itchat');
-//     const doc = new UserModel({
-//         nickname: 'Bill',
-//         email: 'bill@itacademy.cat'
-//     })
-//     await doc.save();
-//     console.log(doc.email);
-//     mongoose.connection.close()
-// }
+    rooms: [new mongoose_1.Schema({
+            roomId: String,
+        })]
+}));
 exports.default = UserModel;
 //# sourceMappingURL=users.js.map

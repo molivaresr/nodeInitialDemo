@@ -22,7 +22,7 @@ export default function useLogin () {
         setState({loading: false, error: true })
         console.error(err)
       })
-  }, [setJWT])
+  }, [setJWT,jwt])
 
   // const addFav = useCallback(({id}) => {
   //   addFavService({id, jwt})
