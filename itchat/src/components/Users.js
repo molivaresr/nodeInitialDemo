@@ -5,7 +5,7 @@ import getUsers from '../services/getUsers';
 export default function Users({usersession, idRoom}) {
     const nick = usersession;
     const roomId = idRoom;
-    const jwt = window.sessionStorage.getItem('jwt');
+    const jwt = window.localStorage.getItem('jwt');
     const [users, setUsers] = useState([])
     
     // useEffect ( () => {

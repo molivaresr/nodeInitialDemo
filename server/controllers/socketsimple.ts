@@ -33,7 +33,7 @@ function socket ({io}:{io: Server}) {
          
       //Usuario crea una sala
       socket.on(EVENTS.CLIENT.CREATE_ROOM, (roomName:string) => {
-
+        socket.emit(EVENTS.CLIENT.CREATE_ROOM, roomName)
         const roomId = nanoid();  // Crear Id de la sala
         createRooms(roomId, roomName)
       });

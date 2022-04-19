@@ -14,17 +14,16 @@ export default function Room({usersession}) {
     const [roomId, setRoomId] = useState('');
     const newRoomRef = useRef(null);
 
-    const jwt = window.sessionStorage.getItem('jwt');
-    // const user = window.sessionStorage.getItem('nickname')
+    const jwt = window.localStorage.getItem('jwt');
+    // const user = window.localStorage.getItem('nickname')
     // console.log(jwt)
     useEffect(() => {
       getRooms(jwt)
       .then(response => {
         // console.log(response)
         setRooms(response.rooms)
-        
       })
-    },[setRooms,jwt])
+    },)
   
     const  createRoom = (e) =>{ 
       e.preventDefault();
@@ -32,13 +31,14 @@ export default function Room({usersession}) {
       console.log(room)
       if(!String(room).trim()) return;
       socket.emit(EVENTS.CLIENT.CREATE_ROOM, room);
+
       room = '';
     }
   
-    const joinRoom = (e) => {
-      e.preventDefault();
+    const joinRoom = () => {
+      
       socket.emit(EVENTS.CLIENT.JOIN_ROOM,  roomId, user);
-      window.sessionStorage.setItem('RoomNow', roomId);
+      window.localStorage.setItem('RoomNow', roomId);
     }
   return (
     <div className="rooms">     

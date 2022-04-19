@@ -32,6 +32,7 @@ function socket({ io }) {
         });
         //Usuario crea una sala
         socket.on(events_1.default.CLIENT.CREATE_ROOM, (roomName) => {
+            socket.emit(events_1.default.CLIENT.CREATE_ROOM, roomName);
             const roomId = (0, nanoid_1.nanoid)(); // Crear Id de la sala
             (0, rooms_1.createRooms)(roomId, roomName);
         });

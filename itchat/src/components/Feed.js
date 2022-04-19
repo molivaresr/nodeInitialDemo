@@ -1,8 +1,9 @@
-import React, {useEffect, useState}from 'react';
+import React, {useContext, useEffect, useState}from 'react';
 
 import Feed_style from '../styles/Feed_style.css'
 import EVENTS from "../config/events";
 import {socket} from "../context/SocketContext";
+import { UserContextProvider } from '../context/UserContext';
 import getRooms from '../services/getRooms';
 
 const submit = (e) => {
@@ -10,11 +11,12 @@ const submit = (e) => {
   }
 
 export default function Feed({user, roomId}) {
+    // const {jwt, nick } = useContext(UserContextProvider)
+
     let nick = user;
     let idRoom = roomId;
-
-    // let jwt = token;
-    const jwt = window.sessionStorage.getItem('jwt');
+    const jwt = window.localStorage.getItem('jwt');
+    
     const [roomTitle, setRoomTitle] = useState('')
     const [message, setMensaje] = useState('');
     const [mensajes, setMensajes] = useState([]);

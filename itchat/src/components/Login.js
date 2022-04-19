@@ -20,8 +20,6 @@ export default function Login({onLogin}) {
     e.preventDefault();
     const userValue = userRef.current.value
     const passValue = passRef.current.value
-  
-    // console.log(userValue, passValue);
     login(userValue, passValue)
     
   };

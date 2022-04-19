@@ -27,7 +27,7 @@ export const loginPost = async (req: Request, res: Response) => {
             console.log('Intento 5 de inicio')                                 
             if (!user) {
                 console.log('Intento 6 de inicio')
-                return res.status(400).json({
+                return res.json({
                     msg:'Usuario y/o Password incorrectos - email'
                 })
             }
