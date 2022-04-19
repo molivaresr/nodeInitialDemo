@@ -13,12 +13,10 @@ export default function login (email, password) {
     return fetch(`${api}/auth/login`, method)
     .then(response => response.json())
     .then(respuesta => {
-    //   localStorage.setItem('token', respuesta.token)
         let sessionData = {
             nickname : respuesta.user.nickname,
             token: respuesta.token
         }
-        
         return sessionData
     }).catch(err => console.log(err))
 }

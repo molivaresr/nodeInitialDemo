@@ -1,0 +1,42 @@
+.SplitPane {
+    width: 100%;
+    max-width: 1080px;
+    height: 100%;
+    margin: auto;
+  }
+  
+  .SplitPane-left {
+    float: left;
+    width: 20%;
+    height: 100%;
+  }
+  
+  .SplitPane-middle {
+    float: left;
+    width: 60%;
+    height: 100%;
+  }
+  
+  .SplitPane-right {
+    float: left;
+    width: 20%;
+    height: 100%;
+  }
+  
+  .Users {
+    width: 100%;
+    height: 100%; 
+    background: lightblue;
+  }
+  
+  .Chat {
+    width: 100%;
+    height: 100%; 
+    background: pink;
+  }
+  
+  .Rooms {
+    width: 100%;
+    height: 100%;
+    background: white;
+  }

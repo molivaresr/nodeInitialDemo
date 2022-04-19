@@ -1,4 +1,6 @@
 import React, {useEffect, useState}from 'react';
+
+import Feed_style from '../styles/Feed_style.css'
 import EVENTS from "../config/events";
 import {socket} from "../context/SocketContext";
 import getRooms from '../services/getRooms';
@@ -13,7 +15,8 @@ export default function Feed({user, roomId}) {
 
     // let jwt = token;
     const jwt = window.sessionStorage.getItem('jwt');
-    const [message, setMensaje] = useState("");
+    const [roomTitle, setRoomTitle] = useState('')
+    const [message, setMensaje] = useState('');
     const [mensajes, setMensajes] = useState([]);
     socket.emit(EVENTS.CLIENT.JOIN_ROOM,  idRoom, nick)
   
@@ -25,10 +28,13 @@ export default function Feed({user, roomId}) {
         let roomNow = rooms.find(m => m.roomId === idRoom)
         console.log(roomNow)
         let msg = roomNow.messages
-        if(msg.length != 1) {
+        let roomName = roomNow.roomName
+        setRoomTitle(roomName)
+        if(msg.length !== 1) {
           let lastMsgs = msg.slice(-5)
         console.log(lastMsgs)
         setMensajes(lastMsgs)
+      
         } else { 
           setMensajes([]) 
         }
@@ -55,19 +61,19 @@ export default function Feed({user, roomId}) {
     }
   
     return(
-      <div>
-        FEED
-        <div>
+      <div className='chat'>
+        <div><h2>Sala: {roomTitle}</h2></div>
+        <div className='chat__feed'>
           <ul>
             {mensajes.map((e,i) => 
-              <li key={i}>
-              <span>{e.user}</span>: <span>{e.message}</span>
+              <li key={i} className='chat__message'>
+              <span >{e.user}</span>: <span>{e.message}</span>
               </li>
             )}
           </ul>
         </div>
         <div>
-            <form onSubmit={submit}>
+            <form onSubmit={submit} className='chat__textBox'>
               <input type='text' placeholder={`Hola soy ${nick}`} value={message} onChange={(e) => setMensaje(e.target.value)}/>
               <button onClick={handleMsg}>Enviar</button>
             </form>

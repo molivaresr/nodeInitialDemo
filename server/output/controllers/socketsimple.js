@@ -60,7 +60,7 @@ function socket({ io }) {
                 message: mensaje
             };
             //io.emit manda el mensaje a todos los clientes conectados al chat
-            console.log(`${roomId}: ${nombre} -> ${mensaje}`);
+            // console.log(`${roomId}: ${nombre} -> ${mensaje}`)
             io.to(roomId).emit("mensajes", message);
             (0, chat_1.messagesUpd)(roomId, message);
         });

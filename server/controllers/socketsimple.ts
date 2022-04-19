@@ -41,12 +41,11 @@ function socket ({io}:{io: Server}) {
       //Usuario se una a una sala
       socket.on(EVENTS.CLIENT.JOIN_ROOM,  (roomId:string, user:string)=>{ 
         socket.join(roomId)
-        
         console.log(`User ${user} conectado a la sala ${roomId}`)
         console.log(socket.rooms)     
         joinRoom(roomId, user)
         io.to(roomId).emit(`User ${user} conectado a la sala`)
-        });
+      });
 
       //Envío de mensajes
       socket.on(EVENTS.CLIENT.CONNECTED, (roomId: string, nick:string) => {
@@ -66,7 +65,7 @@ function socket ({io}:{io: Server}) {
           message: mensaje
         }
         //io.emit manda el mensaje a todos los clientes conectados al chat
-        console.log(`${roomId}: ${nombre} -> ${mensaje}`)
+        // console.log(`${roomId}: ${nombre} -> ${mensaje}`)
         io.to(roomId).emit("mensajes", message);
         messagesUpd(roomId, message)
 

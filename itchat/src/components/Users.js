@@ -1,4 +1,5 @@
 import React, {useEffect, useState}from 'react';
+import Users_style from '../styles/Users_style.css'
 import getUsers from '../services/getUsers';
 
 export default function Users({usersession, idRoom}) {
@@ -25,21 +26,21 @@ export default function Users({usersession, idRoom}) {
     //     })
     //   },[setMensajes,jwt,idRoom])
 
-    useEffect(() => {
-      getUsers(jwt)
-      .then(response => {
-        console.log(response)
-        let users = response.users
-        console.log(users)
-        let roomUsers = users.map((e,i) => {e.rooms[i].roomId})
-        console.log(roomUsers)
-        // setUsers(response.users)
-      })
-    },[setUsers,jwt])
+    // useEffect(() => {
+    //   getUsers(jwt)
+    //   .then(response => {
+    //     console.log(response)
+    //     let users = response.users
+    //     console.log(users)
+    //     let roomUsers = users.map((e,i) => {e.rooms[i].roomId})
+    //     console.log(roomUsers)
+    //     // setUsers(response.users)
+    //   })
+    // },[setUsers,jwt])
   
     return (
-      <div>
-          <p>USUARIOS</p>
+      <div className='user'>
+          <h2>USUARIOS</h2>
           <ul>
             {users.map((e,i) => 
               <li key={i}>
