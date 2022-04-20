@@ -1,16 +1,18 @@
 import React, {useContext, useEffect, useState}from 'react';
 
-import Feed_style from '../styles/Feed_style.css'
 import EVENTS from "../config/events";
 import {socket} from "../context/SocketContext";
 import { UserContextProvider } from '../context/UserContext';
+
 import getRooms from '../services/getRooms';
+import '../styles/Feed_style.css'
 
 const submit = (e) => {
     e.preventDefault();
   }
 
 export default function Feed({user, roomId}) {
+  console.log('Render Feed');
     // const {jwt, nick } = useContext(UserContextProvider)
 
     let nick = user;
@@ -23,6 +25,7 @@ export default function Feed({user, roomId}) {
     socket.emit(EVENTS.CLIENT.JOIN_ROOM,  idRoom, nick)
   
     useEffect ( () => {
+      console.log('Feed 22')
       getRooms(jwt)
       .then(response => {
         console.log(response)
@@ -32,13 +35,14 @@ export default function Feed({user, roomId}) {
         let msg = roomNow.messages
         let roomName = roomNow.roomName
         setRoomTitle(roomName)
-        if(msg.length !== 1) {
-          let lastMsgs = msg.slice(-5)
+        msg.shift()
+        if(msg.length <= 5 ) {
+          let lastMsgs = msg
         console.log(lastMsgs)
         setMensajes(lastMsgs)
-      
         } else { 
-          setMensajes([]) 
+          let lastMsgs = msg.slice(-5)
+          setMensajes([lastMsgs]) 
         }
       })
     },[setMensajes,jwt,idRoom])

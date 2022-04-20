@@ -2,41 +2,40 @@ import React from "react";
 import { useState, useEffect, useRef } from "react";
 
 import EVENTS from "../config/events";
-import Rooms_style from '../styles/Rooms_style.css'
+import '../styles/Rooms_style.css'
 
 import {socket} from "../context/SocketContext";
 import getRooms from "../services/getRooms";
 
 export default function Room({usersession}) {
+  console.log('Render Room 1');
     // const jwt = token;
     const user = usersession;
     const [rooms, setRooms] = useState([]);
     const [roomId, setRoomId] = useState('');
+    const [room, setRoom] = useState('');
     const newRoomRef = useRef(null);
-
     const jwt = window.localStorage.getItem('jwt');
-    // const user = window.localStorage.getItem('nickname')
-    // console.log(jwt)
+
     useEffect(() => {
+      console.log('Render Room 22');
       getRooms(jwt)
       .then(response => {
-        // console.log(response)
-        setRooms(response.rooms)
+      setRooms(response.rooms)
       })
-    },)
+    },[jwt, room])
   
     const  createRoom = (e) =>{ 
-      e.preventDefault();
+      // e.preventDefault();
       let room = newRoomRef.current.value || '';
       console.log(room)
       if(!String(room).trim()) return;
       socket.emit(EVENTS.CLIENT.CREATE_ROOM, room);
-
       room = '';
+      setRoom(room)
     }
   
     const joinRoom = () => {
-      
       socket.emit(EVENTS.CLIENT.JOIN_ROOM,  roomId, user);
       window.localStorage.setItem('RoomNow', roomId);
     }

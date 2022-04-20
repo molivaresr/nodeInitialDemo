@@ -1,27 +1,27 @@
 import React, { useEffect, useRef} from "react";
+import {Navigate, useLocation, useNavigate} from 'react-router-dom';
 import useLogin from '../hooks/useLogin'
-import Login_Style from '../styles/Login_Style.css'
+import '../styles/Login_Style.css'
 
 export default function Login({onLogin}) {
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-//   const [, navigate] = useLocation()
+  const location = useLocation();
+  const navigate = useNavigate();
   const {isLoginLoading, hasLoginError, login, isLogged, } = useLogin();
   const userRef = useRef(null);
   const passRef = useRef(null);
+  
   useEffect(() => {
     if (isLogged) {
-    //   navigate('/')
+      navigate('/')
       onLogin && onLogin()
     }
-  }, [isLogged, /*navigate,*/ onLogin])
+  }, [isLogged, navigate, onLogin])
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const userValue = userRef.current.value
     const passValue = passRef.current.value
     login(userValue, passValue)
-    
   };
 
   return (

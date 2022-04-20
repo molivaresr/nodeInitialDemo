@@ -3,7 +3,8 @@ import Context from '../context/UserContext'
 import loginService from '../services/login'
 
 export default function useLogin () {
-  const {jwt, setJWT} = useContext(Context)
+  // console.log('Render UseLogin');
+  const {jwt, setJWT, nickname, setNickname} = useContext(Context)
   const [state, setState] = useState({ loading: false, error: false })
 
   const login = useCallback((email, password) => {
@@ -16,13 +17,14 @@ export default function useLogin () {
         window.localStorage.setItem('jwt', sessionData.token)
         setState({loading: false, error: false })
         setJWT(jwt)
+        setNickname(nickname)
       })
       .catch(err => {
         window.localStorage.removeItem('jwt')
         setState({loading: false, error: true })
         console.error(err)
       })
-  }, [setJWT,jwt])
+  }, [setJWT,jwt, setNickname, nickname])
 
   const logout = useCallback(() => {
     window.localStorage.removeItem('jwt')

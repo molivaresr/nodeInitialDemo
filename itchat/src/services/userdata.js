@@ -1,6 +1,7 @@
 import { chat } from "../config/default"
 
 export default function getUser (token) {
+    // console.log('Render getUser');
     console.log(token)
     const method = {
         method:'GET',

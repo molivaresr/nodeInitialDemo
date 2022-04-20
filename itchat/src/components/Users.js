@@ -1,8 +1,10 @@
 import React, {useEffect, useState}from 'react';
-import Users_style from '../styles/Users_style.css'
+
 import getUsers from '../services/getUsers';
+import '../styles/Users_style.css'
 
 export default function Users({usersession, idRoom}) {
+  console.log('Render Users');
     const nick = usersession;
     const roomId = idRoom;
     const jwt = window.localStorage.getItem('jwt');
