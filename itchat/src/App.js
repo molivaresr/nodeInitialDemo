@@ -1,4 +1,4 @@
-import React/* , { useState, useRef } */ from "react";
+import React, {useEffect, useState} /* , { useState, useRef } */ from "react";
 import {Routes, Route, BrowserRouter} from "react-router-dom";
 
 // import { UserContextProvider } from "./context/UserContext";
@@ -52,37 +52,52 @@ import {Routes, Route, BrowserRouter} from "react-router-dom";
 
 // RUTAS TEST
 // import LoginPage from './components/LoginForm'
+// import Login from './components/Login'
+// import RequiredAuth from './hooks/useAuth'
+// import { UserContextProvider } from "./context/UserContext";
+
+import useToken from "./hooks/useToken";
 import Login from './components/Login'
-import RequiredAuth from './hooks/useAuth'
 import Layout from "./pages/Layout";
 import Profile from "./pages/Profile";
 import Chat from "./pages/Chat";
-import NoPage from './pages/NoPage'
+import NoPage from './pages/NoPage';
 
-import { UserContextProvider } from "./context/UserContext";
 
   
-  export  function App() {
+function App() {
+  const [token, setToken] = useState('')
+
+  useEffect(() => {
+    setToken(window.localStorage.getItem('jwt'))
+    console.log(token)
+  },[token])
+  
+    if(!token) {
+      return <Login />
+    }
 
   return (
-    <BrowserRouter>
-      <UserContextProvider>
-          <Routes>
-            <Route path='/login' element={<Login />}/>
-            <Route path='/register' element={<Profile />}/>
-            <Route path="/" element={
-              <RequiredAuth>
-                  <Layout />
-              </RequiredAuth>  
-                }>
-              <Route index element={<Chat />} />
-                {/* <Route path="myaccount" element={<Profile />} /> */}
-              <Route path="*" element={<NoPage />} />
-            </Route>
-          </Routes>
-    
-      </UserContextProvider>
-    </BrowserRouter>
+    <>
+      <h1>iT Chat</h1>
+      <BrowserRouter>
+            {/* Menu */}
+            <Routes>
+
+                <Route path='/register' element={<Profile />}/>
+           
+              
+                <Route path='/login' element={<Login />}/>
+              
+              
+                <Route path="*" element={<NoPage />} />
+              
+              
+                <Route path="/chat" element={<Chat />} />
+              
+            </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 

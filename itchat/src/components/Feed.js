@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState}from 'react';
 
 import EVENTS from "../config/events";
 import {socket} from "../context/SocketContext";
-import { UserContextProvider } from '../context/UserContext';
+// import { UserContextProvider } from '../context/UserContext';
 
 import getRooms from '../services/getRooms';
 import '../styles/Feed_style.css'
@@ -13,7 +13,7 @@ const submit = (e) => {
 
 export default function Feed({user, roomId}) {
   console.log('Render Feed');
-    // const {jwt, nick } = useContext(UserContextProvider)
+
 
     let nick = user;
     let idRoom = roomId;
