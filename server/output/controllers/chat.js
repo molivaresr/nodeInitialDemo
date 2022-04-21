@@ -121,12 +121,15 @@ const getRooms = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.getRooms = getRooms;
 const joinRoom = (roomId, user) => __awaiter(void 0, void 0, void 0, function* () {
-    let newRoomJoin = {
-        roomId: roomId
-    };
     try {
         yield mongoose_1.default.connect(mongoURL, mongoOpt);
-        yield users_1.default.findOne({ nickname: user }).updateOne({ $push: { rooms: newRoomJoin } });
+        let findUser = yield rooms_1.default.findOne({ users: { user } });
+        if (findUser || !user) {
+            return;
+        }
+        else {
+            yield rooms_1.default.findOne({ roomId: roomId }).updateOne({ $push: { users: { user } } });
+        }
         // // mongoose.connection.close(); 
     }
     catch (error) {

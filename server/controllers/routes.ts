@@ -57,7 +57,7 @@ export const registerPost = async (req: Request, res: Response) => {
         let findUser = await UserModel.findOne({email:newUser.email});
             
         let token = jwt.sign({nickname: newUser.nickname, email: newUser.email, password: passport}, key);
-        console.log(users)
+        // console.log(users)
         if(!findUser?.email) {
             if(findName) {
             let nicknameRepeated = newUser.nickname + `${users.length}`;
@@ -72,10 +72,10 @@ export const registerPost = async (req: Request, res: Response) => {
             await user.save();
             // mongoose.connection.close()
             res.json({
-                msg:'Tu nickname ya existe, pero te hemos sugerido uno! Podrás modificarlo luego',
+                msg:'Tu nickname ya existe, te hemos sugerido uno! Podrás modificarlo luego',
                 nickname: nicknameRepeated
                 });
-            }
+            } else {
             await mongoose.connect(mongoURL, mongoOpt);
             const user = new UserModel({
             nickname: newUser.nickname,
@@ -87,8 +87,10 @@ export const registerPost = async (req: Request, res: Response) => {
             await user.save();
             // mongoose.connection.close()
             res.json({
-                msg:'Usuario creado ',
-            });    
+                msg:'Bienvenido!!!',
+                nickname: newUser.nickname
+            });
+            }    
         } else {
             res.json({msg:'El email ya está en uso'})
             }

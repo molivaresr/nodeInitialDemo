@@ -1,7 +1,7 @@
 import { api } from "../config/default"
 
 export default function login (email, password) {
-    console.log(email, password)
+    // console.log(email, password)
     const method = {
         method:'POST',
         mode:'cors',

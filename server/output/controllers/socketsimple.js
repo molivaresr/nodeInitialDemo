@@ -23,7 +23,8 @@ function socket({ io }) {
                     user: nick
                 };
                 users.push(loadUser);
-                console.log(`User conectado ${nick} - ${socket.id}`);
+                console.log(`User:${loadUser.user} - Id: ${loadUser.id}`);
+                console.log(users);
             }
             catch (error) {
                 console.log(error);
@@ -42,7 +43,7 @@ function socket({ io }) {
             console.log(`User ${user} conectado a la sala ${roomId}`);
             console.log(socket.rooms);
             (0, chat_1.joinRoom)(roomId, user);
-            io.to(roomId).emit(`User ${user} conectado a la sala`);
+            io.to(roomId).emit(user);
         });
         //Envío de mensajes
         socket.on(events_1.default.CLIENT.CONNECTED, (roomId, nick) => {
@@ -51,9 +52,9 @@ function socket({ io }) {
                 user: nombre,
                 message: ` ${nombre} ha entrado`
             };
-            console.log(`${nombre} ha entrado`),
-                //socket.broadcast.emit manda el mensaje a todos los clientes excepto al que ha enviado el mensaje
-                io.to(roomId).emit("mensajes", message);
+            // console.log(`${nombre} ha entrado`),
+            //socket.broadcast.emit manda el mensaje a todos los clientes excepto al que ha enviado el mensaje
+            io.to(roomId).emit("mensajes", message);
         });
         socket.on("mensaje", (roomId, nombre, mensaje) => {
             let message = {
@@ -61,7 +62,7 @@ function socket({ io }) {
                 message: mensaje
             };
             //io.emit manda el mensaje a todos los clientes conectados al chat
-            // console.log(`${roomId}: ${nombre} -> ${mensaje}`)
+            console.log(`${roomId}: ${nombre} -> ${mensaje}`);
             io.to(roomId).emit("mensajes", message);
             (0, chat_1.messagesUpd)(roomId, message);
         });

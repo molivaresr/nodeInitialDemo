@@ -1,5 +1,5 @@
 import { Outlet, Link } from "react-router-dom";
-
+import Chat from './Chat'
 const Layout = () => {
   return (
     <>
@@ -18,7 +18,7 @@ const Layout = () => {
           </li>
         </ul>
       </nav>
-
+      <div><Chat /></div>
       <Outlet />
     </>
   )

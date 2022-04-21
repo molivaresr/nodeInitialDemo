@@ -1,5 +1,7 @@
-const Register = () => {
-    return <h1>Registro</h1>;
+import Register from "../components/Register";
+
+const RegisterPage = () => {
+    return <Register/>
   };
   
-  export default Register;
+  export default RegisterPage;

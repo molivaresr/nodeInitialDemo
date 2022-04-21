@@ -7,7 +7,9 @@ const RoomModel = (0, mongoose_1.model)('Room', new mongoose_1.Schema({
     messages: [new mongoose_1.Schema({
             user: String,
             message: String,
-            // date: new Date()
+        })],
+    users: [new mongoose_1.Schema({
+            user: String
         })]
 }));
 exports.default = RoomModel;

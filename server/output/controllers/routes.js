@@ -63,7 +63,7 @@ const registerPost = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         let findName = yield users_1.default.findOne({ nickname: newUser.nickname });
         let findUser = yield users_1.default.findOne({ email: newUser.email });
         let token = jsonwebtoken_1.default.sign({ nickname: newUser.nickname, email: newUser.email, password: passport }, key);
-        console.log(users);
+        // console.log(users)
         if (!(findUser === null || findUser === void 0 ? void 0 : findUser.email)) {
             if (findName) {
                 let nicknameRepeated = newUser.nickname + `${users.length}`;
@@ -78,23 +78,26 @@ const registerPost = (req, res) => __awaiter(void 0, void 0, void 0, function* (
                 yield user.save();
                 // mongoose.connection.close()
                 res.json({
-                    msg: 'Tu nickname ya existe, pero te hemos sugerido uno! Podrás modificarlo luego',
+                    msg: 'Tu nickname ya existe, te hemos sugerido uno! Podrás modificarlo luego',
                     nickname: nicknameRepeated
                 });
             }
-            yield mongoose_1.default.connect(mongoURL, mongoOpt);
-            const user = new users_1.default({
-                nickname: newUser.nickname,
-                email: newUser.email,
-                password: passwordHashed,
-                passport: passport,
-                token: token
-            });
-            yield user.save();
-            // mongoose.connection.close()
-            res.json({
-                msg: 'Usuario creado ',
-            });
+            else {
+                yield mongoose_1.default.connect(mongoURL, mongoOpt);
+                const user = new users_1.default({
+                    nickname: newUser.nickname,
+                    email: newUser.email,
+                    password: passwordHashed,
+                    passport: passport,
+                    token: token
+                });
+                yield user.save();
+                // mongoose.connection.close()
+                res.json({
+                    msg: 'Bienvenido!!!',
+                    nickname: newUser.nickname
+                });
+            }
         }
         else {
             res.json({ msg: 'El email ya está en uso' });

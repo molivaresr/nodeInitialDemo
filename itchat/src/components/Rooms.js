@@ -7,15 +7,16 @@ import '../styles/Rooms_style.css'
 import {socket} from "../context/SocketContext";
 import getRooms from "../services/getRooms";
 
-export default function Room({usersession}) {
+export default function Room(/* {usersession} */) {
   console.log('Render Room 1');
     // const jwt = token;
-    const user = usersession;
+    // const user = usersession;
     const [rooms, setRooms] = useState([]);
     const [roomId, setRoomId] = useState('');
     const [room, setRoom] = useState('');
     const newRoomRef = useRef(null);
     const jwt = window.localStorage.getItem('jwt');
+    const user = window.localStorage.getItem('nickname');
 
     useEffect(() => {
       console.log('Render Room 22');

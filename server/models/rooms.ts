@@ -6,15 +6,23 @@ interface Messages {
     message: string;
 }
 
+interface Users {
+    _id: Types.ObjectId;
+    user: string;
+
+}
+
 interface Rooms {
     _id: Types.ObjectId;
     roomName: String;
     roomId: String;
     messages: Messages[]
+    users: Users[]
 }
 
 type RoomDocumentProps = { 
     messages: Types.DocumentArray<Messages>
+    users: Types.DocumentArray<Users>
 }
 
 type RoomModelType = Model<Rooms, {}, RoomDocumentProps>;
@@ -25,7 +33,9 @@ const RoomModel = model<Rooms, RoomModelType>('Room', new Schema<Rooms, RoomMode
     messages: [new Schema<Messages>({
         user: String,
         message: String,
-        // date: new Date()
+    })],
+    users: [new Schema<Users>({
+        user: String
     })]
 }))
 

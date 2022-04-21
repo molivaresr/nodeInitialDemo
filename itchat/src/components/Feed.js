@@ -13,8 +13,6 @@ const submit = (e) => {
 
 export default function Feed({user, roomId}) {
   console.log('Render Feed');
-
-
     let nick = user;
     let idRoom = roomId;
     const jwt = window.localStorage.getItem('jwt');
@@ -22,7 +20,7 @@ export default function Feed({user, roomId}) {
     const [roomTitle, setRoomTitle] = useState('')
     const [message, setMensaje] = useState('');
     const [mensajes, setMensajes] = useState([]);
-    socket.emit(EVENTS.CLIENT.JOIN_ROOM,  idRoom, nick)
+    // socket.on(EVENTS.CLIENT.JOIN_ROOM,  idRoom, nick)
   
     useEffect ( () => {
       console.log('Feed 22')
@@ -55,7 +53,7 @@ export default function Feed({user, roomId}) {
   
     useEffect(() => {
       socket.emit(EVENTS.connection, nick);
-      socket.emit(EVENTS.CLIENT.CONNECTED, idRoom, nick)
+      socket.emit(EVENTS.CLIENT.CONNECTED, idRoom, nick);
     }, [nick,idRoom]);
     // const divRef = useRef(null);
     
