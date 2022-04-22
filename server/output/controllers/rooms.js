@@ -30,7 +30,7 @@ const readRooms = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.readRooms = readRooms;
-const createRooms = (roomId, roomName) => __awaiter(void 0, void 0, void 0, function* () {
+const createRooms = (roomName) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield mongoose_1.default.connect(mongoURL, mongoOpt);
         const rooms = yield rooms_1.default.find({});
@@ -38,21 +38,22 @@ const createRooms = (roomId, roomName) => __awaiter(void 0, void 0, void 0, func
         if (!(findRoom === null || findRoom === void 0 ? void 0 : findRoom.roomName)) {
             const room = new rooms_1.default({
                 roomName: roomName,
-                roomId: roomId,
                 messages: {},
             });
             yield room.save();
-            // mongoose.connect(mongoURL, mongoOpt);
+            let newRooms = yield rooms_1.default.find({});
+            return newRooms;
         }
         else {
             let repeatedRoom = findRoom.roomName + `${rooms.length + 1}`;
             const room = new rooms_1.default({
                 roomName: repeatedRoom,
-                roomId: roomId,
                 messages: {},
             });
             yield room.save();
             // mongoose.connect(mongoURL, mongoOpt);
+            let newRooms = yield rooms_1.default.find({});
+            return newRooms;
         }
     }
     catch (error) {

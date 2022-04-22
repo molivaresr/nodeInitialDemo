@@ -12,7 +12,7 @@ const EVENTS = {
     SERVER:{
         CONNECTED: 'CONNECTED',
         USER:'USER',
-        ROOMS:'ROOMS',
+        CREATED_ROOM:'CREATED_ROOM',
         ROOM_MSG: 'ROOM_MSG',
         JOINED_ROOM:'JOINED_ROOM',
         LEFT_ROOM:'LEFT_ROOM'

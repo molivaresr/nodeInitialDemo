@@ -1,9 +1,17 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const nanoid_1 = require("nanoid");
 const events_1 = __importDefault(require("../config/events"));
 const chat_1 = require("../controllers/chat");
 const rooms_1 = require("../controllers/rooms");
@@ -16,66 +24,69 @@ function socket({ io }) {
     io.sockets.on(events_1.default.connection, (socket) => {
         let nombre;
         //Usuarios se conectan a socket  
-        socket.on(events_1.default.CLIENT.CONNECTED, (nick) => {
-            try {
-                let loadUser = {
-                    id: socket.id,
-                    user: nick
-                };
-                users.push(loadUser);
-                console.log(`User:${loadUser.user} - Id: ${loadUser.id}`);
-                console.log(users);
+        socket.on(events_1.default.CLIENT.CONNECTED, (user) => {
+            let newUser = users.find(u => u.user === user);
+            if (!newUser) {
+                try {
+                    let loadUser = {
+                        id: socket.id,
+                        user: user
+                    };
+                    users.push(loadUser);
+                    console.log(`User:${loadUser.user} - Id: ${loadUser.id}`);
+                    console.log(users);
+                }
+                catch (error) {
+                    console.log(error);
+                }
             }
-            catch (error) {
-                console.log(error);
+            else {
+                for (let i = 0; i < users.length; i++) {
+                    if (users[i].user === user) {
+                        io.to(users[i].id).emit('disconnectOldUser');
+                        users.splice(i, 1);
+                    }
+                }
             }
-            // console.log(users)
         });
         //Usuario crea una sala
-        socket.on(events_1.default.CLIENT.CREATE_ROOM, (roomName) => {
-            socket.emit(events_1.default.CLIENT.CREATE_ROOM, roomName);
-            const roomId = (0, nanoid_1.nanoid)(); // Crear Id de la sala
-            (0, rooms_1.createRooms)(roomId, roomName);
-        });
+        socket.on(events_1.default.CLIENT.CREATE_ROOM, (roomName) => __awaiter(this, void 0, void 0, function* () {
+            let rooms = yield (0, rooms_1.createRooms)(roomName);
+            socket.broadcast.emit(events_1.default.SERVER.CREATED_ROOM, rooms);
+        }));
         //Usuario se una a una sala
-        socket.on(events_1.default.CLIENT.JOIN_ROOM, (roomId, user) => {
-            socket.join(roomId);
-            console.log(`User ${user} conectado a la sala ${roomId}`);
+        socket.on(events_1.default.CLIENT.JOIN_ROOM, (roomId, user) => __awaiter(this, void 0, void 0, function* () {
+            yield (0, chat_1.joinRoom)(roomId, user);
+            let [, oldRoom] = socket.rooms;
+            socket.join(roomId, user);
             console.log(socket.rooms);
-            (0, chat_1.joinRoom)(roomId, user);
-            io.to(roomId).emit(user);
-        });
-        //Envío de mensajes
-        socket.on(events_1.default.CLIENT.CONNECTED, (roomId, nick) => {
-            nombre = nick;
+            console.log(`User ${user} conectado a la sala ${roomId}`);
             let message = {
-                user: nombre,
-                message: ` ${nombre} ha entrado`
+                user: user,
+                message: 'Online'
             };
-            // console.log(`${nombre} ha entrado`),
-            //socket.broadcast.emit manda el mensaje a todos los clientes excepto al que ha enviado el mensaje
-            io.to(roomId).emit("mensajes", message);
-        });
-        socket.on("mensaje", (roomId, nombre, mensaje) => {
+            io.to(roomId).emit("mensajes", message); // Avisa que usuario esta online
+        }));
+        //Envío de mensajes
+        socket.on("mensaje", (roomId, nombre, mensaje) => __awaiter(this, void 0, void 0, function* () {
             let message = {
                 user: nombre,
                 message: mensaje
             };
-            //io.emit manda el mensaje a todos los clientes conectados al chat
-            console.log(`${roomId}: ${nombre} -> ${mensaje}`);
+            console.log(message);
             io.to(roomId).emit("mensajes", message);
-            (0, chat_1.messagesUpd)(roomId, message);
-        });
-        socket.on("disconnect", (roomId, nick) => {
-            nombre = nick;
-            let message = {
-                user: nombre,
-                message: ` ${nombre} ha salido`
-            };
-            console.log(`${nombre} ha salido`),
-                //socket.broadcast.emit manda el mensaje a todos los clientes excepto al que ha enviado el mensaje
-                io.to(roomId).emit("mensajes", message);
-        });
+            let msgs = yield (0, chat_1.messagesUpd)(roomId, message);
+            socket.emit(events_1.default.SERVER.ROOM_MSG, msgs);
+        }));
+        // socket.on(EVENTS.CLIENT.LEFT_ROOM, (roomId: string, user:string) => { // Avisa que el usuario ha salido
+        //   let message = {
+        //     user: user,
+        //     message: `${user} Offline`
+        //   }
+        //   console.log(`${user} ha salido`),
+        //   //socket.broadcast.emit manda el mensaje a todos los clientes excepto al que ha enviado el mensaje
+        //   socket.broadcast.emit("mensajes", message);
+        //   });
     });
 }
 exports.default = socket;

@@ -16,72 +16,73 @@ function socket ({io}:{io: Server}) {
     io.sockets.on(EVENTS.connection, (socket) => {
       let nombre: string;
       //Usuarios se conectan a socket  
-      socket.on(EVENTS.CLIENT.CONNECTED, (nick:string) => {
-        try {
-          let loadUser = {
-            id: socket.id,
-            user: nick
+      socket.on(EVENTS.CLIENT.CONNECTED, (user:string) => {
+        let newUser = users.find(u => u.user === user)
+        if(!newUser) {
+          try {
+            let loadUser = {
+              id: socket.id,
+              user: user
+            }
+            users.push(loadUser)
+            console.log(`User:${loadUser.user} - Id: ${loadUser.id}`)
+            console.log(users)
+            }
+            catch(error) {
+              console.log(error)
+            } 
+        } else { 
+          for (let i = 0; i < users.length; i++) {
+            if (users[i].user === user) {
+                io.to(users[i].id).emit('disconnectOldUser');
+                users.splice(i, 1)
+            }
           }
-          users.push(loadUser)
-          console.log(`User:${loadUser.user} - Id: ${loadUser.id}`)
-          console.log(users)
-          }
-          catch(error) {
-            console.log(error)
-          } 
-          // console.log(users)
-         })
+        }
+      })
          
       //Usuario crea una sala
-      socket.on(EVENTS.CLIENT.CREATE_ROOM, (roomName:string) => {
-        socket.emit(EVENTS.CLIENT.CREATE_ROOM, roomName)
-        const roomId = nanoid();  // Crear Id de la sala
-        createRooms(roomId, roomName)
+      socket.on(EVENTS.CLIENT.CREATE_ROOM, async (roomName:string) => {
+        let rooms = await createRooms(roomName);
+        socket.broadcast.emit(EVENTS.SERVER.CREATED_ROOM, rooms)
       });
 
       //Usuario se una a una sala
-      socket.on(EVENTS.CLIENT.JOIN_ROOM,  (roomId:string, user:string)=>{ 
-        socket.join(roomId)
-        console.log(`User ${user} conectado a la sala ${roomId}`)
-        console.log(socket.rooms)     
-        joinRoom(roomId, user)
-        io.to(roomId).emit(user)
+      socket.on(EVENTS.CLIENT.JOIN_ROOM, async (roomId:string, user:string)=>{ 
+        await joinRoom(roomId, user)
+        let [, oldRoom] = socket.rooms
+        socket.join(roomId, user)
+        console.log(socket.rooms)
+        console.log(`User ${user} conectado a la sala ${roomId}`) 
+        let message = {
+          user: user,
+          message: 'Online'
+        }
+        io.to(roomId).emit("mensajes", message); // Avisa que usuario esta online
       });
 
       //Envío de mensajes
-      socket.on(EVENTS.CLIENT.CONNECTED, (roomId: string, nick:string) => {
-        nombre = nick;
-        let message = {
-          user: nombre,
-          message: ` ${nombre} ha entrado`
-        }
-        // console.log(`${nombre} ha entrado`),
-        //socket.broadcast.emit manda el mensaje a todos los clientes excepto al que ha enviado el mensaje
-        io.to(roomId).emit("mensajes", message);
-        });
-      
-      socket.on("mensaje", (roomId:string, nombre:string, mensaje:string) => {
+       
+      socket.on("mensaje", async (roomId:string, nombre:string, mensaje:string) => { //Envia Mensaje a la sala
         let message = {
           user: nombre,
           message: mensaje
         }
-        //io.emit manda el mensaje a todos los clientes conectados al chat
-        console.log(`${roomId}: ${nombre} -> ${mensaje}`)
+        console.log(message)     
         io.to(roomId).emit("mensajes", message);
-        messagesUpd(roomId, message)
-
+        let msgs = await messagesUpd(roomId, message);
+        socket.emit(EVENTS.SERVER.ROOM_MSG, msgs)
       });
-      
-      socket.on("disconnect", (roomId: string, nick:string) => {
-        nombre = nick;
-        let message = {
-          user: nombre,
-          message: ` ${nombre} ha salido`
-        }
-        console.log(`${nombre} ha salido`),
-        //socket.broadcast.emit manda el mensaje a todos los clientes excepto al que ha enviado el mensaje
-        io.to(roomId).emit("mensajes", message);
-        });
+ 
+      // socket.on(EVENTS.CLIENT.LEFT_ROOM, (roomId: string, user:string) => { // Avisa que el usuario ha salido
+      //   let message = {
+      //     user: user,
+      //     message: `${user} Offline`
+      //   }
+      //   console.log(`${user} ha salido`),
+      //   //socket.broadcast.emit manda el mensaje a todos los clientes excepto al que ha enviado el mensaje
+      //   socket.broadcast.emit("mensajes", message);
+      //   });
     });
 }
 export default socket;

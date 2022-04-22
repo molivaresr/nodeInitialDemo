@@ -7,24 +7,33 @@ import '../styles/Rooms_style.css'
 import {socket} from "../context/SocketContext";
 import getRooms from "../services/getRooms";
 
-export default function Room(/* {usersession} */) {
-  console.log('Render Room 1');
-    // const jwt = token;
-    // const user = usersession;
+export default function Room({user, jwt}) {
+    const nick = user;
     const [rooms, setRooms] = useState([]);
     const [roomId, setRoomId] = useState('');
     const [room, setRoom] = useState('');
     const newRoomRef = useRef(null);
-    const jwt = window.localStorage.getItem('jwt');
-    const user = window.localStorage.getItem('nickname');
+    console.log(nick)
+    
+    useEffect(() => {//Actualiza cuando se escucha el nuevo evento CREAR desde otros Clientes
+      socket.on(EVENTS.SERVER.CREATED_ROOM, (rooms) => {
+        console.log(rooms)
+        getRooms(jwt)
+          .then(response => {
+          setRooms(response.rooms)
+        })
+      });
+      return () => {
+      socket.off();
+      };
+  },[rooms, jwt]);
 
     useEffect(() => {
-      console.log('Render Room 22');
       getRooms(jwt)
       .then(response => {
       setRooms(response.rooms)
       })
-    },[jwt, room])
+    },[jwt])
   
     const  createRoom = (e) =>{ 
       // e.preventDefault();
@@ -33,11 +42,14 @@ export default function Room(/* {usersession} */) {
       if(!String(room).trim()) return;
       socket.emit(EVENTS.CLIENT.CREATE_ROOM, room);
       room = '';
+      console.log(room)
       setRoom(room)
     }
   
     const joinRoom = () => {
+    
       socket.emit(EVENTS.CLIENT.JOIN_ROOM,  roomId, user);
+      console.log(roomId)
       window.localStorage.setItem('RoomNow', roomId);
     }
   return (
@@ -48,15 +60,15 @@ export default function Room(/* {usersession} */) {
           <button onClick={createRoom}>+</button>
       </form>
       <form>
-          <label><h2>Join a room</h2></label>
+          <label><h2>Unirse a una sala</h2></label>
           <select onChange={(e) => setRoomId(e.target.value)}>
-          {rooms.map((e,i) => 
-              <option key={i} value={e.roomId}>
+          {rooms.map((e) => 
+              <option key={e._id} value={e._id}>
               {e.roomName}
               </option>
             )}
           </select>
-          <button onClick={joinRoom}>Join a room</button>
+          <button onClick={joinRoom}>Unete!</button>
       </form>
     </div>
   )};

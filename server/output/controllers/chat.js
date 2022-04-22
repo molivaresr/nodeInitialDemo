@@ -121,6 +121,7 @@ const getRooms = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.getRooms = getRooms;
 const joinRoom = (roomId, user) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log('Function JoinRoom', roomId, user);
     try {
         yield mongoose_1.default.connect(mongoURL, mongoOpt);
         let findUser = yield rooms_1.default.findOne({ users: { user } });
@@ -140,8 +141,10 @@ exports.joinRoom = joinRoom;
 const messagesUpd = (roomId, message) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield mongoose_1.default.connect(mongoURL, mongoOpt);
-        yield rooms_1.default.findOne({ roomId: roomId }).updateOne({ $push: { messages: message } });
+        yield rooms_1.default.findOne({ _id: roomId }).updateOne({ $push: { messages: message } });
+        const msgs = yield rooms_1.default.findById(roomId, 'messages');
         // // mongoose.connection.close(); 
+        return msgs;
     }
     catch (error) {
         console.log(error);

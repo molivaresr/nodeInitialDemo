@@ -8,48 +8,51 @@ import RegisterPage from "./pages/Register";
 
 import NoPage from './pages/NoPage';
 
+import Chat from "./components/Chat";
+export default function App () {
+  return <Chat />
 
+}  
+// function App() {
+//   const [token, setToken] = useState('')
   
-function App() {
-  const [token, setToken] = useState('')
-
-  useEffect(() => {
-    setToken(window.localStorage.getItem('jwt'))
-    console.log(token)
-  },[token])
+//   useEffect(() => {
+//     setToken(window.localStorage.getItem('jwt'))
+//     console.log(token)
+//   },[token])
   
-    if(!token) {
-      return (
-        <BrowserRouter>
-          <Routes>
-              <Route path='/register' element={<RegisterPage/>}/>  
-              <Route path='/login' element={<LoginPage/>}/>
-              <Route path='/' element={<LoginPage/>}/> 
-              <Route path="*" element={<LoginPage/>} />     
-          </Routes>
-        </BrowserRouter>
-  )}
+//     if(!token) {
+//       return (
+//         <BrowserRouter>
+//           <Routes>
+//               <Route path='/register' element={<RegisterPage/>}/>  
+//               <Route path='/login' element={<LoginPage/>}/>
+//               <Route path='/' element={<LoginPage/>}/> 
+//               <Route path="*" element={<LoginPage/>} />     
+//           </Routes>
+//         </BrowserRouter>
+//   )}
 
-  return (
-    <>
-      <BrowserRouter>
-            {/* Menu */}
-            <Routes>
+//   return (
+//     <>
+//       <BrowserRouter>
+//             {/* Menu */}
+//             <Routes>
 
-                <Route path='/register' element={<RegisterPage/>}/>
+//                 <Route path='/register' element={<RegisterPage/>}/>
                       
-                <Route path='/login' element={<LoginPage/>}/>
+//                 <Route path='/login' element={<LoginPage/>}/>
              
-                <Route path="/" element={<Layout/>} />
+//                 <Route path="/" element={<Layout/>} />
 
-                <Route path="*" element={<NoPage/>} />
+//                 <Route path="*" element={<NoPage/>} />
               
-            </Routes>
-      </BrowserRouter>
-    </>
-  );
-}
+//             </Routes>
+//       </BrowserRouter>
+//     </>
+//   );
+// }
 
 
-export default App;
+// export default App;
 

@@ -21,7 +21,7 @@ function socket({io}:{io: Server}) {
         //     socket.broadcast.emit(EVENTS.SERVER.USER, user)
         // })
         
-        socket.emit(EVENTS.SERVER.ROOMS, rooms);      
+        socket.emit(EVENTS.SERVER.CREATED_ROOM, rooms);      
         //Usuario crea una sala
         socket.on(EVENTS.CLIENT.CREATE_ROOM, ({roomName}) => {
             console.log({roomName})
@@ -33,9 +33,9 @@ function socket({io}:{io: Server}) {
             
             socket.join(roomId);
             
-            socket.broadcast.emit(EVENTS.SERVER.ROOMS, rooms);
+            socket.broadcast.emit(EVENTS.SERVER.CREATED_ROOM, rooms);
             console.log(rooms) // Avisar a todos que hay una nueva sala
-            socket.emit(EVENTS.SERVER.ROOMS, rooms); // Notifica al creador de la sala, todas las salas 
+            socket.emit(EVENTS.SERVER.CREATED_ROOM, rooms); // Notifica al creador de la sala, todas las salas 
             socket.emit(EVENTS.SERVER.JOINED_ROOM, roomId); // Avisa al creador de la sala que se a unido a la sala
         });
 

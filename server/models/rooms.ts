@@ -15,7 +15,6 @@ interface Users {
 interface Rooms {
     _id: Types.ObjectId;
     roomName: String;
-    roomId: String;
     messages: Messages[]
     users: Users[]
 }
@@ -29,7 +28,6 @@ type RoomModelType = Model<Rooms, {}, RoomDocumentProps>;
 
 const RoomModel = model<Rooms, RoomModelType>('Room', new Schema<Rooms, RoomModelType>({
     roomName: String, 
-    roomId: String,
     messages: [new Schema<Messages>({
         user: String,
         message: String,

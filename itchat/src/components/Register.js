@@ -4,14 +4,14 @@ import {Link} from 'react-router-dom';
 import register from '../services/register';
 
 export default function Register() {
-    const [username, setUserName] = useState();
+    const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [nickname, setNickname] = useState();
     const [registerStatus, setRegStatus] = useState({});
 
     const handleRegister = (e) => {
         e.preventDefault();
-        register(nickname, username, password)
+        register(nickname, email, password)
         .then(response => {
           // console.log(response)
           setRegStatus(response)
@@ -29,7 +29,7 @@ export default function Register() {
         </label>
         <label>
           <p>Email</p>
-          <input type="text" onChange={e => setUserName(e.target.value)} />
+          <input type="text" onChange={e => setEmail(e.target.value)} />
         </label>
         <label>
           <p>Password</p>

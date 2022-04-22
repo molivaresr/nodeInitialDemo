@@ -2,12 +2,13 @@ import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 // import PropTypes from 'prop-types';
 import login from '../services/login';
-// import useToken from '../hooks/useToken';
+import {socket} from '../context/SocketContext';
 
 export default function Login() {
     const [username, setUserName] = useState();
     const [password, setPassword] = useState();
     const [token, setToken] = useState();
+    
     // const {setToken} = useToken();
 
     const handleLogin = (e) => {
@@ -18,6 +19,8 @@ export default function Login() {
             window.localStorage.setItem('jwt', sessionData.token)
             let jwt =  window.localStorage.getItem('jwt', sessionData.token)
             setToken(jwt)
+            socket.auth = { username };
+            socket.connect();
             window.location.reload()
             // setNickname(nickname)
           })

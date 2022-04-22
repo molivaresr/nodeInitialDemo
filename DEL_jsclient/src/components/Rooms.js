@@ -17,8 +17,8 @@ const Rooms = () => {
     const newRoomRef = useRef(null)
       
     useEffect(() => {
-        socket.on(EVENTS.SERVER.ROOMS, (room) =>{
-            setRooms({...room})
+        socket.on(EVENTS.SERVER.ROOMS, (rooms) =>{
+            setRooms({...rooms})
         });
 
         return () => {

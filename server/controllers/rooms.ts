@@ -21,7 +21,7 @@ export const readRooms = async () => {
     }
 } 
 
-export const createRooms = async (roomId: string, roomName: string) => {
+export const createRooms = async (roomName: string) => {
     try 
     {    
         await mongoose.connect(mongoURL, mongoOpt);
@@ -31,22 +31,23 @@ export const createRooms = async (roomId: string, roomName: string) => {
         if(!findRoom?.roomName) {
             const room = new RoomModel({
                 roomName: roomName,
-                roomId: roomId,
                 messages: {},
             });
             await room.save();
-            // mongoose.connect(mongoURL, mongoOpt);
+            let newRooms = await RoomModel.find({})
+
+            return newRooms
 
         } else {
             let repeatedRoom = findRoom.roomName + `${rooms.length + 1}`;
             const room = new RoomModel({
                 roomName: repeatedRoom, 
-                roomId: roomId,
                 messages: {},
             });
             await room.save();
             // mongoose.connect(mongoURL, mongoOpt);
-
+            let newRooms = await RoomModel.find({})
+            return newRooms
         }
     }
     catch (error) {console.log(error)}
