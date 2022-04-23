@@ -35,7 +35,6 @@ export const createRooms = async (roomName: string) => {
             });
             await room.save();
             let newRooms = await RoomModel.find({})
-
             return newRooms
 
         } else {
@@ -57,8 +56,8 @@ export const putMessages = async (req: Request, res: Response) => {
     const { roomId, message} = req.body;
     try {      
         await mongoose.connect(mongoURL, mongoOpt);
-        await RoomModel.findOne({roomId: roomId }).updateOne({$push: {messages: message}});
-        let updatedMsgs = await RoomModel.findOne({roomId: roomId })
+        await RoomModel.findOne({_id: roomId }).updateOne({$push: {messages: message}});
+        let updatedMsgs = await RoomModel.findOne({_id: roomId })
         // mongoose.connect(mongoURL, mongoOpt);; 
         res.json({
             msg:`Mensajes actualizados`,
@@ -72,14 +71,5 @@ export const putMessages = async (req: Request, res: Response) => {
             type: 'No se pudo guardar los mensajes'
         })
     }
-}
-
-export const messagesUpd= async (roomId:string, message: object) => {
-    try {      
-        await mongoose.connect(mongoURL, mongoOpt);
-        await RoomModel.findOne({roomId: roomId }).updateOne({$push: {messages: message}}); 
-        // mongoose.connect(mongoURL, mongoOpt);; 
-    } 
-    catch (error) {console.log(error)}
 }
 

@@ -7,51 +7,47 @@ import '../styles/Rooms_style.css'
 import {socket} from "../context/SocketContext";
 import getRooms from "../services/getRooms";
 
-export default function Room({user, jwt}) {
-    const nick = user;
-    const [rooms, setRooms] = useState([]);
-    const [roomId, setRoomId] = useState('');
-    const [room, setRoom] = useState('');
-    const newRoomRef = useRef(null);
-    console.log(nick)
+export default function Room({jwt}) {
+  const [rooms, setRooms] = useState([]);
+  const [roomId, setRoomId] = useState('');
+  const [room, setRoom] = useState('');
+  const newRoomRef = useRef(null);  
     
-    useEffect(() => {//Actualiza cuando se escucha el nuevo evento CREAR desde otros Clientes
-      socket.on(EVENTS.SERVER.CREATED_ROOM, (rooms) => {
-        console.log(rooms)
-        getRooms(jwt)
-          .then(response => {
-          setRooms(response.rooms)
-        })
-      });
-      return () => {
+  useEffect(() => {//Actualiza cuando se escucha el nuevo evento CREAR desde otros Clientes
+    socket.on(EVENTS.SERVER.CREATED_ROOM, (rooms) => {
+      console.log(rooms)
+      getRooms(jwt)
+        .then(response => {
+        setRooms(response.rooms)
+      })
+    });
+    return () => {
       socket.off();
-      };
+    };
   },[rooms, jwt]);
 
-    useEffect(() => {
-      getRooms(jwt)
+  useEffect(() => {
+    getRooms(jwt)
       .then(response => {
       setRooms(response.rooms)
-      })
-    },[jwt])
+    })
+  },[jwt])
   
-    const  createRoom = (e) =>{ 
-      // e.preventDefault();
-      let room = newRoomRef.current.value || '';
-      console.log(room)
-      if(!String(room).trim()) return;
-      socket.emit(EVENTS.CLIENT.CREATE_ROOM, room);
-      room = '';
-      console.log(room)
-      setRoom(room)
-    }
+  const  createRoom = (e) =>{ 
+    // e.preventDefault();
+    let room = newRoomRef.current.value || '';
+    console.log(room)
+    if(!String(room).trim()) return;
+    socket.emit(EVENTS.CLIENT.CREATE_ROOM, room);
+    room = '';
+    console.log(room)
+    setRoom(room)
+  }
   
-    const joinRoom = () => {
-    
-      socket.emit(EVENTS.CLIENT.JOIN_ROOM,  roomId, user);
-      console.log(roomId)
-      window.localStorage.setItem('RoomNow', roomId);
-    }
+  const joinRoom = () => {
+    window.localStorage.setItem('RoomNow', roomId);
+  }
+  
   return (
     <div className="rooms">     
       <form>
@@ -61,13 +57,15 @@ export default function Room({user, jwt}) {
       </form>
       <form>
           <label><h2>Unirse a una sala</h2></label>
-          <select onChange={(e) => setRoomId(e.target.value)}>
+          <select size='5' onChange={(e) => setRoomId(e.target.value)}>
+          <optgroup label="Elige tu sala">
           {rooms.map((e) => 
               <option key={e._id} value={e._id}>
               {e.roomName}
               </option>
             )}
-          </select>
+          </optgroup>
+          </select><br/>
           <button onClick={joinRoom}>Unete!</button>
       </form>
     </div>

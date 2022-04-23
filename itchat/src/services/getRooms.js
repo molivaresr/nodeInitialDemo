@@ -1,7 +1,6 @@
 import { chat } from "../config/default"
 
 export default function getRooms (token) {
-    // console.log(token)
     const method = {
         method:'GET',
         mode:'cors',

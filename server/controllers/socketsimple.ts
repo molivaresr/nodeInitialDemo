@@ -1,5 +1,6 @@
 import { nanoid } from "nanoid";
 import { Server, Socket } from "socket.io";
+import { resolveProjectReferencePath } from "typescript";
 import EVENTS from '../config/events';
 import {joinRoom, messagesUpd}from '../controllers/chat';
 import {createRooms, readRooms} from '../controllers/rooms';
@@ -7,35 +8,29 @@ import {createRooms, readRooms} from '../controllers/rooms';
 
 // const rooms : Array<{id: string, name: string}> = new Array();
 const users : Array<{id: string, user:string}> = new Array();
-
+const roomUsers : Array<{roomId: string, users: Array<{id: string, user: string}>}> = new Array()
 function socket ({io}:{io: Server}) {
-    io.on(EVENTS.connection, (socket) => {
-      socket.on(EVENTS.disconnection,() => {})
-    })
+    // io.on(EVENTS.connection, (socket) => {
+    //   socket.on(EVENTS.disconnection,() => {})
+    // })
 
     io.sockets.on(EVENTS.connection, (socket) => {
-      let nombre: string;
+
       //Usuarios se conectan a socket  
       socket.on(EVENTS.CLIENT.CONNECTED, (user:string) => {
-        let newUser = users.find(u => u.user === user)
-        if(!newUser) {
-          try {
-            let loadUser = {
-              id: socket.id,
-              user: user
-            }
-            users.push(loadUser)
-            console.log(`User:${loadUser.user} - Id: ${loadUser.id}`)
-            console.log(users)
-            }
-            catch(error) {
-              console.log(error)
-            } 
-        } else { 
-          for (let i = 0; i < users.length; i++) {
-            if (users[i].user === user) {
-                io.to(users[i].id).emit('disconnectOldUser');
-                users.splice(i, 1)
+        let newUser = {id: socket.id, user: user}
+        let verify = users.find(e => e.user === user)
+        // console.log(verify)
+
+        if(!verify) {
+          users.push(newUser)
+          // return users
+        }  
+        else {
+          for ( let i = 0; i < users.length; i ++) {
+            if(users[i].user === user) {
+              io.to(users[i].id).emit('disconnectOldUser');
+              users.splice(i,1)
             }
           }
         }
@@ -48,17 +43,19 @@ function socket ({io}:{io: Server}) {
       });
 
       //Usuario se una a una sala
-      socket.on(EVENTS.CLIENT.JOIN_ROOM, async (roomId:string, user:string)=>{ 
-        await joinRoom(roomId, user)
-        let [, oldRoom] = socket.rooms
-        socket.join(roomId, user)
-        console.log(socket.rooms)
-        console.log(`User ${user} conectado a la sala ${roomId}`) 
+      socket.on(EVENTS.CLIENT.JOIN_ROOM, async (roomId:string, user:string)=>{
+        let userToList = {
+          id: socket.id,
+          user: user
+        }
+        socket.join(roomId) 
         let message = {
           user: user,
           message: 'Online'
         }
         io.to(roomId).emit("mensajes", message); // Avisa que usuario esta online
+        io.to(roomId).emit('users', userToList)
+        await joinRoom(roomId, user)
       });
 
       //Envío de mensajes
@@ -67,8 +64,7 @@ function socket ({io}:{io: Server}) {
         let message = {
           user: nombre,
           message: mensaje
-        }
-        console.log(message)     
+        }  
         io.to(roomId).emit("mensajes", message);
         let msgs = await messagesUpd(roomId, message);
         socket.emit(EVENTS.SERVER.ROOM_MSG, msgs)

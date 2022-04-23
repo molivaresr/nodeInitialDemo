@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.messagesUpd = exports.putMessages = exports.createRooms = exports.readRooms = void 0;
+exports.putMessages = exports.createRooms = exports.readRooms = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const config_1 = __importDefault(require("config"));
 const rooms_1 = __importDefault(require("../models/rooms"));
@@ -65,8 +65,8 @@ const putMessages = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     const { roomId, message } = req.body;
     try {
         yield mongoose_1.default.connect(mongoURL, mongoOpt);
-        yield rooms_1.default.findOne({ roomId: roomId }).updateOne({ $push: { messages: message } });
-        let updatedMsgs = yield rooms_1.default.findOne({ roomId: roomId });
+        yield rooms_1.default.findOne({ _id: roomId }).updateOne({ $push: { messages: message } });
+        let updatedMsgs = yield rooms_1.default.findOne({ _id: roomId });
         // mongoose.connect(mongoURL, mongoOpt);; 
         res.json({
             msg: `Mensajes actualizados`,
@@ -82,15 +82,4 @@ const putMessages = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.putMessages = putMessages;
-const messagesUpd = (roomId, message) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        yield mongoose_1.default.connect(mongoURL, mongoOpt);
-        yield rooms_1.default.findOne({ roomId: roomId }).updateOne({ $push: { messages: message } });
-        // mongoose.connect(mongoURL, mongoOpt);; 
-    }
-    catch (error) {
-        console.log(error);
-    }
-});
-exports.messagesUpd = messagesUpd;
 //# sourceMappingURL=rooms.js.map

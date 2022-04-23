@@ -5,15 +5,19 @@ import getUsers from '../services/getUsers';
 import '../styles/Users_style.css'
 
 export default function Users({usersession, idRoom}) {
-  const [user, setUser] = useState('')
+  // const [user, setUser] = useState('')
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    socket.on(EVENTS.CLIENT.JOIN_ROOM, (message) => {
+    socket.on('users', (user) => {
       setUsers([...users, user]);
     });
-  }, [user, users]);
 
+    return() => {
+      socket.off();
+    }
+  }, [users]);
+  console.log(users)
   console.log('Render Users');    
   
     return (
@@ -21,8 +25,7 @@ export default function Users({usersession, idRoom}) {
           <h2>USUARIOS</h2>
           <ul>
             {users.map((e,i) => 
-              <li key={i}>
-              <span>{users[i]}</span>
+              <li key={e.id}><button>{e.user}</button>
               </li>
             )}
           </ul>

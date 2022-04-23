@@ -121,7 +121,7 @@ const getRooms = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.getRooms = getRooms;
 const joinRoom = (roomId, user) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log('Function JoinRoom', roomId, user);
+    // console.log('Function JoinRoom', roomId, user)
     try {
         yield mongoose_1.default.connect(mongoURL, mongoOpt);
         let findUser = yield rooms_1.default.findOne({ users: { user } });

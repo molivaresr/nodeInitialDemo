@@ -112,7 +112,7 @@ export const getRooms = async (req: Request, res: Response) => {
 }
 
 export const joinRoom= async (roomId:string, user:string) => {
-    console.log('Function JoinRoom', roomId, user)
+    // console.log('Function JoinRoom', roomId, user)
     try {      
         await mongoose.connect(mongoURL, mongoOpt);
         let findUser = await RoomModel.findOne({users:{user}})

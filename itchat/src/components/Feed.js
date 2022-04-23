@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState, useRef}from 'react';
 import EVENTS from "../config/events";
 import {socket} from "../context/SocketContext";
+import getMsgs from '../services/getMsgs';
 import getRooms from '../services/getRooms';
 import '../styles/Feed_style.css'
 
@@ -9,56 +10,37 @@ const submit = (e) => {
   }
 
 export default function Feed({user, roomId, jwt}) {
-  // console.log('Render Feed');
 
-    const [roomTitle, setRoomTitle] = useState('')
-    const [message, setMensaje] = useState('');
-    const [mensajes, setMensajes] = useState([]);
+  const [roomTitle, setRoomTitle] = useState('')
+  const [message, setMensaje] = useState('');
+  const [mensajes, setMensajes] = useState([]);
     
-    useEffect(() => { 
-      socket.emit(EVENTS.CLIENT.JOIN_ROOM,  roomId, user)
-    },[roomId, user])
+  useEffect(() => { 
+    socket.emit(EVENTS.CLIENT.JOIN_ROOM,  roomId, user)
+  },[roomId, user])
     
-  //   useEffect(() => {//Actualiza cuando se escucha el nuevo evento ROOM_MSG desde el server
-  //     socket.on(EVENTS.SERVER.ROOM_MSG, (msgs) => {
-  //       console.log(msgs)
-  //       getRooms(jwt)
-  //         .then(response => {
-  //         setRooms(response.rooms)
-  //       })
-  //     });
-  //     return () => {
-  //     socket.off();
-  //     };
-  // },[rooms, jwt]);
 
     useEffect ( () => {
-      console.log('Feed 22')
       getRooms(jwt)
       .then(response => {
-        console.log(response)
         let rooms = response.rooms
         let roomNow = rooms.find(m => m._id === roomId)
-        console.log(roomNow)
         let msg = roomNow.messages
         let roomName = roomNow.roomName
-        console.log(msg.length)
         setRoomTitle(roomName)
-        if(msg.length <= 1) {
+        if(msg.length === 1) {
           let noMsg = {user: 'iT Bot', message:'Aun no hay mensajes!'}
           setMensajes([noMsg])
         }
         else {
-          if(msg.length <= 5 ) {
+          if(msg.length < 5 ) {
             let lastMsgs = msg.shift()
-          // console.log(lastMsgs)
           setMensajes(lastMsgs)
           } else { 
             let lastMsgs = msg.slice(-5)
-            // console.log(lastMsgs)
             setMensajes(lastMsgs) 
           }
-      }
+        }
       })
     },[setMensajes,jwt,roomId])
   
@@ -75,17 +57,14 @@ export default function Feed({user, roomId, jwt}) {
     // useEffect(() => {
     //   divRef.current.scrollIntoView({ behavior: "smooth" });
     // });
-  
-    console.log(typeof mensajes)   
-    console.log(mensajes)  
+   
     const handleMsg = (e) => {
       e.preventDefault();
       socket.emit("mensaje", roomId, user, message);
-      console.log(user, message)
       setMensaje("");
     }
   
-    return(
+    return (
       <div className='chat'>
         <div><h2>Sala: {roomTitle}</h2></div>
         <div className='chat__feed'>

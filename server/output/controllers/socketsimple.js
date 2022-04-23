@@ -17,28 +17,20 @@ const chat_1 = require("../controllers/chat");
 const rooms_1 = require("../controllers/rooms");
 // const rooms : Array<{id: string, name: string}> = new Array();
 const users = new Array();
+const roomUsers = new Array();
 function socket({ io }) {
-    io.on(events_1.default.connection, (socket) => {
-        socket.on(events_1.default.disconnection, () => { });
-    });
+    // io.on(EVENTS.connection, (socket) => {
+    //   socket.on(EVENTS.disconnection,() => {})
+    // })
     io.sockets.on(events_1.default.connection, (socket) => {
-        let nombre;
         //Usuarios se conectan a socket  
         socket.on(events_1.default.CLIENT.CONNECTED, (user) => {
-            let newUser = users.find(u => u.user === user);
-            if (!newUser) {
-                try {
-                    let loadUser = {
-                        id: socket.id,
-                        user: user
-                    };
-                    users.push(loadUser);
-                    console.log(`User:${loadUser.user} - Id: ${loadUser.id}`);
-                    console.log(users);
-                }
-                catch (error) {
-                    console.log(error);
-                }
+            let newUser = { id: socket.id, user: user };
+            let verify = users.find(e => e.user === user);
+            // console.log(verify)
+            if (!verify) {
+                users.push(newUser);
+                // return users
             }
             else {
                 for (let i = 0; i < users.length; i++) {
@@ -56,16 +48,18 @@ function socket({ io }) {
         }));
         //Usuario se una a una sala
         socket.on(events_1.default.CLIENT.JOIN_ROOM, (roomId, user) => __awaiter(this, void 0, void 0, function* () {
-            yield (0, chat_1.joinRoom)(roomId, user);
-            let [, oldRoom] = socket.rooms;
-            socket.join(roomId, user);
-            console.log(socket.rooms);
-            console.log(`User ${user} conectado a la sala ${roomId}`);
+            let userToList = {
+                id: socket.id,
+                user: user
+            };
+            socket.join(roomId);
             let message = {
                 user: user,
                 message: 'Online'
             };
             io.to(roomId).emit("mensajes", message); // Avisa que usuario esta online
+            io.to(roomId).emit('users', userToList);
+            yield (0, chat_1.joinRoom)(roomId, user);
         }));
         //Envío de mensajes
         socket.on("mensaje", (roomId, nombre, mensaje) => __awaiter(this, void 0, void 0, function* () {
@@ -73,7 +67,6 @@ function socket({ io }) {
                 user: nombre,
                 message: mensaje
             };
-            console.log(message);
             io.to(roomId).emit("mensajes", message);
             let msgs = yield (0, chat_1.messagesUpd)(roomId, message);
             socket.emit(events_1.default.SERVER.ROOM_MSG, msgs);

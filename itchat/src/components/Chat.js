@@ -16,9 +16,9 @@ const Chat = () => {
     }
 
     useEffect(() => { 
-        
-        socket.emit(EVENTS.CLIENT.CONNECTED, userdata.roomNow,userdata.nickname);
-      },[userdata.roomNow, userdata.nickname])
+        socket.emit(EVENTS.CLIENT.CONNECTED, userdata.nickname);
+    },[userdata.nickname])
+    
     return (
         <>
  
