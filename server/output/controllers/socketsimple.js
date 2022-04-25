@@ -16,12 +16,14 @@ const events_1 = __importDefault(require("../config/events"));
 const chat_1 = require("../controllers/chat");
 const rooms_1 = require("../controllers/rooms");
 // const rooms : Array<{id: string, name: string}> = new Array();
+let arr = new Array;
+const uList = new Array;
 const users = new Array();
-const roomUsers = new Array();
+const userList = new Array();
 function socket({ io }) {
-    // io.on(EVENTS.connection, (socket) => {
-    //   socket.on(EVENTS.disconnection,() => {})
-    // })
+    io.on(events_1.default.connection, (socket) => {
+        socket.on(events_1.default.disconnection, () => { });
+    });
     io.sockets.on(events_1.default.connection, (socket) => {
         //Usuarios se conectan a socket  
         socket.on(events_1.default.CLIENT.CONNECTED, (user) => {
@@ -48,17 +50,18 @@ function socket({ io }) {
         }));
         //Usuario se una a una sala
         socket.on(events_1.default.CLIENT.JOIN_ROOM, (roomId, user) => __awaiter(this, void 0, void 0, function* () {
-            let userToList = {
-                id: socket.id,
-                user: user
-            };
             socket.join(roomId);
+            let users = {
+                id: socket.id,
+                user: user,
+            };
             let message = {
+                id: socket.id,
                 user: user,
                 message: 'Online'
             };
             io.to(roomId).emit("mensajes", message); // Avisa que usuario esta online
-            io.to(roomId).emit('users', userToList);
+            io.to(roomId).emit('users', users);
             yield (0, chat_1.joinRoom)(roomId, user);
         }));
         //Envío de mensajes

@@ -24,18 +24,20 @@ export default function Feed({user, roomId, jwt}) {
       getRooms(jwt)
       .then(response => {
         let rooms = response.rooms
+        
         let roomNow = rooms.find(m => m._id === roomId)
+        // console.log(roomNow)
         let msg = roomNow.messages
         let roomName = roomNow.roomName
         setRoomTitle(roomName)
-        if(msg.length === 1) {
+        msg.shift()
+        if(msg.length === 0) {
           let noMsg = {user: 'iT Bot', message:'Aun no hay mensajes!'}
           setMensajes([noMsg])
         }
         else {
-          if(msg.length < 5 ) {
-            let lastMsgs = msg.shift()
-          setMensajes(lastMsgs)
+          if(msg.length <= 5 ) {
+          setMensajes(msg)
           } else { 
             let lastMsgs = msg.slice(-5)
             setMensajes(lastMsgs) 
@@ -52,7 +54,7 @@ export default function Feed({user, roomId, jwt}) {
         socket.off();
       }
     }, [mensajes]);
-  
+
     // const divRef = useRef(null);
     // useEffect(() => {
     //   divRef.current.scrollIntoView({ behavior: "smooth" });

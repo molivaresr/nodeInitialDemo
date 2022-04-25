@@ -5,18 +5,19 @@ import getUsers from '../services/getUsers';
 import '../styles/Users_style.css'
 
 export default function Users({usersession, idRoom}) {
-  // const [user, setUser] = useState('')
   const [users, setUsers] = useState([]);
-
+  
   useEffect(() => {
     socket.on('users', (user) => {
+      console.log(users)
+      console.log(user)
       setUsers([...users, user]);
     });
-
     return() => {
       socket.off();
     }
   }, [users]);
+
   console.log(users)
   console.log('Render Users');    
   
@@ -24,7 +25,7 @@ export default function Users({usersession, idRoom}) {
       <div className='user'>
           <h2>USUARIOS</h2>
           <ul>
-            {users.map((e,i) => 
+            {users.map((e) => 
               <li key={e.id}><button>{e.user}</button>
               </li>
             )}

@@ -12,7 +12,14 @@ export default function Room({jwt}) {
   const [roomId, setRoomId] = useState('');
   const [room, setRoom] = useState('');
   const newRoomRef = useRef(null);  
-    
+  
+  useEffect(() => {
+    getRooms(jwt)
+      .then(response => {
+      setRooms(response.rooms)
+    })
+  },[jwt])
+
   useEffect(() => {//Actualiza cuando se escucha el nuevo evento CREAR desde otros Clientes
     socket.on(EVENTS.SERVER.CREATED_ROOM, (rooms) => {
       console.log(rooms)
@@ -21,17 +28,9 @@ export default function Room({jwt}) {
         setRooms(response.rooms)
       })
     });
-    return () => {
-      socket.off();
-    };
   },[rooms, jwt]);
 
-  useEffect(() => {
-    getRooms(jwt)
-      .then(response => {
-      setRooms(response.rooms)
-    })
-  },[jwt])
+
   
   const  createRoom = (e) =>{ 
     // e.preventDefault();

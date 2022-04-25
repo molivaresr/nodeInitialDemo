@@ -116,10 +116,10 @@ export const joinRoom= async (roomId:string, user:string) => {
     try {      
         await mongoose.connect(mongoURL, mongoOpt);
         let findUser = await RoomModel.findOne({users:{user}})
-        if(findUser || !user) {
+        if(findUser) {
            return
         } else  { 
-            await RoomModel.findOne({roomId:roomId}).updateOne({$push: {users: {user}}})
+            await RoomModel.findById({_id:roomId}).updateOne({$push: {users: {user}}})
         }
         // // mongoose.connection.close(); 
     } 
@@ -131,7 +131,7 @@ export const joinRoom= async (roomId:string, user:string) => {
 export const messagesUpd= async (roomId:string, message: object) => {
     try {      
         await mongoose.connect(mongoURL, mongoOpt);
-        await RoomModel.findOne({_id: roomId }).updateOne({$push: {messages: message}}); 
+        await RoomModel.findById({_id: roomId }).updateOne({$push: {messages: message}}); 
         const msgs = await RoomModel.findById(roomId,'messages');
         // // mongoose.connection.close(); 
         return msgs

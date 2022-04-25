@@ -125,11 +125,11 @@ const joinRoom = (roomId, user) => __awaiter(void 0, void 0, void 0, function* (
     try {
         yield mongoose_1.default.connect(mongoURL, mongoOpt);
         let findUser = yield rooms_1.default.findOne({ users: { user } });
-        if (findUser || !user) {
+        if (findUser) {
             return;
         }
         else {
-            yield rooms_1.default.findOne({ roomId: roomId }).updateOne({ $push: { users: { user } } });
+            yield rooms_1.default.findById({ _id: roomId }).updateOne({ $push: { users: { user } } });
         }
         // // mongoose.connection.close(); 
     }
@@ -141,7 +141,7 @@ exports.joinRoom = joinRoom;
 const messagesUpd = (roomId, message) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield mongoose_1.default.connect(mongoURL, mongoOpt);
-        yield rooms_1.default.findOne({ _id: roomId }).updateOne({ $push: { messages: message } });
+        yield rooms_1.default.findById({ _id: roomId }).updateOne({ $push: { messages: message } });
         const msgs = yield rooms_1.default.findById(roomId, 'messages');
         // // mongoose.connection.close(); 
         return msgs;

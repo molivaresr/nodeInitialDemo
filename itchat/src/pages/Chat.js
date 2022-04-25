@@ -1,21 +1,9 @@
-import Room from "../components/Rooms";
-import Feed from "../components/Feed";
-import Users from "../components/Users";
-import SplitPane from "../components/Split";
+import Chat from "../components/Chat";
 
-const Chat = () => {
-  // const token = window.localStorage.getItem('jwt');
-  const usersession = window.localStorage.getItem('nickname');
-  const idRoom = window.localStorage.getItem('RoomNow');
-  console.log('Render Chat');
+const LoadChat = () => {
+
  return (
-  <SplitPane 
-    left={<Room user={usersession} />}
-    middle={<Feed user={usersession} roomId={idRoom}  />}
-    right={<Users user={usersession} roomId={idRoom}/>} 
-  />
- 
- 
- )
+    <Chat /> 
+  )
 }
-  export default Chat;
+  export default LoadChat;

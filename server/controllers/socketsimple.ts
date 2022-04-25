@@ -7,12 +7,15 @@ import {createRooms, readRooms} from '../controllers/rooms';
 
 
 // const rooms : Array<{id: string, name: string}> = new Array();
+let arr = new Array;
+const uList = new Array;
 const users : Array<{id: string, user:string}> = new Array();
-const roomUsers : Array<{roomId: string, users: Array<{id: string, user: string}>}> = new Array()
+const userList : Array<{roomId: string, users: Array<{id: string, user: string}>}> = new Array()
+
 function socket ({io}:{io: Server}) {
-    // io.on(EVENTS.connection, (socket) => {
-    //   socket.on(EVENTS.disconnection,() => {})
-    // })
+    io.on(EVENTS.connection, (socket) => {
+      socket.on(EVENTS.disconnection,() => {})
+    })
 
     io.sockets.on(EVENTS.connection, (socket) => {
 
@@ -44,17 +47,19 @@ function socket ({io}:{io: Server}) {
 
       //Usuario se una a una sala
       socket.on(EVENTS.CLIENT.JOIN_ROOM, async (roomId:string, user:string)=>{
-        let userToList = {
-          id: socket.id,
-          user: user
-        }
         socket.join(roomId) 
+        let users = {
+          id: socket.id,
+          user: user,
+        }   
         let message = {
+          id: socket.id,
           user: user,
           message: 'Online'
         }
+
         io.to(roomId).emit("mensajes", message); // Avisa que usuario esta online
-        io.to(roomId).emit('users', userToList)
+        io.to(roomId).emit('users', users)
         await joinRoom(roomId, user)
       });
 
