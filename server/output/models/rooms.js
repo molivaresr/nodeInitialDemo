@@ -8,7 +8,11 @@ const RoomModel = (0, mongoose_1.model)('Room', new mongoose_1.Schema({
             message: String,
         })],
     users: [new mongoose_1.Schema({
-            user: String
+            user: String,
+            state: {
+                type: Boolean,
+                default: true,
+            }
         })]
 }));
 exports.default = RoomModel;

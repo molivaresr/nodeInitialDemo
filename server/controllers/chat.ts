@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import config from 'config';
 import UserModel from "../models/users";
 import RoomModel from "../models/rooms";
+import { idText } from "typescript";
 
 const mongoURL = config.get<string>('mongodb');
 const mongoOpt = config.get<object>('mongoOpt');
@@ -115,12 +116,15 @@ export const joinRoom= async (roomId:string, user:string) => {
     // console.log('Function JoinRoom', roomId, user)
     try {      
         await mongoose.connect(mongoURL, mongoOpt);
-        let findUser = await RoomModel.findOne({users:{user}})
+        let findUser = await RoomModel.findOne({_id: roomId})
+        console.log(findUser)
         if(findUser) {
-           return
-        } else  { 
-            await RoomModel.findById({_id:roomId}).updateOne({$push: {users: {user}}})
+            return // await RoomModel.findById({_id:roomId}).replaceOne({$push: {users: {user, state:false}}})
         }
+        else  { 
+            await RoomModel.findById(roomId).updateOne({$push: {users: {user}}})
+        }
+        
         // // mongoose.connection.close(); 
     } 
     catch (error) {
@@ -131,7 +135,7 @@ export const joinRoom= async (roomId:string, user:string) => {
 export const messagesUpd= async (roomId:string, message: object) => {
     try {      
         await mongoose.connect(mongoURL, mongoOpt);
-        await RoomModel.findById({_id: roomId }).updateOne({$push: {messages: message}}); 
+        await RoomModel.findById({_id: roomId}).updateOne({$push: {messages: message}}); 
         const msgs = await RoomModel.findById(roomId,'messages');
         // // mongoose.connection.close(); 
         return msgs

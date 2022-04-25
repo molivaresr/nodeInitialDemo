@@ -1,5 +1,6 @@
-import { Outlet, Link, Routes} from "react-router-dom";
+import { Outlet, Link} from "react-router-dom";
 import Chat from './Chat'
+import Logout from '../components/Logout'
 const Layout = () => {
   return (
     <>
@@ -11,7 +12,7 @@ const Layout = () => {
             <Link to="/">Chat</Link>
           </li>
           <li>
-            <Link to="/logout">Salir</Link>
+            <Logout />
           </li>
         </ul>
       </nav>

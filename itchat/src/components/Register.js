@@ -1,6 +1,6 @@
 
 import React, {useState} from 'react';
-import {Link,Routes} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import register from '../services/register';
 
 export default function Register() {

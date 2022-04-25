@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginPost = void 0;
+exports.logOut = exports.loginPost = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
@@ -36,7 +36,7 @@ const loginPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!user) {
             console.log('Intento 6 de inicio');
             return res.json({
-                msg: 'Usuario y/o Password incorrectos - email'
+                msg: 'Usuario y/o Password incorrectos'
             });
         }
         console.log('Intento 8 de inicio');
@@ -45,25 +45,27 @@ const loginPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!validPass) {
             console.log('Intento 9 de inicio');
             return res.status(400).json({
-                msg: 'Usuario y/o Password incorrectos - pass'
+                msg: 'Usuario y/o Password incorrectos'
             });
         }
         console.log('Intento 10 de inicio');
         //Verificar estado
-        // console.log(user.state);
+        console.log(user.state);
         if (!user.state) {
             console.log('Intento 11 de inicio');
             return res.status(400).json({
-                msg: 'Usuario inactivo volver a iniciar sesión'
+                msg: 'Iniciaste sesión en otro dispositivo!'
             });
         }
         console.log('Intento 12 de inicio');
-        mongoose_1.default.connection.close();
+        // mongoose.connection.close()
         // console.log(user); 
+        // await RoomModel.findById({_id:roomId}).updateOne({$push: {users: {user}}})
+        yield users_1.default.findOne({ email: email }).updateOne({ state: false });
         const payload = { nickname: user.nickname, email: user.email, passport: user.passport };
         let token = jsonwebtoken_1.default.sign(payload, key);
         console.log('Sesión Iniciada');
-        res.status(200).json({ user: user, token: token });
+        res.status(200).json({ msg: 'Sesión Iniciada', user: user, token: token });
     }
     catch (error) {
         console.log(error);
@@ -71,4 +73,11 @@ const loginPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.loginPost = loginPost;
+const logOut = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { user } = req.body;
+    console.log(user);
+    yield users_1.default.findOne({ user: user }).updateOne({ state: true });
+    res.status(200).json({ msg: 'Sesión cerrada' });
+});
+exports.logOut = logOut;
 //# sourceMappingURL=auth.js.map

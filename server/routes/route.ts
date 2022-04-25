@@ -2,7 +2,7 @@ import { Router } from "express";
 
 import { registerGet, registerPost, others, home, forbidden } from "../controllers/routes";
 import {getRooms, getUsers, getUser, postRooms} from '../controllers/chat';
-import { loginPost } from "../controllers/auth";
+import { loginPost, logOut } from "../controllers/auth";
 import tokenValidation from '../middlewares/validate';
 import api from './path'
 import { putMessages } from "../controllers/rooms";
@@ -16,7 +16,7 @@ router.get(api.home, home);
 router.get(api.login,forbidden);
 router.post(api.login,loginPost);
 router.patch(api.login,forbidden);
-router.put(api.login,forbidden);
+router.put(api.login, logOut);
 router.delete(api.login,forbidden);
 
 //Register

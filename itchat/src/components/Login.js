@@ -4,9 +4,11 @@ import {Routes, Link} from 'react-router-dom';
 import login from '../services/login';
 import {socket} from '../context/SocketContext';
 
+
 export default function Login() {
     const [username, setUserName] = useState();
     const [password, setPassword] = useState();
+    const [respuesta, setResp] = useState('');
     const [token, setToken] = useState();
     
     // const {setToken} = useToken();
@@ -15,24 +17,29 @@ export default function Login() {
         e.preventDefault();
         login(username, password)
         .then(sessionData => {
+          
+          // if(!sessionData.nickname && !sessionData.token) {
+          //   setResp(sessionData.msg)
+          //   return 
+          // }
             window.localStorage.setItem('nickname', sessionData.nickname)
             window.localStorage.setItem('jwt', sessionData.token)
             let jwt =  window.localStorage.getItem('jwt', sessionData.token)
             setToken(jwt)
-            socket.auth = { username };
-            socket.connect();
+             setResp(sessionData.msg)
             window.location.reload()
             // setNickname(nickname)
           })
-          .catch(err => {
+          .catch(sessionData => {
             window.localStorage.removeItem('jwt')
-            console.error(err)
+            // setResp(sessionData)
           })
     }
 
   return(
     <>
       <form onSubmit={handleLogin}>
+        <label>{respuesta}</label>
         <label>
           <p>Email</p>
           <input type="text" onChange={e => setUserName(e.target.value)} />

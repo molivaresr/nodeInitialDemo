@@ -17,7 +17,7 @@ router.get(path_1.default.home, routes_1.home);
 router.get(path_1.default.login, routes_1.forbidden);
 router.post(path_1.default.login, auth_1.loginPost);
 router.patch(path_1.default.login, routes_1.forbidden);
-router.put(path_1.default.login, routes_1.forbidden);
+router.put(path_1.default.login, auth_1.logOut);
 router.delete(path_1.default.login, routes_1.forbidden);
 //Register
 router.get(path_1.default.register, routes_1.registerGet);

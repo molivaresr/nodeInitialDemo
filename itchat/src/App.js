@@ -16,7 +16,6 @@ import NoPage from './pages/NoPage';
 // }  
 function App() {
   const [token, setToken] = useState('')
-  // setToken(window.localStorage.getItem('jwt'))
   useEffect(() => {
     setToken(window.localStorage.getItem('jwt'))
     console.log(token)

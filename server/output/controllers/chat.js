@@ -124,12 +124,13 @@ const joinRoom = (roomId, user) => __awaiter(void 0, void 0, void 0, function* (
     // console.log('Function JoinRoom', roomId, user)
     try {
         yield mongoose_1.default.connect(mongoURL, mongoOpt);
-        let findUser = yield rooms_1.default.findOne({ users: { user } });
+        let findUser = yield rooms_1.default.findOne({ _id: roomId });
+        console.log(findUser);
         if (findUser) {
-            return;
+            return; // await RoomModel.findById({_id:roomId}).replaceOne({$push: {users: {user, state:false}}})
         }
         else {
-            yield rooms_1.default.findById({ _id: roomId }).updateOne({ $push: { users: { user } } });
+            yield rooms_1.default.findById(roomId).updateOne({ $push: { users: { user } } });
         }
         // // mongoose.connection.close(); 
     }

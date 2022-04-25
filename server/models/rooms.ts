@@ -1,3 +1,4 @@
+import { boolean } from "joi";
 import {Schema, Types, model, Model} from "mongoose";
 
 interface Messages {
@@ -9,7 +10,7 @@ interface Messages {
 interface Users {
     _id: Types.ObjectId;
     user: string;
-
+    state: boolean;
 }
 
 interface Rooms {
@@ -33,7 +34,11 @@ const RoomModel = model<Rooms, RoomModelType>('Room', new Schema<Rooms, RoomMode
         message: String,
     })],
     users: [new Schema<Users>({
-        user: String
+        user: String,
+        state: {
+        type: Boolean,
+        default: true,
+        }
     })]
 }))
 

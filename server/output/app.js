@@ -13,6 +13,7 @@ const socketsimple_1 = __importDefault(require("./controllers/socketsimple"));
 const logger_1 = __importDefault(require("./utils/logger"));
 const package_json_1 = require("./package.json");
 const route_1 = __importDefault(require("./routes/route"));
+const rooms_1 = require("./controllers/rooms");
 const port = config_1.default.get('port');
 const host = config_1.default.get('host');
 const corsOrigin = config_1.default.get('corsOrigin');
@@ -28,6 +29,7 @@ app.use((0, cors_1.default)());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use(body_parser_1.default.json());
 app.use(route_1.default);
+(0, rooms_1.createRooms)('Welcome');
 httpServer.listen(port, host, () => {
     logger_1.default.info(`🚀 Chat Server version: ${package_json_1.version} is listening 🚀 `);
     logger_1.default.info(`http://${host}:${port}`);
