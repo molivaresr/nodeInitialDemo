@@ -24,11 +24,11 @@ const io = new Server(httpServer, {
         credentials: true
     },
 });
-app.use(cors())
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-app.use(router)
+app.use(router);
 
 httpServer.listen(port, host, () => {
     logger.info(`🚀 Chat Server version: ${version} is listening 🚀 `);
