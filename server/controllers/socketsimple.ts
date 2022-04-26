@@ -1,16 +1,21 @@
-import { nanoid } from "nanoid";
+
+import mongoose from "mongoose";
+import config from 'config';
 import { Server, Socket } from "socket.io";
-import { resolveProjectReferencePath } from "typescript";
+
 import EVENTS from '../config/events';
 import {joinRoom, messagesUpd}from '../controllers/chat';
 import {createRooms, readRooms} from '../controllers/rooms';
+import RoomModel from "../models/rooms";
 
+const mongoURL = config.get<string>('mongodb');
+const mongoOpt = config.get<object>('mongoOpt');
 
 // const rooms : Array<{id: string, name: string}> = new Array();
-let arr = new Array;
-const uList = new Array;
+
+let list = new Array()
 const users : Array<{id: string, user:string}> = new Array();
-const userList : Array<{roomId: string, users: Array<{id: string, user: string}>}> = new Array()
+// const userList : Array<{roomId: string, users: Array<{id: string, user: string}>}> = new Array()
 
 function socket ({io}:{io: Server}) {
     io.on(EVENTS.connection, (socket) => {
@@ -27,6 +32,7 @@ function socket ({io}:{io: Server}) {
 
         if(!verify) {
           users.push(newUser)
+          // console.log(users)
           // return users
         }  
         else {
@@ -47,20 +53,21 @@ function socket ({io}:{io: Server}) {
 
       //Usuario se una a una sala
       socket.on(EVENTS.CLIENT.JOIN_ROOM, async (roomId:string, user:string)=>{
-        socket.join(roomId) 
-        let users = {
-          id: socket.id,
-          user: user,
-        }   
+        socket.join(roomId)
+      
+        list.push({id: roomId, users:[user]})
+        let filterList = list.filter( e => e.id === roomId)
+        console.log(list)
         let message = {
-          id: socket.id,
+         id: socket.id,
           user: user,
           message: 'Online'
         }
 
         io.to(roomId).emit("mensajes", message); // Avisa que usuario esta online
-        io.to(roomId).emit('users', users)
-        await joinRoom(roomId, user)
+        
+        io.to(roomId).emit('users', filterList)
+        // await joinRoom(roomId, user)
       });
 
       //Envío de mensajes

@@ -23,7 +23,7 @@ const Chat = () => {
         <>
  
         <SplitPane 
-            left={<Room jwt={userdata.token}/>}
+            left={<Room jwt={userdata.token} user={userdata.nickname} roomId={userdata.roomNow}/>}
             middle={<Feed user={userdata.nickname} roomId={userdata.roomNow} jwt={userdata.token}  />}
             right={<Users user={userdata.nickname} roomId={userdata.roomNow}/>} 
         />

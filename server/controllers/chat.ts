@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import config from 'config';
 import UserModel from "../models/users";
 import RoomModel from "../models/rooms";
-import { idText } from "typescript";
+
 
 const mongoURL = config.get<string>('mongodb');
 const mongoOpt = config.get<object>('mongoOpt');

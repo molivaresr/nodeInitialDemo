@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState, useRef}from 'react';
 import EVENTS from "../config/events";
 import {socket} from "../context/SocketContext";
-import getMsgs from '../services/getMsgs';
+import Users from './Users';
 import getRooms from '../services/getRooms';
 import '../styles/Feed_style.css'
 
@@ -14,8 +14,9 @@ export default function Feed({user, roomId, jwt}) {
   const [roomTitle, setRoomTitle] = useState('')
   const [message, setMensaje] = useState('');
   const [mensajes, setMensajes] = useState([]);
+  const [users, setUsers] = useState([]);
     
-  useEffect(() => { 
+  useEffect(() => {
     socket.emit(EVENTS.CLIENT.JOIN_ROOM,  roomId, user)
   },[roomId, user])
     
@@ -45,7 +46,16 @@ export default function Feed({user, roomId, jwt}) {
         }
       })
     },[setMensajes,jwt,roomId])
-  
+    
+    // useEffect(() => {
+    //   socket.on("users", (user) => {
+    //     setUsers(users.concat(user))
+    //   });
+    //   return() => {
+    //     socket.off();
+    //   }
+    // }, [user, users]);
+
     useEffect(() => {
       socket.on("mensajes", (message) => {
         setMensajes([...mensajes, message]);
@@ -53,7 +63,7 @@ export default function Feed({user, roomId, jwt}) {
       return() => {
         socket.off();
       }
-    }, [mensajes]);
+    }, [mensajes, user, users]);
 
     // const divRef = useRef(null);
     // useEffect(() => {
@@ -67,6 +77,7 @@ export default function Feed({user, roomId, jwt}) {
     }
   
     return (
+      <>
       <div className='chat'>
         <div><h2>Sala: {roomTitle}</h2></div>
         <div className='chat__feed'>
@@ -85,4 +96,8 @@ export default function Feed({user, roomId, jwt}) {
             </form>
           </div>
       </div>
+      {/* <div>
+        <Users users={users} />
+      </div> */}
+      </>
   )};

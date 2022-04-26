@@ -7,7 +7,7 @@ import '../styles/Rooms_style.css'
 import {socket} from "../context/SocketContext";
 import getRooms from "../services/getRooms";
 
-export default function Room({jwt}) {
+export default function Room({jwt, idroom, user}) {
   const [rooms, setRooms] = useState([]);
   const [roomId, setRoomId] = useState('');
   const [room, setRoom] = useState('');
@@ -43,7 +43,8 @@ export default function Room({jwt}) {
     setRoom(room)
   }
   
-  const joinRoom = () => {
+  const joinRoom = () => {   
+    socket.emit(EVENTS.CLIENT.LEFT_ROOM, idroom, user)
     window.localStorage.setItem('RoomNow', roomId);
   }
   

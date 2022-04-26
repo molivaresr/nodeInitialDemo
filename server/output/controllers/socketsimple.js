@@ -12,14 +12,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const config_1 = __importDefault(require("config"));
 const events_1 = __importDefault(require("../config/events"));
 const chat_1 = require("../controllers/chat");
 const rooms_1 = require("../controllers/rooms");
+const mongoURL = config_1.default.get('mongodb');
+const mongoOpt = config_1.default.get('mongoOpt');
 // const rooms : Array<{id: string, name: string}> = new Array();
-let arr = new Array;
-const uList = new Array;
+let list = new Array();
 const users = new Array();
-const userList = new Array();
+// const userList : Array<{roomId: string, users: Array<{id: string, user: string}>}> = new Array()
 function socket({ io }) {
     io.on(events_1.default.connection, (socket) => {
         socket.on(events_1.default.disconnection, () => { });
@@ -32,6 +34,7 @@ function socket({ io }) {
             // console.log(verify)
             if (!verify) {
                 users.push(newUser);
+                // console.log(users)
                 // return users
             }
             else {
@@ -51,18 +54,17 @@ function socket({ io }) {
         //Usuario se una a una sala
         socket.on(events_1.default.CLIENT.JOIN_ROOM, (roomId, user) => __awaiter(this, void 0, void 0, function* () {
             socket.join(roomId);
-            let users = {
-                id: socket.id,
-                user: user,
-            };
+            list.push({ id: roomId, users: [user] });
+            let filterList = list.filter(e => e.id === roomId);
+            console.log(list);
             let message = {
                 id: socket.id,
                 user: user,
                 message: 'Online'
             };
             io.to(roomId).emit("mensajes", message); // Avisa que usuario esta online
-            io.to(roomId).emit('users', users);
-            yield (0, chat_1.joinRoom)(roomId, user);
+            io.to(roomId).emit('users', filterList);
+            // await joinRoom(roomId, user)
         }));
         //Envío de mensajes
         socket.on("mensaje", (roomId, nombre, mensaje) => __awaiter(this, void 0, void 0, function* () {
