@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(router);
-createRooms('Welcome')
+// createRooms('Welcome')
 httpServer.listen(port, host, () => {
     logger.info(`🚀 Chat Server version: ${version} is listening 🚀 `);
     logger.info(`http://${host}:${port}`);

@@ -2,51 +2,33 @@ import React, {useEffect, useState}from 'react';
 import { socket } from '../context/SocketContext';
 import '../styles/Users_style.css'
 
-export default function Users({user, roomId}) {
-  
-  const [listUsers, setList] = useState([]);
+export default function Users({roomId}) {
+  // const [listUsers, setList] = useState([]);
   const [users, setUsers] = useState([]);
   
-  socket.on("users", (user) => {
-    console.log(user)
-  });
-
   useEffect(() => {
-    socket.on("users", (user) => {
-      setUsers(users.concat(user))
-    });
+    socket.on('users', (list) => {
+      console.log(list)
+    // const filterUsers = list.filter(e => e.roomId === roomId)
+    // console.log(filterUsers)
+    setUsers(list)
+       
     // return() => {
     //   socket.off();
     // }
-  }, [users]);
+  })}, [users, roomId, setUsers]); 
 
-  // useEffect(() => { 
-  //   setList(listUsers.concat(users))
-  // },[listUsers,users])
-
-  let find = listUsers.filter(e => e.roomId === roomId)
-  // console.log(find)
-  let uniqueUsers = [...new Set(listUsers)]
-  // useEffect(() => {
-  //   socket.on('users', (array) => {
-  //   console.log(array)
-  //   // setUsers(users.concat(array))  
-  //   return() => {
-  //     socket.off();
-  //   }
-  // })}, []);
-
-  // console.log(users)
-  // console.log('Render Users');    
+  const filterUsers = users.filter(e => e.roomId === roomId)
+  console.log(filterUsers)
   
     return (
       <div className='user'>
           <h2>Usuarios</h2>
           <ul>
-            {/* {uniqueUsers.map((e,i) => 
-              <li key={i}><button>{e.user}</button>
+            {filterUsers.map((e) => 
+              <li key={e.id}><button>{e.user}</button>
               </li>
-            )} */}
+            )}
           </ul>
         </div>      
   )};

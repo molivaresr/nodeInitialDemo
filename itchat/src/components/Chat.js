@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { socket } from "../context/SocketContext";
 import EVENTS from "../config/events";
 
@@ -9,6 +9,7 @@ import Room from "./Rooms";
 import Users from "./Users";
 
 const Chat = () => {
+    const [listUsers, setList] = useState([]);
     const userdata = {
         nickname:window.localStorage.getItem('nickname'),
         token: window.localStorage.getItem('jwt'),
@@ -17,6 +18,7 @@ const Chat = () => {
 
     useEffect(() => { 
         socket.emit(EVENTS.CLIENT.CONNECTED, userdata.nickname);
+        // socket.emit(EVENTS.CLIENT.JOIN_ROOM,  userdata.roomNow, userdata.nickname);
     },[userdata.nickname])
     
     return (
@@ -25,7 +27,7 @@ const Chat = () => {
         <SplitPane 
             left={<Room jwt={userdata.token} user={userdata.nickname} roomId={userdata.roomNow}/>}
             middle={<Feed user={userdata.nickname} roomId={userdata.roomNow} jwt={userdata.token}  />}
-            right={<Users user={userdata.nickname} roomId={userdata.roomNow}/>} 
+            right={<Users user={userdata.nickname} roomId={userdata.roomNow} />} 
         />
 
         </>

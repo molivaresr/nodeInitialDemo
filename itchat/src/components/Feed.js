@@ -14,8 +14,12 @@ export default function Feed({user, roomId, jwt}) {
   const [roomTitle, setRoomTitle] = useState('')
   const [message, setMensaje] = useState('');
   const [mensajes, setMensajes] = useState([]);
-  const [users, setUsers] = useState([]);
-    
+  const messagesEndRef = useRef(null);
+  
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+  
   useEffect(() => {
     socket.emit(EVENTS.CLIENT.JOIN_ROOM,  roomId, user)
   },[roomId, user])
@@ -47,15 +51,6 @@ export default function Feed({user, roomId, jwt}) {
       })
     },[setMensajes,jwt,roomId])
     
-    // useEffect(() => {
-    //   socket.on("users", (user) => {
-    //     setUsers(users.concat(user))
-    //   });
-    //   return() => {
-    //     socket.off();
-    //   }
-    // }, [user, users]);
-
     useEffect(() => {
       socket.on("mensajes", (message) => {
         setMensajes([...mensajes, message]);
@@ -63,13 +58,12 @@ export default function Feed({user, roomId, jwt}) {
       return() => {
         socket.off();
       }
-    }, [mensajes, user, users]);
+    }, [mensajes]);
+    
+    useEffect(() => {
+      scrollToBottom()
+    }, [mensajes]);
 
-    // const divRef = useRef(null);
-    // useEffect(() => {
-    //   divRef.current.scrollIntoView({ behavior: "smooth" });
-    // });
-   
     const handleMsg = (e) => {
       e.preventDefault();
       socket.emit("mensaje", roomId, user, message);
@@ -87,6 +81,7 @@ export default function Feed({user, roomId, jwt}) {
               <span >{e.user}</span>: <span>{e.message}</span>
               </li>
             )}
+            <div ref={messagesEndRef} />
           </ul>
         </div>
         <div>
@@ -96,8 +91,6 @@ export default function Feed({user, roomId, jwt}) {
             </form>
           </div>
       </div>
-      {/* <div>
-        <Users users={users} />
-      </div> */}
+
       </>
   )};

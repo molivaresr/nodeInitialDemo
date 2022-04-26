@@ -60,8 +60,8 @@ const loginPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         console.log('Intento 12 de inicio');
         // mongoose.connection.close()
         // console.log(user); 
-        // await RoomModel.findById({_id:roomId}).updateOne({$push: {users: {user}}})
-        yield users_1.default.findOne({ email: email }).updateOne({ state: false });
+        yield users_1.default.find({ email: email }).update({ state: false });
+        mongoose_1.default.connection.close();
         const payload = { nickname: user.nickname, email: user.email, passport: user.passport };
         let token = jsonwebtoken_1.default.sign(payload, key);
         console.log('Sesión Iniciada');
@@ -76,7 +76,9 @@ exports.loginPost = loginPost;
 const logOut = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { user } = req.body;
     console.log(user);
-    yield users_1.default.findOne({ user: user }).updateOne({ state: true });
+    yield mongoose_1.default.connect(mongoURL, mongoOpt);
+    yield users_1.default.findOne({ nickname: user }).updateOne({ state: true });
+    mongoose_1.default.connection.close();
     res.status(200).json({ msg: 'Sesión cerrada' });
 });
 exports.logOut = logOut;

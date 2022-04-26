@@ -29,43 +29,56 @@ function socket({ io }) {
     io.sockets.on(events_1.default.connection, (socket) => {
         //Usuarios se conectan a socket  
         socket.on(events_1.default.CLIENT.CONNECTED, (user) => {
-            let newUser = { id: socket.id, user: user };
-            let verify = users.find(e => e.user === user);
-            // console.log(verify)
-            if (!verify) {
-                users.push(newUser);
-                // console.log(users)
-                // return users
-            }
-            else {
+            try {
+                let newUser = {
+                    id: socket.id,
+                    user: user
+                };
                 for (let i = 0; i < users.length; i++) {
                     if (users[i].user === user) {
                         io.to(users[i].id).emit('disconnectOldUser');
                         users.splice(i, 1);
                     }
                 }
+                users.push(newUser);
+                // console.log(users)
+            }
+            catch (error) {
+                console.log(error);
             }
         });
         //Usuario crea una sala
         socket.on(events_1.default.CLIENT.CREATE_ROOM, (roomName) => __awaiter(this, void 0, void 0, function* () {
             let rooms = yield (0, rooms_1.createRooms)(roomName);
-            socket.broadcast.emit(events_1.default.SERVER.CREATED_ROOM, rooms);
+            console.log(rooms);
+            io.emit(events_1.default.SERVER.CREATED_ROOM, rooms);
         }));
         //Usuario se una a una sala
-        socket.on(events_1.default.CLIENT.JOIN_ROOM, (roomId, user) => __awaiter(this, void 0, void 0, function* () {
+        socket.on(events_1.default.CLIENT.JOIN_ROOM, (roomId, user) => {
             socket.join(roomId);
-            list.push({ id: roomId, users: [user] });
-            let filterList = list.filter(e => e.id === roomId);
+            !list.find(e => (e.roomId === roomId) && (e.user === user)) ? list.push({ roomId: roomId, id: socket.id, user: user }) : list;
+            // list.push({roomId: roomId, id: socket.id, user:user})
             console.log(list);
             let message = {
                 id: socket.id,
                 user: user,
-                message: 'Online'
+                message: 'Ha entrado'
             };
             io.to(roomId).emit("mensajes", message); // Avisa que usuario esta online
-            io.to(roomId).emit('users', filterList);
-            // await joinRoom(roomId, user)
-        }));
+            io.to(roomId).emit('users', list);
+        });
+        // Usuario sale de sala
+        socket.on(events_1.default.CLIENT.LEFT_ROOM, (roomId, user) => {
+            let message = {
+                id: socket.id,
+                user: user,
+                message: `Se ha ido`
+            };
+            io.to(roomId).emit("mensajes", message);
+            // const filtered = list.filter(e => (e.roomId !== roomId && e.user !== user))
+            // io.to(roomId).emit('users', filtered)
+            socket.leave(roomId);
+        });
         //Envío de mensajes
         socket.on("mensaje", (roomId, nombre, mensaje) => __awaiter(this, void 0, void 0, function* () {
             let message = {
@@ -76,15 +89,6 @@ function socket({ io }) {
             let msgs = yield (0, chat_1.messagesUpd)(roomId, message);
             socket.emit(events_1.default.SERVER.ROOM_MSG, msgs);
         }));
-        // socket.on(EVENTS.CLIENT.LEFT_ROOM, (roomId: string, user:string) => { // Avisa que el usuario ha salido
-        //   let message = {
-        //     user: user,
-        //     message: `${user} Offline`
-        //   }
-        //   console.log(`${user} ha salido`),
-        //   //socket.broadcast.emit manda el mensaje a todos los clientes excepto al que ha enviado el mensaje
-        //   socket.broadcast.emit("mensajes", message);
-        //   });
     });
 }
 exports.default = socket;

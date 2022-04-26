@@ -40,6 +40,11 @@
   border-style: none;
 }
 
+.chat__feed {
+  height: 100%;
+  overflow-y: auto;
+}
+
 .chat__textBox button {
   width: 19%;
   height: 2rem;

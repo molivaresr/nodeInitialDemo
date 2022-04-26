@@ -18,10 +18,10 @@ const config_1 = __importDefault(require("config"));
 const rooms_1 = __importDefault(require("../models/rooms"));
 const mongoURL = config_1.default.get('mongodb');
 const mongoOpt = config_1.default.get('mongoOpt');
-const readRooms = () => __awaiter(void 0, void 0, void 0, function* () {
+const readRooms = (roomId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield mongoose_1.default.connect(mongoURL, mongoOpt);
-        let rooms = yield rooms_1.default.find({});
+        let rooms = yield rooms_1.default.findById(roomId);
         // mongoose.connect(mongoURL, mongoOpt);;
         return rooms;
     }

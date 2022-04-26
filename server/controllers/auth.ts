@@ -56,12 +56,14 @@ export const loginPost = async (req: Request, res: Response) => {
             // mongoose.connection.close()
             
             // console.log(user); 
-            // await RoomModel.findById({_id:roomId}).updateOne({$push: {users: {user}}})
-            await UserModel.findOne({email:email}).updateOne({state: false})
+            
+            await UserModel.find({email:email}).update({state: false})
+            mongoose.connection.close();
             const payload = {nickname: user.nickname, email: user.email, passport: user.passport}
             let token = jwt.sign(payload, key)
             console.log('Sesión Iniciada')
             res.status(200).json({msg:'Sesión Iniciada', user:user, token: token});
+         
  
     } catch (error) {
         console.log(error);
@@ -72,11 +74,10 @@ export const loginPost = async (req: Request, res: Response) => {
 export const logOut = async (req: Request, res: Response) => {
     const { user } = req.body;
     console.log(user)
-    await UserModel.findOne({user:user}).updateOne({state: true})
-
+    await mongoose.connect(mongoURL, mongoOpt);
+    await UserModel.findOne({nickname:user}).updateOne({state: true})
+    mongoose.connection.close();
     res.status(200).json(
         {msg:'Sesión cerrada'}
     )
-
-
 }

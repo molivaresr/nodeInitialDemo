@@ -7,10 +7,10 @@ import '../styles/Rooms_style.css'
 import {socket} from "../context/SocketContext";
 import getRooms from "../services/getRooms";
 
-export default function Room({jwt, idroom, user}) {
+export default function Room({jwt, user}) {
   const [rooms, setRooms] = useState([]);
   const [roomId, setRoomId] = useState('');
-  const [room, setRoom] = useState('');
+  const [newRoom, setRoom] = useState(true);
   const newRoomRef = useRef(null);  
   
   useEffect(() => {
@@ -22,29 +22,28 @@ export default function Room({jwt, idroom, user}) {
 
   useEffect(() => {//Actualiza cuando se escucha el nuevo evento CREAR desde otros Clientes
     socket.on(EVENTS.SERVER.CREATED_ROOM, (rooms) => {
-      console.log(rooms)
+      setRooms(rooms)
       getRooms(jwt)
         .then(response => {
         setRooms(response.rooms)
       })
+      return() => {
+        socket.off();
+      }
     });
   },[rooms, jwt]);
-
-
-  
-  const  createRoom = (e) =>{ 
-    // e.preventDefault();
+ 
+  const  createRoom = () =>{ 
     let room = newRoomRef.current.value || '';
     console.log(room)
     if(!String(room).trim()) return;
     socket.emit(EVENTS.CLIENT.CREATE_ROOM, room);
     room = '';
-    console.log(room)
     setRoom(room)
   }
   
-  const joinRoom = () => {   
-    socket.emit(EVENTS.CLIENT.LEFT_ROOM, idroom, user)
+  const joinRoom = () => {
+    socket.emit(EVENTS.CLIENT.LEFT_ROOM, (roomId, user))
     window.localStorage.setItem('RoomNow', roomId);
   }
   

@@ -3,10 +3,10 @@ import logOut from '../services/logout';
 
 
 
-export default function Logout({user}) {
-    // const [token, setToken] = useState();
-    const [logout, setLogout] = useState('');
-    window.localStorage.getItem('nickname')
+export default function Logout() {
+    
+    const [logout, setLogout] = useState(false);
+    const user = window.localStorage.getItem('nickname')
 
     const handleLogout = (e) => {
         e.preventDefault();
@@ -17,13 +17,13 @@ export default function Logout({user}) {
             window.localStorage.removeItem('jwt')
             window.localStorage.removeItem('RoomNow')
    
-            setLogout(sessionData)
+            setLogout(true)
             window.location.reload()
-            // setNickname(nickname)
+  
           })
           .catch(err => {
             console.log(err)
-            // setResp(sessionData)
+     
           })
     }
 

@@ -8,11 +8,10 @@ import RoomModel from "../models/rooms";
 const mongoURL = config.get<string>('mongodb'); 
 const mongoOpt = config.get<object>('mongoOpt');
 
-export const readRooms = async () => {
-
+export const readRooms = async (roomId:string) => {
     try {
         await mongoose.connect(mongoURL, mongoOpt);
-        let rooms = await RoomModel.find({});
+        let rooms = await RoomModel.findById(roomId);
         // mongoose.connect(mongoURL, mongoOpt);;
        return rooms
     }
