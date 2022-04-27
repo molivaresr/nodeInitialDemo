@@ -1,3 +1,40 @@
-https://www.youtube.com/watch?v=a_xo-SbIfUQ
+<h1 align="center">Welcome to iTChat 👋</h1>
 
-https://github.dev/TomDoesTech/Realtime-Chat-Application/blob/main/server/src/app.ts
+> Chat creado como proyecto final para el itinerario de BackenNodeJS la iT Academy
+> 
+
+Para Iniciar  
+**Necesario Instalar NODEJS**  
+- Descargar : [https://nodejs.org/es/]
+- 
+``npm i``  
+``npm link``    
+``Es necesario ejecutar desde el repositorio /nodeInitialDemo``  
+``todoappit`` -> Para iniciar una tarea  
+> Ejemplos  
+``todoappit -h`` -> Para ver todos los comandos  
+``todoappit a json ``  -> Para crear una tarea en Json
+
+## Comandos 
+Options:
+  -v, --version   Para consultar la versión del programa  
+  -h, --help      display help for command  
+
+Commands:  
+  add|a           Crear una nueva tarea  
+  remove|r        Eliminar una tarea  
+  update|u        Modificar una tarea  
+  find|f          Buscar una tarea  
+  help [command]  display help for command  
+## Authors
+
+👤 **Mauricio**
+
+- Github: [@molivaresr] (https://github.com/molivaresr)
+
+## Show your support
+
+Give a ⭐️ if this project helped you!
+
+---
+
