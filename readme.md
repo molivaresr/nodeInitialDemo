@@ -16,7 +16,7 @@
 
 **Iniciar Front**
 ``cd itchat`` -> Acceder al directorio del chat  
-``npm i`` -> Instala dependencias del front end
+``npm i`` -> Instala dependencias del front end  
 ``npm start`` -> Inicia servidor Frontend
 
 ## Uso del chat 
