@@ -9,18 +9,27 @@
 **Necesario utilizar NPM**  
 - Como Instalar : [https://docs.npmjs.com/cli/v8/configuring-npm/install]
 
+**Necesario MongoDB**  
+- Como Instalar: [https://www.mongodb.com/docs/manual/installation/]
+
 **Iniciar servidor**  
 ``cd server`` --> Acceder al directorio del server  
 ``npm i`` -> Instala las dependencias necesarias  
-``npm start`` -> Inicia servidor
+``npm start`` -> Inicia servidor  
+
 
 **Iniciar Front**  
 ``cd itchat`` -> Acceder al directorio del chat  
 ``npm i`` -> Instala dependencias del front end  
 ``npm start`` -> Inicia servidor Frontend
 
-## Uso del chat 
-Es necesario registrarse
+Alert: ``server\output\config\default.js`` se pueden configurar tus variables de funcionamiento.   
+## Features del chat 
+Para verlo en funcionamiento: 
+``http://localhost:3000``  
+Para acceder es necesario registrarse.  
+``Disclaimer: Los emails son almacenados en tu ordenador Al finalizar el servidor quedarán almacenados en tu BD de mongos, te recomendamos eliminar la BD ``  
+
 
 ## Authors
 
@@ -28,9 +37,9 @@ Es necesario registrarse
 
 - Github: [@molivaresr] (https://github.com/molivaresr)
 
-## Show your support
+## Dame tu apoyo
 
-Give a ⭐️ if this project helped you!
+Una ⭐️ si te ha gustado y/o ayudado
 
 ---
 
