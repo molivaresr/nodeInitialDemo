@@ -28,9 +28,9 @@ Es necesario registrarse
 
 - Github: [@molivaresr] (https://github.com/molivaresr)
 
-## Show your support
+## Dame tu apoyo
 
-Give a ⭐️ if this project helped you!
+Una ⭐️ si te ha gustado y/o ayudado
 
 ---
 
