@@ -1,4 +1,4 @@
-import jwt, { decode } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import {Request, Response, NextFunction} from 'express';
 import config from 'config'
 const key = config.get<string>('PRIVATEKEY')

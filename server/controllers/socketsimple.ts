@@ -1,13 +1,13 @@
 
 
 import config from 'config';
-import mongoose from 'mongoose';
+
 import { Server, Socket } from "socket.io";
 
 import EVENTS from '../config/events';
-import {joinRoom, messagesUpd}from '../controllers/chat';
-import {createRooms, readRooms} from '../controllers/rooms';
-import RoomModel from "../models/rooms";
+import { messagesUpd}from '../controllers/chat';
+import {createRooms} from '../controllers/rooms';
+
 
 const mongoURL = config.get<string>('mongodb');
 const mongoOpt = config.get<object>('mongoOpt');

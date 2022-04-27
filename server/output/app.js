@@ -28,7 +28,6 @@ app.use((0, cors_1.default)());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use(body_parser_1.default.json());
 app.use(route_1.default);
-// createRooms('Welcome')
 httpServer.listen(port, host, () => {
     logger_1.default.info(`🚀 Chat Server version: ${package_json_1.version} is listening 🚀 `);
     logger_1.default.info(`http://${host}:${port}`);
