@@ -2,7 +2,7 @@
 
 > Chat creado como proyecto final para el itinerario de BackenNodeJS la iT Academy
 > 
-
+## Instrucciones
 **Necesario Instalar NODEJS**  
 - Descargar : [https://nodejs.org/es/]
 
