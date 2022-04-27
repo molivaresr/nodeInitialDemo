@@ -15,13 +15,15 @@
 **Iniciar servidor**  
 ``cd server`` --> Acceder al directorio del server  
 ``npm i`` -> Instala las dependencias necesarias  
-``npm start`` -> Inicia servidor
+``npm start`` -> Inicia servidor  
+
 
 **Iniciar Front**  
 ``cd itchat`` -> Acceder al directorio del chat  
 ``npm i`` -> Instala dependencias del front end  
 ``npm start`` -> Inicia servidor Frontend
 
+Alert: ``server\output\config\default.js`` se pueden configurar tus variables de funcionamiento.   
 ## Features del chat 
 Para verlo en funcionamiento: 
 ``http://localhost:3000``  
