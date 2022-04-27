@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect, useRef } from "react";
 
 import EVENTS from "../config/events";
-import '../styles/Rooms_style.css'
+import Rooms_style from '../styles/Rooms_style.css'
 
 import {socket} from "../context/SocketContext";
 import getRooms from "../services/getRooms";
@@ -49,14 +49,19 @@ export default function Room({jwt, user}) {
   
   return (
     <div className="rooms">     
+      <h2>Salas</h2>
+      <div className="rooms__create">
       <form>
-          <label><h2>Create a Room</h2></label>
+          {/* <label><h2>Create a Room</h2></label> */}
           <input type='text' placeholder='Nombre de la sala' ref={newRoomRef} />
-          <button onClick={createRoom}>+</button>
+          <button onClick={createRoom}>Crear nueva sala</button>
       </form>
-      <form>
-          <label><h2>Unirse a una sala</h2></label>
-          <select size='5' onChange={(e) => setRoomId(e.target.value)}>
+      </div>
+      <div className="rooms__join">
+      <form >
+          <h2>Unirse</h2>
+          {/* <label><h2>Unirse a una sala</h2></label> */}
+          <select className="rooms__List" size='5' onChange={(e) => setRoomId(e.target.value)}>
           <optgroup label="Elige tu sala">
           {rooms.map((e) => 
               <option key={e._id} value={e._id}>
@@ -67,5 +72,6 @@ export default function Room({jwt, user}) {
           </select><br/>
           <button onClick={joinRoom}>Unete!</button>
       </form>
+      </div>
     </div>
   )};

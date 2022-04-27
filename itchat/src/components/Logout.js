@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import logOut from '../services/logout';
-
+import Logout_style from '../styles/logout_style.css'
 
 
 export default function Logout() {

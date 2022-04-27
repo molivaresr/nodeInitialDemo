@@ -3,7 +3,7 @@ import EVENTS from "../config/events";
 import {socket} from "../context/SocketContext";
 import Users from './Users';
 import getRooms from '../services/getRooms';
-import '../styles/Feed_style.css'
+import Feed_style from '../styles/Feed_style.css'
 
 const submit = (e) => {
     e.preventDefault();

@@ -19,18 +19,6 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 
 .wrapper {
   height: auto;
@@ -91,15 +79,6 @@
 }
 
 /*Chat feed*/
-.chat {
-  display: flex;
-  flex-direction:column;
-  flex-wrap: nowrap;
-  margin: auto;
-  width: 100%;
-  max-width:1080px;
-  border: solid 1px #000;
-}
 
 ul {
   list-style: none;
@@ -109,7 +88,7 @@ h1 {
   padding: 1rem;
   margin: auto;
   width: 100%;
-  color:#333;
+  color:#fff;
   font-weight: 900;
   text-align: center;
 }

@@ -8,12 +8,8 @@ import Layout from "./pages/Layout";
 import RegisterPage from "./pages/Register";
 
 import NoPage from './pages/NoPage';
+import App_style from './styles/App_style.css'
 
-// import Chat from "./components/Chat";
-// export default function App () {
-//   return <Chat />
-
-// }  
 function App() {
   const [token, setToken] = useState('')
   useEffect(() => {

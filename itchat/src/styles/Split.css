@@ -9,34 +9,18 @@
     float: left;
     width: 20%;
     height: 100%;
+    margin-left:1px
   }
   
   .SplitPane-middle {
     float: left;
     width: 60%;
     height: 100%;
+    margin-left:1px
   }
   
   .SplitPane-right {
     float: left;
     width: 20%;
     height: 100%;
-  }
-  
-  .Users {
-    width: 100%;
-    height: 100%; 
-    background: lightblue;
-  }
-  
-  .Chat {
-    width: 100%;
-    height: 100%; 
-    background: pink;
-  }
-  
-  .Rooms {
-    width: 100%;
-    height: 100%;
-    background: white;
   }

@@ -1,5 +1,5 @@
 import React from "react";
-import '../styles/Split.css'
+import Split from '../styles/Split.css'
 export default function SplitPane(props) {
   console.log('Render Split');
     return (

@@ -1,6 +1,6 @@
 import React, {useEffect, useState}from 'react';
 import { socket } from '../context/SocketContext';
-import '../styles/Users_style.css'
+import Users_style from '../styles/Users_style.css'
 
 export default function Users({roomId}) {
   // const [listUsers, setList] = useState([]);
@@ -22,7 +22,7 @@ export default function Users({roomId}) {
   console.log(filterUsers)
   
     return (
-      <div className='user'>
+      <div className='users'>
           <h2>Usuarios</h2>
           <ul>
             {filterUsers.map((e) => 
