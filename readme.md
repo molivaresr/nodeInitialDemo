@@ -9,12 +9,12 @@
 **Necesario utilizar NPM**  
 - Como Instalar : [https://docs.npmjs.com/cli/v8/configuring-npm/install]
 
-**Iniciar servidor**
+**Iniciar servidor**  
 ``cd server`` --> Acceder al directorio del server  
 ``npm i`` -> Instala las dependencias necesarias  
 ``npm start`` -> Inicia servidor
 
-**Iniciar Front**
+**Iniciar Front**  
 ``cd itchat`` -> Acceder al directorio del chat  
 ``npm i`` -> Instala dependencias del front end  
 ``npm start`` -> Inicia servidor Frontend
