@@ -19,8 +19,12 @@
 ``npm i`` -> Instala dependencias del front end  
 ``npm start`` -> Inicia servidor Frontend
 
-## Uso del chat 
-Es necesario registrarse
+## Features del chat 
+Para verlo en funcionamiento: 
+``http://localhost:3000``  
+Para acceder es necesario registrarse.
+``Disclaimer: Los emails son almacenados en tu ordenador`` -> Al finalizar el servidor quedarán almacenados en tu BD de mongos, puedes eliminar la BD si deseas.
+
 
 ## Authors
 
