@@ -26,7 +26,7 @@ export default function Users({roomId}) {
           <h2>Usuarios</h2>
           <ul>
             {filterUsers.map((e) => 
-              <li key={e.id}><button>{e.user}</button>
+              <li key={e.id}>{e.user}
               </li>
             )}
           </ul>

@@ -4,7 +4,6 @@ import Logout_style from '../styles/logout_style.css'
 
 
 export default function Logout() {
-    
     const [logout, setLogout] = useState(false);
     const user = window.localStorage.getItem('nickname')
 
@@ -29,9 +28,9 @@ export default function Logout() {
 
   return(
     <>
-        <form onSubmit={handleLogout}>
-          <button type="submit">Logout</button>
-        </form>
+        
+          <button type="submit" onClick={handleLogout}>Logout</button>
+        
       
     </>
   )

@@ -11,11 +11,10 @@
 }
 
 .chat__message {
-  width: 100%;
+  width: 98%;
   background-color: rgba(255,255,255,0.2);
   border-radius: 4px;
-  margin: 2px 0px;
-
+  margin: 2px auto;
 }
 
 .chat__textBox {

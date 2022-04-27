@@ -1,7 +1,7 @@
-import React, {useContext, useEffect, useState, useRef}from 'react';
+import React, {useEffect, useState, useRef}from 'react';
 import EVENTS from "../config/events";
 import {socket} from "../context/SocketContext";
-import Users from './Users';
+
 import getRooms from '../services/getRooms';
 import Feed_style from '../styles/Feed_style.css'
 

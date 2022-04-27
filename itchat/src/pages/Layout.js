@@ -2,23 +2,17 @@ import { Outlet, Link} from "react-router-dom";
 import Chat from './Chat'
 import Logout from '../components/Logout'
 
-import Layout_styl from '../styles/Layout_styl.css'
+import Layout_styl from '../styles/Layout_style.css'
 const Layout = () => {
   return (
     <>
-
-    <h1>iT - Chat</h1>
-      <nav className="menu">
-        <ul>
-          <li>
-            <Link to="/">Chat</Link>
-          </li>
-          <li>
-            <Logout />
-          </li>
-        </ul>
-      </nav>
-      <div> <Chat /></div>
+    <main>
+      <div>
+        <div className="Layout__button"><Logout /></div>
+        <div className="Layout__title"><h1>iT - Chat</h1></div>
+      </div>
+      <Chat />
+    </main>
       <Outlet />
      
     </>

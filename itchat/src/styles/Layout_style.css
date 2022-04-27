@@ -1,0 +1,46 @@
+main {
+  max-width: 1080px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.Layout__title {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.Layout__button {
+  width: 100%;
+  margin-bottom: 4px;
+  margin-top: 4px;
+  margin-left: auto;
+}
+
+.menu{
+  width: 100%;
+  margin: auto;
+  align-items: center;
+}
+
+.menu ul {
+  list-style: none;
+  display: inline;
+}
+
+.menu li {
+  display:inline-block;
+  width:10%;
+  margin-left: auto;
+  padding:5px 10px;
+  text-align: left;
+  color:#fff;
+}
+
+.menu a {
+  text-align: right;
+}
+
+.menu button {
+  text-align: left;
+}
