@@ -9,25 +9,19 @@
 **Necesario utilizar NPM**  
 - Como Instalar : [https://docs.npmjs.com/cli/v8/configuring-npm/install]
 
-``npm i``  
-``npm link``    
-``Es necesario ejecutar desde el repositorio /nodeInitialDemo``  
-``todoappit`` -> Para iniciar una tarea  
-> Ejemplos  
-``todoappit -h`` -> Para ver todos los comandos  
-``todoappit a json ``  -> Para crear una tarea en Json
+**Iniciar servidor**
+``cd server`` --> Acceder al directorio del server  
+``npm i`` -> Instala las dependencias necesarias  
+``npm start`` -> Inicia servidor
 
-## Comandos 
-Options:
-  -v, --version   Para consultar la versión del programa  
-  -h, --help      display help for command  
+**Iniciar Front**
+``cd itchat`` -> Acceder al directorio del chat  
+``npm i`` -> Instala dependencias del front end
+``npm start`` -> Inicia servidor Frontend
 
-Commands:  
-  add|a           Crear una nueva tarea  
-  remove|r        Eliminar una tarea  
-  update|u        Modificar una tarea  
-  find|f          Buscar una tarea  
-  help [command]  display help for command  
+## Uso del chat 
+Es necesario registrarse
+
 ## Authors
 
 👤 **Mauricio**
