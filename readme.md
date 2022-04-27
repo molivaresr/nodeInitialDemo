@@ -22,8 +22,8 @@
 ## Features del chat 
 Para verlo en funcionamiento: 
 ``http://localhost:3000``  
-Para acceder es necesario registrarse.
-``Disclaimer: Los emails son almacenados en tu ordenador`` -> Al finalizar el servidor quedarán almacenados en tu BD de mongos, puedes eliminar la BD si deseas.
+Para acceder es necesario registrarse.  
+``Disclaimer: Los emails son almacenados en tu ordenador Al finalizar el servidor quedarán almacenados en tu BD de mongos, te recomendamos eliminar la BD ``  
 
 
 ## Authors
