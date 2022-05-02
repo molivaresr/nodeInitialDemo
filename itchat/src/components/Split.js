@@ -1,7 +1,7 @@
 import React from "react";
 import Split from '../styles/Split.css'
 export default function SplitPane(props) {
-  console.log('Render Split');
+  // console.log('Render Split');
     return (
       <div className="SplitPane ">
         <div className="SplitPane-left">

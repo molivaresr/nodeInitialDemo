@@ -18,7 +18,7 @@ export default function login (email, password) {
             nickname : respuesta.user.nickname,
             token: respuesta.token
         }
-        console.log(sessionData.msg)
+        // console.log(sessionData.msg)
         return sessionData
     }).catch(err => {
         console.log(err)

@@ -8,7 +8,7 @@ export default function Users({roomId}) {
   
   useEffect(() => {
     socket.on('users', (list) => {
-      console.log(list)
+      // console.log(list)
     // const filterUsers = list.filter(e => e.roomId === roomId)
     // console.log(filterUsers)
     setUsers(list)
@@ -19,7 +19,7 @@ export default function Users({roomId}) {
   })}, [users, roomId, setUsers]); 
 
   const filterUsers = users.filter(e => e.roomId === roomId)
-  console.log(filterUsers)
+  // console.log(filterUsers)
   
     return (
       <div className='users'>

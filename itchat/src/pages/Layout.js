@@ -1,4 +1,4 @@
-import { Outlet, Link} from "react-router-dom";
+import { Outlet} from "react-router-dom";
 import Chat from './Chat'
 import Logout from '../components/Logout'
 

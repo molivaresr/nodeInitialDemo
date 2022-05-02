@@ -13,7 +13,7 @@ export default function logOut (user) {
     .then(response => response.json())
     .then(respuesta => {
         let sessionData = respuesta.msg;              
-        console.log(sessionData.msg)
+        // console.log(sessionData.msg)
         return sessionData
     }).catch(err => {
         console.log(err)

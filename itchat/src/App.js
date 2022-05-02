@@ -1,8 +1,7 @@
 import React, {useEffect, useState}  from "react";
 import {Routes, Route, BrowserRouter} from "react-router-dom";
 
-// import useToken from "./hooks/useToken";
-import Login from "./components/Login";
+
 import LoginPage from './pages/Login'
 import Layout from "./pages/Layout";
 import RegisterPage from "./pages/Register";
@@ -14,7 +13,6 @@ function App() {
   const [token, setToken] = useState('')
   useEffect(() => {
     setToken(window.localStorage.getItem('jwt'))
-    console.log(token)
   },[token])
   
     if(!token) {
