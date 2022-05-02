@@ -24,48 +24,48 @@ const mongoOpt = config_1.default.get('mongoOpt');
 const loginPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
     console.log(req.body.email);
-    console.log('Intento de iniciar sesión');
+    // console.log('Intento de iniciar sesión')
     try {
-        console.log('Intento 2 de inicio');
+        // console.log('Intento 2 de inicio')
         let user;
-        console.log('Intento 4 de inicio');
+        // console.log('Intento 4 de inicio')
         yield mongoose_1.default.connect(mongoURL, mongoOpt);
         // Verificar email
         user = yield users_1.default.findOne({ email: email });
-        console.log('Intento 5 de inicio');
+        // console.log('Intento 5 de inicio')                                 
         if (!user) {
-            console.log('Intento 6 de inicio');
+            // console.log('Intento 6 de inicio')
             return res.json({
                 msg: 'Usuario y/o Password incorrectos'
             });
         }
-        console.log('Intento 8 de inicio');
+        // console.log('Intento 8 de inicio')
         //Verificar contraseña
         const validPass = yield bcryptjs_1.default.compare(password, user.password);
         if (!validPass) {
-            console.log('Intento 9 de inicio');
+            // console.log('Intento 9 de inicio')
             return res.status(400).json({
                 msg: 'Usuario y/o Password incorrectos'
             });
         }
-        console.log('Intento 10 de inicio');
+        // console.log('Intento 10 de inicio')
         //Verificar estado
         console.log(user.state);
         if (!user.state) {
-            console.log('Intento 11 de inicio');
+            // console.log('Intento 11 de inicio')
             return res.status(400).json({
                 msg: 'Iniciaste sesión en otro dispositivo!'
             });
         }
-        console.log('Intento 12 de inicio');
+        // console.log('Intento 12 de inicio')
         // mongoose.connection.close()
         // console.log(user); 
-        yield users_1.default.find({ email: email }).update({ state: false });
-        mongoose_1.default.connection.close();
         const payload = { nickname: user.nickname, email: user.email, passport: user.passport };
         let token = jsonwebtoken_1.default.sign(payload, key);
         console.log('Sesión Iniciada');
         res.status(200).json({ msg: 'Sesión Iniciada', user: user, token: token });
+        yield users_1.default.findOne({ email: email }).updateOne({ state: false });
+        mongoose_1.default.connection.close();
     }
     catch (error) {
         console.log(error);
