@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.putMessages = exports.createRooms = exports.readRooms = void 0;
+exports.joinRoom = exports.createRooms = exports.readRooms = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const config_1 = __importDefault(require("config"));
 const rooms_1 = __importDefault(require("../models/rooms"));
@@ -22,7 +22,7 @@ const readRooms = (roomId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield mongoose_1.default.connect(mongoURL, mongoOpt);
         let rooms = yield rooms_1.default.findById(roomId);
-        // mongoose.connect(mongoURL, mongoOpt);;
+        console.log('-', rooms === null || rooms === void 0 ? void 0 : rooms.users);
         return rooms;
     }
     catch (error) {
@@ -61,25 +61,26 @@ const createRooms = (roomName) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.createRooms = createRooms;
-const putMessages = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { roomId, message } = req.body;
+const joinRoom = (roomId, user) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield mongoose_1.default.connect(mongoURL, mongoOpt);
-        yield rooms_1.default.findOne({ _id: roomId }).updateOne({ $push: { messages: message } });
-        let updatedMsgs = yield rooms_1.default.findOne({ _id: roomId });
-        // mongoose.connect(mongoURL, mongoOpt);; 
-        res.json({
-            msg: `Mensajes actualizados`,
-            room: updatedMsgs
-        });
+        let findRoom = yield rooms_1.default.findOne({ _id: roomId });
+        let findUser = findRoom === null || findRoom === void 0 ? void 0 : findRoom.users.find(e => e.user === user);
+        if (findUser) {
+            yield rooms_1.default.findOne({ _id: roomId }).updateOne({ users: { user: user, state: true } });
+            let findRoom = yield rooms_1.default.findOne({ _id: roomId });
+            let users = findRoom === null || findRoom === void 0 ? void 0 : findRoom.users;
+            return users;
+        }
+        else {
+            yield rooms_1.default.findOne({ _id: roomId }).updateOne({ $push: { users: { user: user, state: true } } });
+            let users = findRoom === null || findRoom === void 0 ? void 0 : findRoom.users;
+            return users;
+        }
     }
     catch (error) {
         console.log(error);
-        res.status(400).json({
-            msg: 'Petición erronéa',
-            type: 'No se pudo guardar los mensajes'
-        });
     }
 });
-exports.putMessages = putMessages;
+exports.joinRoom = joinRoom;
 //# sourceMappingURL=rooms.js.map

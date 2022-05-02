@@ -16,13 +16,13 @@ interface Users {
 interface Rooms {
     _id: Types.ObjectId;
     roomName: String;
-    messages: Messages[]
+    messages: Messages[];
     users: Users[]
 }
 
 type RoomDocumentProps = { 
     messages: Types.DocumentArray<Messages>
-    users: Types.DocumentArray<Users>
+
 }
 
 type RoomModelType = Model<Rooms, {}, RoomDocumentProps>;
@@ -37,7 +37,7 @@ const RoomModel = model<Rooms, RoomModelType>('Room', new Schema<Rooms, RoomMode
         user: String,
         state: {
         type: Boolean,
-        default: true,
+        default: false,
         }
     })]
 }))

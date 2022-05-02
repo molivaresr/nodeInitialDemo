@@ -4,7 +4,6 @@ import config from 'config';
 import UserModel from "../models/users";
 import RoomModel from "../models/rooms";
 
-
 const mongoURL = config.get<string>('mongodb');
 const mongoOpt = config.get<object>('mongoOpt');
 
@@ -112,25 +111,7 @@ export const getRooms = async (req: Request, res: Response) => {
     }
 }
 
-export const joinRoom= async (roomId:string, user:string) => {
-    // console.log('Function JoinRoom', roomId, user)
-    try {      
-        await mongoose.connect(mongoURL, mongoOpt);
-        let findUser = await RoomModel.findOne({_id: roomId})
-        console.log(findUser)
-        if(findUser) {
-            return // await RoomModel.findById({_id:roomId}).replaceOne({$push: {users: {user, state:false}}})
-        }
-        else  { 
-            await RoomModel.findById(roomId).updateOne({$push: {users: {user}}})
-        }
-        
-        // // mongoose.connection.close(); 
-    } 
-    catch (error) {
-        console.log(error)
-    }
-}
+
 
 export const messagesUpd= async (roomId:string, message: object) => {
     try {      

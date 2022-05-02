@@ -6,17 +6,14 @@ import { Server, Socket } from "socket.io";
 
 import EVENTS from '../config/events';
 import { messagesUpd}from '../controllers/chat';
-import {createRooms} from '../controllers/rooms';
+import {createRooms, joinRoom, readRooms} from '../controllers/rooms';
 
 
 const mongoURL = config.get<string>('mongodb');
 const mongoOpt = config.get<object>('mongoOpt');
 
-// const rooms : Array<{id: string, name: string}> = new Array();
-
 let list = new Array()
 const users : Array<{id: string, user:string}> = new Array();
-// const userList : Array<{roomId: string, users: Array<{id: string, user: string}>}> = new Array()
 
 function socket ({io}:{io: Server}) {
     io.on(EVENTS.connection, (socket) => {
@@ -40,7 +37,7 @@ function socket ({io}:{io: Server}) {
                   }
               }
               users.push(newUser) 
-              // console.log(users)
+            
       } catch (error) { console.log(error); }
     })
     
@@ -48,27 +45,27 @@ function socket ({io}:{io: Server}) {
       //Usuario crea una sala
       socket.on(EVENTS.CLIENT.CREATE_ROOM, async (roomName:string) => {
         let rooms = await createRooms(roomName);
-        console.log(rooms)
-        io.emit(EVENTS.SERVER.CREATED_ROOM, rooms)
+        io.emit(EVENTS.SERVER.CREATED_ROOM, rooms) 
       });
 
       //Usuario se una a una sala
-      socket.on(EVENTS.CLIENT.JOIN_ROOM, (roomId:string, user:string)=>{
-   
+      socket.on(EVENTS.CLIENT.JOIN_ROOM, async (roomId:string, user:string)=>{
+        await joinRoom(roomId, user)
         socket.join(roomId)
- 
+        
         !list.find(e => (e.roomId === roomId) && (e.user === user))? list.push({roomId: roomId, id: socket.id, user:user}) : list;
         // list.push({roomId: roomId, id: socket.id, user:user})
-        console.log(list)
-
+        // console.log(list)
+        
         let message = {
           id: socket.id,
           user: user,
           message: 'Ha entrado'
         }
-
-        io.to(roomId).emit("mensajes", message); // Avisa que usuario esta online
-        io.to(roomId).emit('users', list)
+        
+        let users = await readRooms(roomId)        
+        io.to(roomId).emit("mensajes", message, users); // Avisa que usuario esta online
+        io.to(roomId).emit('users', users)
         
       });
       // Usuario sale de sala
@@ -79,8 +76,7 @@ function socket ({io}:{io: Server}) {
           message: `Se ha ido`
         }
         io.to(roomId).emit("mensajes", message);
-        // const filtered = list.filter(e => (e.roomId !== roomId && e.user !== user))
-        // io.to(roomId).emit('users', filtered)
+
         socket.leave(roomId)
       });
       //Envío de mensajes

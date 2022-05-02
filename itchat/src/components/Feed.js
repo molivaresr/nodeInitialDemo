@@ -53,6 +53,7 @@ export default function Feed({user, roomId, jwt}) {
     
     useEffect(() => {
       socket.on("mensajes", (message) => {
+  
         setMensajes([...mensajes, message]);
       });
       return() => {

@@ -27,13 +27,9 @@ const UserModel = (0, mongoose_1.model)('User', new mongoose_1.Schema({
         type: Boolean,
         default: true
     },
-    google: {
-        type: Boolean,
-        default: false
-    },
-    rooms: [new mongoose_1.Schema({
-            roomId: String,
-        })]
+    rooms: new mongoose_1.Schema({
+        roomId: String,
+    })
 }));
 exports.default = UserModel;
 //# sourceMappingURL=users.js.map

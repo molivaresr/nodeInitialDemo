@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import {Request, Response} from 'express';
 
 import config from 'config';
 
@@ -12,8 +11,8 @@ export const readRooms = async (roomId:string) => {
     try {
         await mongoose.connect(mongoURL, mongoOpt);
         let rooms = await RoomModel.findById(roomId);
-        // mongoose.connect(mongoURL, mongoOpt);;
-       return rooms
+        console.log('-',rooms?.users)
+        return rooms
     }
     catch (error) {
         console.log(error)
@@ -51,24 +50,26 @@ export const createRooms = async (roomName: string) => {
     catch (error) {console.log(error)}
 }
 
-export const putMessages = async (req: Request, res: Response) => {
-    const { roomId, message} = req.body;
+export const joinRoom= async (roomId:string, user:string) => {
     try {      
         await mongoose.connect(mongoURL, mongoOpt);
-        await RoomModel.findOne({_id: roomId }).updateOne({$push: {messages: message}});
-        let updatedMsgs = await RoomModel.findOne({_id: roomId })
-        // mongoose.connect(mongoURL, mongoOpt);; 
-        res.json({
-            msg:`Mensajes actualizados`,
-            room: updatedMsgs
-        })
-    } 
+        let findRoom = await RoomModel.findOne({_id: roomId})
+        let findUser = findRoom?.users.find(e => e.user === user)
+
+        if(findUser) {
+            await RoomModel.findOne({_id:roomId}).updateOne({users:{user: user, state:true}})
+            let findRoom = await RoomModel.findOne({_id:roomId})
+            let users = findRoom?.users
+            
+            return users
+        }
+        else  { 
+            await RoomModel.findOne({_id:roomId}).updateOne({$push: {users:{user: user, state:true}}})
+            let users = findRoom?.users
+            return users
+        }
+      } 
     catch (error) {
         console.log(error)
-        res.status(400).json({
-            msg:'Petición erronéa',
-            type: 'No se pudo guardar los mensajes'
-        })
     }
 }
-

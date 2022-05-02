@@ -5,7 +5,6 @@ import {getRooms, getUsers, getUser, postRooms} from '../controllers/chat';
 import { loginPost, logOut } from "../controllers/auth";
 import tokenValidation from '../middlewares/validate';
 import api from './path'
-import { putMessages } from "../controllers/rooms";
 
 const router = Router();
 
@@ -31,7 +30,7 @@ router.get(api.users, tokenValidation, getUsers)
 router.get(api.user, tokenValidation, getUser)  // Leer usuarios
 router.get(api.rooms, tokenValidation, getRooms) // Leer salas
 router.post(api.rooms, tokenValidation, postRooms) // Crear salas
-router.put(api.rooms, tokenValidation, putMessages) // Crear salas
+router.put(api.rooms, forbidden) // Crear salas
 
 // 404 
 router.get(api.others, others);

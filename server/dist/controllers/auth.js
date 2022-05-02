@@ -75,7 +75,6 @@ const loginPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.loginPost = loginPost;
 const logOut = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { user } = req.body;
-    console.log(user);
     yield mongoose_1.default.connect(mongoURL, mongoOpt);
     yield users_1.default.findOne({ nickname: user }).updateOne({ state: true });
     mongoose_1.default.connection.close();

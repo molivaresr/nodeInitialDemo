@@ -12,15 +12,14 @@ interface User {
     passport: string,
     token: string,
     state: boolean;
-    google: boolean;
-    rooms: Rooms[];
+    rooms: Rooms;
 }
 
-type UserDocumentProps = { 
-    messages: Types.DocumentArray<Rooms>
-}
+// type UserDocumentProps = { 
+//     messages: Types.DocumentArray<Rooms>
+// }
 
-type UserModelType = Model<User, {}, UserDocumentProps>;
+type UserModelType = Model<User>;
 
 const UserModel = model<User, UserModelType>('User', new Schema<User, UserModelType>({
 
@@ -49,13 +48,9 @@ const UserModel = model<User, UserModelType>('User', new Schema<User, UserModelT
         type: Boolean,
         default: true
     },
-    google :{
-        type: Boolean,
-        default: false
-    },
-    rooms:[new Schema<Rooms>({
+    rooms:new Schema<Rooms>({
         roomId: String,
-    })]
+    })
 }))
 
 export default UserModel;

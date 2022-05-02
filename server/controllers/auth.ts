@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import config from 'config';
 import UserModel from '../models/users';
-import { joinRoom } from './chat';
+import { joinRoom } from './rooms';
 import RoomModel from '../models/rooms';
 
 
@@ -73,10 +73,11 @@ export const loginPost = async (req: Request, res: Response) => {
 
 export const logOut = async (req: Request, res: Response) => {
     const { user } = req.body;
-    console.log(user)
     await mongoose.connect(mongoURL, mongoOpt);
     await UserModel.findOne({nickname:user}).updateOne({state: true})
+    
     mongoose.connection.close();
+    
     res.status(200).json(
         {msg:'Sesión cerrada'}
     )

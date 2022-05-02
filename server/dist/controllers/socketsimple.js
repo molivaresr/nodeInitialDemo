@@ -18,10 +18,8 @@ const chat_1 = require("../controllers/chat");
 const rooms_1 = require("../controllers/rooms");
 const mongoURL = config_1.default.get('mongodb');
 const mongoOpt = config_1.default.get('mongoOpt');
-// const rooms : Array<{id: string, name: string}> = new Array();
 let list = new Array();
 const users = new Array();
-// const userList : Array<{roomId: string, users: Array<{id: string, user: string}>}> = new Array()
 function socket({ io }) {
     io.on(events_1.default.connection, (socket) => {
         socket.on(events_1.default.disconnection, () => { });
@@ -41,7 +39,6 @@ function socket({ io }) {
                     }
                 }
                 users.push(newUser);
-                // console.log(users)
             }
             catch (error) {
                 console.log(error);
@@ -50,23 +47,24 @@ function socket({ io }) {
         //Usuario crea una sala
         socket.on(events_1.default.CLIENT.CREATE_ROOM, (roomName) => __awaiter(this, void 0, void 0, function* () {
             let rooms = yield (0, rooms_1.createRooms)(roomName);
-            console.log(rooms);
             io.emit(events_1.default.SERVER.CREATED_ROOM, rooms);
         }));
         //Usuario se una a una sala
-        socket.on(events_1.default.CLIENT.JOIN_ROOM, (roomId, user) => {
+        socket.on(events_1.default.CLIENT.JOIN_ROOM, (roomId, user) => __awaiter(this, void 0, void 0, function* () {
+            yield (0, rooms_1.joinRoom)(roomId, user);
             socket.join(roomId);
             !list.find(e => (e.roomId === roomId) && (e.user === user)) ? list.push({ roomId: roomId, id: socket.id, user: user }) : list;
             // list.push({roomId: roomId, id: socket.id, user:user})
-            console.log(list);
+            // console.log(list)
             let message = {
                 id: socket.id,
                 user: user,
                 message: 'Ha entrado'
             };
-            io.to(roomId).emit("mensajes", message); // Avisa que usuario esta online
-            io.to(roomId).emit('users', list);
-        });
+            let users = yield (0, rooms_1.readRooms)(roomId);
+            io.to(roomId).emit("mensajes", message, users); // Avisa que usuario esta online
+            io.to(roomId).emit('users', users);
+        }));
         // Usuario sale de sala
         socket.on(events_1.default.CLIENT.LEFT_ROOM, (roomId, user) => {
             let message = {
@@ -75,8 +73,6 @@ function socket({ io }) {
                 message: `Se ha ido`
             };
             io.to(roomId).emit("mensajes", message);
-            // const filtered = list.filter(e => (e.roomId !== roomId && e.user !== user))
-            // io.to(roomId).emit('users', filtered)
             socket.leave(roomId);
         });
         //Envío de mensajes

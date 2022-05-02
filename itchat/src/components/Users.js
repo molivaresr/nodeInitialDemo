@@ -8,7 +8,7 @@ export default function Users({roomId}) {
   
   useEffect(() => {
     socket.on('users', (list) => {
-      // console.log(list)
+      console.log(list)
     // const filterUsers = list.filter(e => e.roomId === roomId)
     // console.log(filterUsers)
     setUsers(list)
@@ -26,7 +26,7 @@ export default function Users({roomId}) {
           <h2>Usuarios</h2>
           <ul>
             {filterUsers.map((e) => 
-              <li key={e.id}>{e.user}
+              <li key={e._id}>{e.user}
               </li>
             )}
           </ul>

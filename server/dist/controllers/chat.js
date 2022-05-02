@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.messagesUpd = exports.joinRoom = exports.getRooms = exports.postRooms = exports.getUser = exports.getUsers = void 0;
+exports.messagesUpd = exports.getRooms = exports.postRooms = exports.getUser = exports.getUsers = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const config_1 = __importDefault(require("config"));
 const users_1 = __importDefault(require("../models/users"));
@@ -120,25 +120,6 @@ const getRooms = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getRooms = getRooms;
-const joinRoom = (roomId, user) => __awaiter(void 0, void 0, void 0, function* () {
-    // console.log('Function JoinRoom', roomId, user)
-    try {
-        yield mongoose_1.default.connect(mongoURL, mongoOpt);
-        let findUser = yield rooms_1.default.findOne({ _id: roomId });
-        console.log(findUser);
-        if (findUser) {
-            return; // await RoomModel.findById({_id:roomId}).replaceOne({$push: {users: {user, state:false}}})
-        }
-        else {
-            yield rooms_1.default.findById(roomId).updateOne({ $push: { users: { user } } });
-        }
-        // // mongoose.connection.close(); 
-    }
-    catch (error) {
-        console.log(error);
-    }
-});
-exports.joinRoom = joinRoom;
 const messagesUpd = (roomId, message) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield mongoose_1.default.connect(mongoURL, mongoOpt);

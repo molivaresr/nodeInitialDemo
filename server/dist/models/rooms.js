@@ -11,7 +11,7 @@ const RoomModel = (0, mongoose_1.model)('Room', new mongoose_1.Schema({
             user: String,
             state: {
                 type: Boolean,
-                default: true,
+                default: false,
             }
         })]
 }));
