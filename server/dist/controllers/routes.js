@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.others = exports.forbidden = exports.registerPost = exports.registerGet = exports.home = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
-const joi_1 = __importDefault(require("joi"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const users_1 = __importDefault(require("../models/users"));
@@ -44,14 +43,13 @@ const registerGet = (req, res) => {
 };
 exports.registerGet = registerGet;
 const registerPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const schema = joi_1.default.object({
-        nickname: joi_1.default.string().required().min(5),
-        email: joi_1.default.string().email(),
-        password: joi_1.default.string().required().min(4)
-    });
-    const { error } = schema.validate(req.body);
-    if (error)
-        return res.json(error.details[0].message);
+    // const schema = Joi.object ({
+    //     nickname: Joi.string().required().min(5),
+    //     email: Joi.string().email(),
+    //     password: Joi.string().required().min(5)
+    // });
+    // const {error} = schema.validate(req.body)
+    // if(error) return res.json(error.details[0].message)
     const newUser = req.body;
     const newPassport = newUser.nickname + newUser.email;
     const salt = bcryptjs_1.default.genSaltSync(10);

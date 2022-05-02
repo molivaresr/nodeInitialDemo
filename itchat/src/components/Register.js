@@ -13,7 +13,7 @@ export default function Register() {
         e.preventDefault();
         register(nickname, email, password)
         .then(response => {
-          // console.log(response)
+          console.log(response)
           setRegStatus(response)
         })
           .catch(err => {console.error(err)})

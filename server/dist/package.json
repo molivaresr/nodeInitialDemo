@@ -6,8 +6,8 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "lint": "eslint . --ext .ts",
-        "dev": "nodemon output/app.js",
-        "start": "node output/app.js"
+        "dev": "nodemon dist/app.js",
+        "start": "node dist/app.js"
     },
     "keywords": [],
     "author": "",

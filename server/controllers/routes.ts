@@ -34,15 +34,15 @@ export const registerGet = (req: Request, res: Response) => {
 
 export const registerPost = async (req: Request, res: Response) => {
 
-    const schema = Joi.object ({
-        nickname: Joi.string().required().min(5),
-        email: Joi.string().email(),
-        password: Joi.string().required().min(4)
-    });
+    // const schema = Joi.object ({
+    //     nickname: Joi.string().required().min(5),
+    //     email: Joi.string().email(),
+    //     password: Joi.string().required().min(5)
+    // });
 
-    const {error} = schema.validate(req.body)
+    // const {error} = schema.validate(req.body)
 
-    if(error) return res.json(error.details[0].message)
+    // if(error) return res.json(error.details[0].message)
 
     const newUser = req.body
     const newPassport = newUser.nickname+newUser.email;
