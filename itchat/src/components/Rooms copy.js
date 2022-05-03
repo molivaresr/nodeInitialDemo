@@ -7,16 +7,12 @@ import Rooms_style from '../styles/Rooms_style.css'
 import {socket} from "../context/SocketContext";
 import getRooms from "../services/getRooms";
 
-export default function Room({jwt, user, id}) {
+export default function Room({jwt, user}) {
   const [rooms, setRooms] = useState([]);
   const [roomId, setRoomId] = useState('');
   const [newRoom, setRoom] = useState(true);
   const newRoomRef = useRef(null);  
   
-  useEffect(() => { 
-        socket.emit(EVENTS.CLIENT.CONNECTED, user);
-    },[user])
-
   useEffect(() => {
     getRooms(jwt)
       .then(response => {
@@ -27,23 +23,28 @@ export default function Room({jwt, user, id}) {
   useEffect(() => {//Actualiza cuando se escucha el nuevo evento CREAR desde otros Clientes
     socket.on(EVENTS.SERVER.CREATED_ROOM, (rooms) => {
       setRooms(rooms)
+      getRooms(jwt)
+        .then(response => {
+        setRooms(response.rooms)
+      })
+      return() => {
+        socket.off();
+      }
     });
-
-  },[rooms]);
+  },[rooms, jwt]);
  
   const  createRoom = () =>{ 
     let room = newRoomRef.current.value || '';
+    console.log(room)
     if(!String(room).trim()) return;
     socket.emit(EVENTS.CLIENT.CREATE_ROOM, room);
     room = '';
     setRoom(room)
   }
   
-  const joinRoom = (e) => {
-    e.preventDefault();
-    socket.emit(EVENTS.CLIENT.LEFT_ROOM, id, user)
+  const joinRoom = () => {
+    socket.emit(EVENTS.CLIENT.LEFT_ROOM, (roomId, user))
     window.localStorage.setItem('RoomNow', roomId);
-    window.location.reload();
   }
   
   return (
@@ -51,7 +52,7 @@ export default function Room({jwt, user, id}) {
       <h2>Salas</h2>
       <div className="rooms__create">
       <form>
- 
+          {/* <label><h2>Create a Room</h2></label> */}
           <input type='text' placeholder='Nombre de la sala' ref={newRoomRef} />
           <button onClick={createRoom}>Crear nueva sala</button>
       </form>
@@ -59,6 +60,7 @@ export default function Room({jwt, user, id}) {
       <div className="rooms__join">
       <form >
           <h2>Unirse</h2>
+          {/* <label><h2>Unirse a una sala</h2></label> */}
           <select className="rooms__List" size='5' onChange={(e) => setRoomId(e.target.value)}>
           <optgroup label="Elige tu sala">
           {rooms.map((e) => 

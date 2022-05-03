@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, Redirect } from 'react-router-dom';
 import login from '../services/login';
 
 export default function Login() {
@@ -8,31 +8,30 @@ export default function Login() {
     const [respuesta, setResp] = useState('');
     const [token, setToken] = useState();
     
-    // const {setToken} = useToken();
+
 
     const handleLogin = (e) => {
         e.preventDefault();
         login(username, password)
         .then(sessionData => {
-          
-          // if(!sessionData.nickname && !sessionData.token) {
-          //   setResp(sessionData.msg)
-          //   return 
-          // }
+
             window.localStorage.setItem('nickname', sessionData.nickname)
             window.localStorage.setItem('jwt', sessionData.token)
             let jwt =  window.localStorage.getItem('jwt', sessionData.token)
             setToken(jwt)
-             setResp(sessionData.msg)
+            setResp(sessionData.msg)
             window.location.reload()
-            // setNickname(nickname)
+        
+
           })
           .catch(sessionData => {
             window.localStorage.removeItem('jwt')
             // setResp(sessionData)
           })
     }
-
+    if(token) {
+      return <Navigate to='/'/>
+    }
   return(
     <>
       <form onSubmit={handleLogin}>

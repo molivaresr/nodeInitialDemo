@@ -7,11 +7,10 @@ import RoomModel from "../models/rooms";
 const mongoURL = config.get<string>('mongodb'); 
 const mongoOpt = config.get<object>('mongoOpt');
 
-export const readRooms = async (roomId:string) => {
+export const readRooms = async () => {
     try {
         await mongoose.connect(mongoURL, mongoOpt);
-        let rooms = await RoomModel.findById(roomId);
-        console.log('-',rooms?.users)
+        let rooms = await RoomModel.find({});
         return rooms
     }
     catch (error) {
@@ -57,14 +56,29 @@ export const joinRoom= async (roomId:string, user:string) => {
         let findUser = findRoom?.users.find(e => e.user === user)
 
         if(findUser) {
-            await RoomModel.findOne({_id:roomId}).updateOne({users:{user: user, state:true}})
-            let findRoom = await RoomModel.findOne({_id:roomId})
-            let users = findRoom?.users
-            
-            return users
+            await RoomModel.findOne({_id: roomId}).updateOne({users:{user: user, state:true}})
         }
         else  { 
-            await RoomModel.findOne({_id:roomId}).updateOne({$push: {users:{user: user, state:true}}})
+            await RoomModel.findOne({_id: roomId}).updateOne({$push: {users:{user: user, state:true}}})
+        }
+      } 
+    catch (error) {
+        console.log(error)
+    }
+}
+
+export const leaveRoom = async (roomId:string, user:string) => {
+    try {      
+        await mongoose.connect(mongoURL, mongoOpt);
+        let findRoom = await RoomModel.findOne({_id: roomId})
+        let findUser = findRoom?.users.find(e => e.user === user)
+
+        if(findUser) {
+            await RoomModel.findOne({_id: roomId}).updateOne({users:{user: user, state:false}})
+
+        }
+        else  { 
+            await RoomModel.findOne({_id: roomId}).updateOne({$push: {users:{user: user, state:false}}})
             let users = findRoom?.users
             return users
         }
@@ -72,4 +86,11 @@ export const joinRoom= async (roomId:string, user:string) => {
     catch (error) {
         console.log(error)
     }
+}
+
+export const getUsers = async (roomId: string) => {
+    await mongoose.connect(mongoURL, mongoOpt);
+        let findRoom = await RoomModel.findOne({_id: roomId})
+        let users = findRoom?.users
+        return users
 }

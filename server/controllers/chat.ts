@@ -116,8 +116,8 @@ export const getRooms = async (req: Request, res: Response) => {
 export const messagesUpd= async (roomId:string, message: object) => {
     try {      
         await mongoose.connect(mongoURL, mongoOpt);
-        await RoomModel.findById({_id: roomId}).updateOne({$push: {messages: message}}); 
-        const msgs = await RoomModel.findById(roomId,'messages');
+        await RoomModel.findOne({_id: roomId}).updateOne({$push: {messages: message}}); 
+        const msgs = await RoomModel.findOne({_id:roomId},'messages');
         // // mongoose.connection.close(); 
         return msgs
     }   

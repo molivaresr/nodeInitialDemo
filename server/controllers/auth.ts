@@ -15,7 +15,7 @@ const mongoOpt = config.get<object>('mongoOpt');
 export const loginPost = async (req: Request, res: Response) => {
 
     const {email, password} = req.body
-    console.log(req.body.email)
+    // console.log(req.body.email)
 
     // console.log('Intento de iniciar sesión')
     try {
@@ -45,7 +45,7 @@ export const loginPost = async (req: Request, res: Response) => {
             }
             // console.log('Intento 10 de inicio')
             //Verificar estado
-            console.log(user.state);
+            // console.log(user.state);
             if(!user.state) {
                 // console.log('Intento 11 de inicio')
                 return res.status(400).json({
@@ -59,7 +59,7 @@ export const loginPost = async (req: Request, res: Response) => {
             
             const payload = {nickname: user.nickname, email: user.email, passport: user.passport}
             let token = jwt.sign(payload, key)
-            console.log('Sesión Iniciada')
+            // console.log('Sesión Iniciada')
             res.status(200).json({msg:'Sesión Iniciada', user:user, token: token});
             await UserModel.findOne({email:email}).updateOne({state: false})
             mongoose.connection.close();

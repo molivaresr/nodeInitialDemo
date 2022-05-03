@@ -29,9 +29,7 @@ export default function Feed({user, roomId, jwt}) {
       getRooms(jwt)
       .then(response => {
         let rooms = response.rooms
-        
         let roomNow = rooms.find(m => m._id === roomId)
-        // console.log(roomNow)
         let msg = roomNow.messages
         let roomName = roomNow.roomName
         setRoomTitle(roomName)

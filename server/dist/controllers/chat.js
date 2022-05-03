@@ -123,8 +123,8 @@ exports.getRooms = getRooms;
 const messagesUpd = (roomId, message) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield mongoose_1.default.connect(mongoURL, mongoOpt);
-        yield rooms_1.default.findById({ _id: roomId }).updateOne({ $push: { messages: message } });
-        const msgs = yield rooms_1.default.findById(roomId, 'messages');
+        yield rooms_1.default.findOne({ _id: roomId }).updateOne({ $push: { messages: message } });
+        const msgs = yield rooms_1.default.findOne({ _id: roomId }, 'messages');
         // // mongoose.connection.close(); 
         return msgs;
     }

@@ -23,7 +23,7 @@ const key = config_1.default.get('PRIVATEKEY');
 const mongoOpt = config_1.default.get('mongoOpt');
 const loginPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
-    console.log(req.body.email);
+    // console.log(req.body.email)
     // console.log('Intento de iniciar sesión')
     try {
         // console.log('Intento 2 de inicio')
@@ -50,7 +50,7 @@ const loginPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         // console.log('Intento 10 de inicio')
         //Verificar estado
-        console.log(user.state);
+        // console.log(user.state);
         if (!user.state) {
             // console.log('Intento 11 de inicio')
             return res.status(400).json({
@@ -62,7 +62,7 @@ const loginPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         // console.log(user); 
         const payload = { nickname: user.nickname, email: user.email, passport: user.passport };
         let token = jsonwebtoken_1.default.sign(payload, key);
-        console.log('Sesión Iniciada');
+        // console.log('Sesión Iniciada')
         res.status(200).json({ msg: 'Sesión Iniciada', user: user, token: token });
         yield users_1.default.findOne({ email: email }).updateOne({ state: false });
         mongoose_1.default.connection.close();
