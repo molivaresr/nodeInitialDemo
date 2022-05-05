@@ -22,7 +22,6 @@ const mongoURL = config_1.default.get('mongodb');
 const mongoOpt = config_1.default.get('mongoOpt');
 const key = config_1.default.get('PRIVATEKEY');
 const home = (req, res) => {
-    // res.redirect('/api/auth/login')
     try {
         res.json({ msg: 'conexión Ok' });
     }
@@ -43,13 +42,6 @@ const registerGet = (req, res) => {
 };
 exports.registerGet = registerGet;
 const registerPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // const schema = Joi.object ({
-    //     nickname: Joi.string().required().min(5),
-    //     email: Joi.string().email(),
-    //     password: Joi.string().required().min(5)
-    // });
-    // const {error} = schema.validate(req.body)
-    // if(error) return res.json(error.details[0].message)
     const newUser = req.body;
     const newPassport = newUser.nickname + newUser.email;
     const salt = bcryptjs_1.default.genSaltSync(10);
@@ -61,7 +53,6 @@ const registerPost = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         let findName = yield users_1.default.findOne({ nickname: newUser.nickname });
         let findUser = yield users_1.default.findOne({ email: newUser.email });
         let token = jsonwebtoken_1.default.sign({ nickname: newUser.nickname, email: newUser.email, password: passport }, key);
-        // console.log(users)
         if (!(findUser === null || findUser === void 0 ? void 0 : findUser.email)) {
             if (findName) {
                 let nicknameRepeated = newUser.nickname + `${users.length}`;
@@ -74,7 +65,6 @@ const registerPost = (req, res) => __awaiter(void 0, void 0, void 0, function* (
                     token: token
                 });
                 yield user.save();
-                // mongoose.connection.close()
                 res.json({
                     msg: 'Tu nickname ya existe, te hemos sugerido uno! Podrás modificarlo luego',
                     nickname: nicknameRepeated
@@ -90,7 +80,6 @@ const registerPost = (req, res) => __awaiter(void 0, void 0, void 0, function* (
                     token: token
                 });
                 yield user.save();
-                // mongoose.connection.close()
                 res.json({
                     msg: 'Bienvenido!!!',
                     nickname: newUser.nickname

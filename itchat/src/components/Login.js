@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
-import { Link, Navigate, Redirect } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import login from '../services/login';
-
+import { socket } from '../context/SocketContext';
+import EVENTS from '../config/events';
 export default function Login() {
     const [username, setUserName] = useState();
     const [password, setPassword] = useState();
@@ -20,13 +21,16 @@ export default function Login() {
             let jwt =  window.localStorage.getItem('jwt', sessionData.token)
             setToken(jwt)
             setResp(sessionData.msg)
+            
+            socket.emit(EVENTS.CLIENT.CONNECTED, sessionData.nickname);
+          
             window.location.reload()
         
 
           })
           .catch(sessionData => {
             window.localStorage.removeItem('jwt')
-            // setResp(sessionData)
+         
           })
     }
     if(token) {
@@ -52,7 +56,3 @@ export default function Login() {
     </>
   )
 }
-
-// Login.propTypes = {
-//     setToken: PropTypes.func.isRequired
-//   }

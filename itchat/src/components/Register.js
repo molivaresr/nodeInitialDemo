@@ -8,17 +8,24 @@ export default function Register() {
     const [password, setPassword] = useState();
     const [nickname, setNickname] = useState();
     const [registerStatus, setRegStatus] = useState({});
-
+    const [regLogg, setRegLogg] = useState(false);
     const handleRegister = (e) => {
         e.preventDefault();
         register(nickname, email, password)
         .then(response => {
-          // console.log(response)
           setRegStatus(response)
+          setRegLogg(true);
         })
           .catch(err => {console.error(err)})
       }
-
+  if(regLogg) { 
+    return (
+      <div>
+      <h1>Registro exitoso</h1> 
+      <h2>Vamos al inicio <Link to='/'>Inicio</Link></h2>
+      </div>
+    )
+  }
   return(
     <>
       <form onSubmit={handleRegister}>

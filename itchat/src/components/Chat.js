@@ -4,22 +4,20 @@ import { socket } from "../context/SocketContext";
 import EVENTS from "../config/events";
 
 import SplitPane from "./Split";
+import Rooms from "./Rooms";
 
 import getRooms from '../services/getRooms';
-import Feed from "./Feed";
-import Rooms from "./Rooms";
-import Users from "./Users";
+import '../styles/Feed_style.css'
+import '../styles/Users_style.css'
 
 const Chat = () => {
-    const [rooms, setRooms] = useState([]);
-    const [newRoom, setRoom] = useState(true);
-    const [roomId, setRoomId] = useState('');   
+  
     const [roomTitle, setRoomTitle] = useState('')
 
     const [message, setMensaje] = useState('');
     const [mensajes, setMensajes] = useState([]);
     const [userList, setList] = useState([])
-    const newRoomRef = useRef(null);
+
     const messagesEndRef = useRef(null);
 
     const userdata = {
@@ -67,8 +65,8 @@ const Chat = () => {
     
 
     useEffect(() => {
-        socket.on("mensajes", (message) => {
-
+        socket.on(EVENTS.SERVER.ROOM_MSG, (message) => {
+   
             setMensajes([...mensajes, message]);
         });
         return() => {
@@ -82,12 +80,22 @@ const Chat = () => {
 
     const handleMsg = (e) => {
         e.preventDefault();
-        socket.emit("mensaje", userdata.roomId, userdata.nickname, message);
+        socket.emit(EVENTS.CLIENT.SEND_MSG, userdata.roomId, userdata.nickname, message);
         setMensaje("");
     }
     
-
+    useEffect(() => { 
+        socket.on(EVENTS.CLIENT.USER, (usuarios) => {
+            console.log(usuarios)
+            usuarios.forEach( e => {
+                let users = e.users;
+                setList(users)
+            })
+    });
+  },)
     
+
+
     return (
         <>
         <SplitPane 
@@ -106,22 +114,23 @@ const Chat = () => {
                 </ul>
             </div>
             <div> 
+                {!userdata.roomId && <h2>Unete a una sala para poder hablar!</h2>}              
                 {userdata.roomId &&  
                 <form onSubmit={submit} className='chat__textBox'>
                 <input type='text' placeholder={`Hola soy ${userdata.nickname}`} value={message} onChange={(e) => setMensaje(e.target.value)}/>
                 <button onClick={handleMsg}>Enviar</button>
                 </form>} 
-                {!userdata.roomId && <p>Unete a una sala para poder hablar!</p>}              
             </div>
         </div>  }
         right ={
         <div className='users'>
         <h2>Usuarios</h2>
         <ul>
-            {/* {userList.map((e,i) => 
-            <li key={i}>{e}
-            </li>
-            )} */}
+            {userList.map(e => 
+                <li key={e.id}>{e.user}
+                </li>)
+            }
+            <div ref={messagesEndRef} />
         </ul>
         </div> }
         />

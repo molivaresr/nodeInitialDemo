@@ -41,7 +41,7 @@ export const createRooms = async (roomName: string) => {
                 messages: {},
             });
             await room.save();
-            // mongoose.connect(mongoURL, mongoOpt);
+            
             let newRooms = await RoomModel.find({})
             return newRooms
         }
@@ -54,12 +54,12 @@ export const joinRoom= async (roomId:string, user:string) => {
         await mongoose.connect(mongoURL, mongoOpt);
         let findRoom = await RoomModel.findOne({_id: roomId})
         let findUser = findRoom?.users.find(e => e.user === user)
-
-        if(findUser) {
-            await RoomModel.findOne({_id: roomId}).updateOne({users:{user: user, state:true}})
+        
+        if(!findUser) {
+            await RoomModel.findOne({_id: roomId}).updateOne({$push: {users: {user: user, state:true}}})
         }
         else  { 
-            await RoomModel.findOne({_id: roomId}).updateOne({$push: {users:{user: user, state:true}}})
+            return 
         }
       } 
     catch (error) {
@@ -71,16 +71,13 @@ export const leaveRoom = async (roomId:string, user:string) => {
     try {      
         await mongoose.connect(mongoURL, mongoOpt);
         let findRoom = await RoomModel.findOne({_id: roomId})
-        let findUser = findRoom?.users.find(e => e.user === user)
-
+        let findUser = findRoom?.users.filter(e => e.user !== user)
+        
         if(findUser) {
-            await RoomModel.findOne({_id: roomId}).updateOne({users:{user: user, state:false}})
-
+            console.log(findUser)
         }
         else  { 
-            await RoomModel.findOne({_id: roomId}).updateOne({$push: {users:{user: user, state:false}}})
-            let users = findRoom?.users
-            return users
+           return
         }
       } 
     catch (error) {

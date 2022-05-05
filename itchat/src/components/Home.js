@@ -22,8 +22,7 @@ import login from "../services/login";
 
 return (
     <>
-      {/* {isLoginLoading && <strong>Checking credentials...</strong>}
-      {!isLoginLoading && */}
+
         <form className='form' onSubmit={handleLogin}>
           <label>
             email
@@ -37,10 +36,7 @@ return (
 
           <button className='login__button'>Login</button>
         </form>
-      {/* }
-      {
-        hasLoginError && <strong>Credentials are invalid</strong>
-      } */}
+
     </>
   );
 }

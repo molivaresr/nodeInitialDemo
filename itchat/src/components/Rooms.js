@@ -1,8 +1,8 @@
 import React from "react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect} from "react";
 
 import EVENTS from "../config/events";
-import Rooms_style from '../styles/Rooms_style.css'
+import '../styles/Rooms_style.css'
 
 import {socket} from "../context/SocketContext";
 import getRooms from "../services/getRooms";
@@ -10,12 +10,14 @@ import getRooms from "../services/getRooms";
 export default function Room({jwt, user, id}) {
   const [rooms, setRooms] = useState([]);
   const [roomId, setRoomId] = useState('');
-  const [newRoom, setRoom] = useState(true);
-  const newRoomRef = useRef(null);  
+  const [newRoom, setRoom] = useState('');
   
   useEffect(() => { 
-        socket.emit(EVENTS.CLIENT.CONNECTED, user);
-    },[user])
+        socket.on(EVENTS.SERVER.CREATED_ROOM, (rooms) => {
+      setRooms(rooms)
+    });
+  })
+  
 
   useEffect(() => {
     getRooms(jwt)
@@ -24,19 +26,10 @@ export default function Room({jwt, user, id}) {
     })
   },[jwt])
 
-  useEffect(() => {//Actualiza cuando se escucha el nuevo evento CREAR desde otros Clientes
-    socket.on(EVENTS.SERVER.CREATED_ROOM, (rooms) => {
-      setRooms(rooms)
-    });
-
-  },[rooms]);
- 
-  const  createRoom = () =>{ 
-    let room = newRoomRef.current.value || '';
-    if(!String(room).trim()) return;
-    socket.emit(EVENTS.CLIENT.CREATE_ROOM, room);
-    room = '';
-    setRoom(room)
+  const  createRoom = (e) =>{ 
+    e.preventDefault();
+    socket.emit(EVENTS.CLIENT.CREATE_ROOM, newRoom);
+    setRoom('');
   }
   
   const joinRoom = (e) => {
@@ -50,9 +43,9 @@ export default function Room({jwt, user, id}) {
     <div className="rooms">     
       <h2>Salas</h2>
       <div className="rooms__create">
-      <form>
+      <form >
  
-          <input type='text' placeholder='Nombre de la sala' ref={newRoomRef} />
+          <input type='text' placeholder='Nombre de la sala' value={newRoom} onChange={(e) => setRoom(e.target.value)} />
           <button onClick={createRoom}>Crear nueva sala</button>
       </form>
       </div>

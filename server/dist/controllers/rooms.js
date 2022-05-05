@@ -50,7 +50,6 @@ const createRooms = (roomName) => __awaiter(void 0, void 0, void 0, function* ()
                 messages: {},
             });
             yield room.save();
-            // mongoose.connect(mongoURL, mongoOpt);
             let newRooms = yield rooms_1.default.find({});
             return newRooms;
         }
@@ -65,11 +64,11 @@ const joinRoom = (roomId, user) => __awaiter(void 0, void 0, void 0, function* (
         yield mongoose_1.default.connect(mongoURL, mongoOpt);
         let findRoom = yield rooms_1.default.findOne({ _id: roomId });
         let findUser = findRoom === null || findRoom === void 0 ? void 0 : findRoom.users.find(e => e.user === user);
-        if (findUser) {
-            yield rooms_1.default.findOne({ _id: roomId }).updateOne({ users: { user: user, state: true } });
+        if (!findUser) {
+            yield rooms_1.default.findOne({ _id: roomId }).updateOne({ $push: { users: { user: user, state: true } } });
         }
         else {
-            yield rooms_1.default.findOne({ _id: roomId }).updateOne({ $push: { users: { user: user, state: true } } });
+            return;
         }
     }
     catch (error) {
@@ -81,14 +80,12 @@ const leaveRoom = (roomId, user) => __awaiter(void 0, void 0, void 0, function* 
     try {
         yield mongoose_1.default.connect(mongoURL, mongoOpt);
         let findRoom = yield rooms_1.default.findOne({ _id: roomId });
-        let findUser = findRoom === null || findRoom === void 0 ? void 0 : findRoom.users.find(e => e.user === user);
+        let findUser = findRoom === null || findRoom === void 0 ? void 0 : findRoom.users.filter(e => e.user !== user);
         if (findUser) {
-            yield rooms_1.default.findOne({ _id: roomId }).updateOne({ users: { user: user, state: false } });
+            console.log(findUser);
         }
         else {
-            yield rooms_1.default.findOne({ _id: roomId }).updateOne({ $push: { users: { user: user, state: false } } });
-            let users = findRoom === null || findRoom === void 0 ? void 0 : findRoom.users;
-            return users;
+            return;
         }
     }
     catch (error) {

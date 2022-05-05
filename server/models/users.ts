@@ -15,10 +15,6 @@ interface User {
     rooms: Rooms;
 }
 
-// type UserDocumentProps = { 
-//     messages: Types.DocumentArray<Rooms>
-// }
-
 type UserModelType = Model<User>;
 
 const UserModel = model<User, UserModelType>('User', new Schema<User, UserModelType>({

@@ -12,7 +12,6 @@ const mongoOpt = config.get<object>('mongoOpt');
 const key = config.get<string>('PRIVATEKEY')
 
 export const home = (req: Request, res: Response) => {
-    // res.redirect('/api/auth/login')
     try { 
         res.json({msg:'conexión Ok'});
     }
@@ -33,17 +32,6 @@ export const registerGet = (req: Request, res: Response) => {
 }
 
 export const registerPost = async (req: Request, res: Response) => {
-
-    // const schema = Joi.object ({
-    //     nickname: Joi.string().required().min(5),
-    //     email: Joi.string().email(),
-    //     password: Joi.string().required().min(5)
-    // });
-
-    // const {error} = schema.validate(req.body)
-
-    // if(error) return res.json(error.details[0].message)
-
     const newUser = req.body
     const newPassport = newUser.nickname+newUser.email;
     const salt = bcrypt.genSaltSync(10);
@@ -57,7 +45,6 @@ export const registerPost = async (req: Request, res: Response) => {
         let findUser = await UserModel.findOne({email:newUser.email});
             
         let token = jwt.sign({nickname: newUser.nickname, email: newUser.email, password: passport}, key);
-        // console.log(users)
         if(!findUser?.email) {
             if(findName) {
             let nicknameRepeated = newUser.nickname + `${users.length}`;
@@ -70,7 +57,7 @@ export const registerPost = async (req: Request, res: Response) => {
                 token: token
                 });
             await user.save();
-            // mongoose.connection.close()
+   
             res.json({
                 msg:'Tu nickname ya existe, te hemos sugerido uno! Podrás modificarlo luego',
                 nickname: nicknameRepeated
@@ -85,7 +72,6 @@ export const registerPost = async (req: Request, res: Response) => {
             token: token
             });
             await user.save();
-            // mongoose.connection.close()
             res.json({
                 msg:'Bienvenido!!!',
                 nickname: newUser.nickname
