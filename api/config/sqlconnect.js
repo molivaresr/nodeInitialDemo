@@ -2,21 +2,22 @@ const {Sequelize} = require('sequelize');
 const PlayerModel = require('../models/player');
 const RollDiceModel = require('../models/rollDice');
 const mysql = require('mysql2');
+const config = require('../config/config')
 
 // Conecta Base de Datos
-const sequelize = new Sequelize('dice','root','123456789',{host:'localhost',dialect: 'mysql'}); 
 
 async function connectDb () {
   try {
-    const connection = mysql.createConnection({host:'localhost', user:'root', password:'123456789'});
+    const connection = mysql.createConnection({host:config.MYSQL_HOST, user:config.MYSQL_USER, password:config.MYSQL_PASSWORD});
     connection.query("CREATE DATABASE IF NOT EXISTS dice", function (err){
-        if(err) throw err;
+      if(err) throw err;
     }) 
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
 }
 
+const sequelize = new Sequelize(config.MYSQL_DATABASE,config.MYSQL_USER,config.MYSQL_PASSWORD,{host:config.MYSQL_HOST,dialect: config.MYSQL_DIALECT}); 
 const Player = PlayerModel(sequelize, Sequelize);
 const RollDice = RollDiceModel(sequelize, Sequelize);
 
