@@ -6,6 +6,7 @@ const config = require('../config/config')
 
 // Conecta Base de Datos
 
+const sequelize = new Sequelize(config.MYSQL_DATABASE,config.MYSQL_USER,config.MYSQL_PASSWORD,{host:config.MYSQL_HOST,dialect: config.MYSQL_DIALECT}); 
 async function connectDb () {
   try {
     const connection = mysql.createConnection({host:config.MYSQL_HOST, user:config.MYSQL_USER, password:config.MYSQL_PASSWORD});
@@ -17,7 +18,6 @@ async function connectDb () {
   }
 }
 
-const sequelize = new Sequelize(config.MYSQL_DATABASE,config.MYSQL_USER,config.MYSQL_PASSWORD,{host:config.MYSQL_HOST,dialect: config.MYSQL_DIALECT}); 
 const Player = PlayerModel(sequelize, Sequelize);
 const RollDice = RollDiceModel(sequelize, Sequelize);
 
