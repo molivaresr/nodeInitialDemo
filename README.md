@@ -8,7 +8,9 @@ Proyecto creado con:
 * DotEnv.
 
 ### Para iniciar servidor ### 
-
+**Importante** : Es necesario configurar las variables de entorno se puede crear el archivo .env a partir de env.template:
+- Puerto por defecto: El servidor arranca en el puerto 8080, puedes modificarlo en PORT=8080
+- Datos de MySQL: Completa con tu configuración de acceso a MYSQL (Usuario, Password, Host y puerto), modificandolos campos que comiencen con MYSQL. **Atención** MYSQL_DATABASE, es el nombre de la base de datos, por defecto: dice_mauricio y  MYSQL_DIALECT no se debe modificar, ya que Sequelize esta optimizado para utilizar mysql. 
 
 ``npm i``-> Instala modulos requeridos.  
 
