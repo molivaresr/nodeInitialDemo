@@ -9,7 +9,7 @@ const config = require('../config/config')
 async function connectDb () {
   try {
     const connection = mysql.createConnection({host:config.MYSQL_HOST, user:config.MYSQL_USER, password:config.MYSQL_PASSWORD});
-    connection.query("CREATE DATABASE IF NOT EXISTS dice", function (err){
+    connection.query(`CREATE DATABASE IF NOT EXISTS \`${config.MYSQL_DATABASE}\`;`, function (err){
       if(err) throw err;
     }) 
   } catch (error) {

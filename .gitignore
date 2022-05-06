@@ -1,3 +1,4 @@
 node_modules/
 ##MacOs
 .DS_Store
+.env
