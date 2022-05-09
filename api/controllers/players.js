@@ -14,7 +14,7 @@ const postPlayer = async (request, response) => {
             response.status(200).json({msg: `Jugador anónimo creado con éxito`})     
         } else {
             if (realLenght === 0 ) { 
-                response.status(400).json({msg: `No has creado un jugador! Para crear un jugador Anónimo, escribe: invitado `})
+                response.status(400).json({msg: `No has creado un jugador! Para crear un jugador Anónimo, escribe: Invitado `})
             } else {
                 try { 
                     if(player.length === 0) {
@@ -41,26 +41,34 @@ const putPlayer = async (request, response) => {
     const realLenght = name.playerName.trim().length
     const player = await Player.findAll({where:{playerName : name.playerName}});
     
-    if(realLenght === 0) {
-        response.status(400).json({msg: `No has creado un jugador! Para crear un jugador Anónimo, escribe: 'Anónimo'`})
+    const verify = name.playerName.toLowerCase()
+    const key = 'invitado';
+
+    if(verify === key) {
+        await Player.create({playerName: 'Anónimo'})
+        response.status(200).json({msg: `Jugador anónimo creado con éxito`})     
     } else {
-    try { 
-        if(player.length === 0) {
-            await Player.update(name.playerName,{
-                where: {_id: request.params.id}
-            });
-            response.status(200).json({msg: `Jugador modificado con éxito ${name.playerName}`})
-        }
-        else { 
-            response.status(200).json({msg: 'El Jugador ya existe'})
-        }
-    } 
-    catch (error) {
-        console.log(error);
-        response.status(500).json({
-            msg:'Llamar al administrador'
-        })
-    }}
+        if(realLenght === 0) {
+            response.status(400).json({msg: `No has creado un jugador! Para crear un jugador Anónimo, escribe: Invitado`})
+        } else {
+        try { 
+            if(player.length === 0) {
+                await Player.update(name.playerName,{
+                    where: {_id: request.params.id}
+                });
+                response.status(200).json({msg: `Jugador modificado con éxito ${name.playerName}`})
+            }
+            else { 
+                response.status(200).json({msg: 'El Jugador ya existe'})
+            }
+        } 
+        catch (error) {
+            console.log(error);
+            response.status(500).json({
+                msg:'Llamar al administrador'
+            })
+        }}
+    }
 };
 
 const getPlayers = async (request, response) => {
