@@ -19,7 +19,7 @@ Proyecto creado con:
 
 Construirem una API que doni suport a un joc de daus ;)
 
-### Instrucciones ###
+### Instrucciones ###  
 Para crear un nuevo jugador se debe completar el nombre.  
 El sistema no permite nombres repetidos.  
 Permite jugar en modo anónimo, debes escribir 'Invitado'.    
