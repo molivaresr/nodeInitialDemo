@@ -17,14 +17,15 @@ Proyecto creado con:
 
 ``npm start`` -> Inicializa servidor.    
 
-Construirem una API que doni suport a un joc de daus ;)
 
-## Instrucciones ##  
+
+### Instrucciones ###  
 Para crear un nuevo jugador se debe completar el nombre.  
 El sistema no permite nombres repetidos.  
-Permite jugar en modo anónimo, debes escribir 'Invitado'.    
+Permite jugar en modo anónimo, debes escribir 'Invitado'.      
 
-Al joc de daus s’hi juga amb dos daus de sis cares:
+Construirem una API que doni suport a un joc de daus ;). 
+Al joc de daus s’hi juga amb dos daus de sis cares:  
 
 En cas que el resultat dels dos daus sigui 7 la partida es guanya, si no es perd.
 Per poder jugar al joc t’has de registrar com a jugador amb un nom. Un jugador pot veure un llistat de totes les tirades que ha fet i el seu percentatge d’èxit.
