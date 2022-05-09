@@ -17,7 +17,7 @@ Proyecto creado con:
 
 ``npm start`` -> Inicializa servidor.    
 
-
+(Colección de Postman)[https://github.com/molro/nodeInitialDemo/blob/sprint42/Joc%20de%20Daus.postman_collection.json]
 
 ### Instrucciones ###  
 Para crear un nuevo jugador se debe completar el nombre.  
