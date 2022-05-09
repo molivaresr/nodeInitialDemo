@@ -2,16 +2,7 @@ const {request, response} = require('express');
 const {Player, RollDice} = require('../config/sqlconnect')
 
 
-const getPlayers = async (request, response) => {
-    try {
-        const players = await Player.findAll({attributes:['_id','playerName','winRate']});
-        response.json(players)
-    } catch (error) {
-        response.sendStatus(500).json({
-            msg:'Llamar al Admin'
-        })
-    }
-}   
+ 
 
 const getRanking = async (request, response) => {
     try {
@@ -23,29 +14,28 @@ const getRanking = async (request, response) => {
             winRate
         })
     } catch (error) {
-        response.sendStatus(500)
+        response.status(500).json({msg:'Llamar al administrador'})
     }
 }
 
 const getLastPlayer = async (request, response) => {
     const minScore = await Player.min('winRate');
-        console.log(minScore)
+    console.log(minScore);
     try {
         const lastPlayer = await Player.findAll({where:{winRate:minScore}});
-        response.json(lastPlayer);
+        response.status(200).json(lastPlayer);
     } catch (error) {
-        response.sendStatus(500)
+        response.status(500).json({msg:'Llamar al administrador'})
     }
 }
 const getFirstPlayer = async (request, response) => {
     const maxScore = await Player.max('winRate');
-        console.log(maxScore)
     try {
         const firstPlayer = await Player.findAll({where:{winRate:maxScore}});
-        response.json(firstPlayer);
+        response.status(200).json(firstPlayer);
     } catch (error) {
-        response.sendStatus(500)
+        response.status(500).json({msg:'Llamar al administrador'})
     }
 }
 
-module.exports = {getRanking, getFirstPlayer, getLastPlayer, getPlayers}
+module.exports = {getRanking, getFirstPlayer, getLastPlayer}

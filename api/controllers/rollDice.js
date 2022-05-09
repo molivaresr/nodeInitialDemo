@@ -1,5 +1,6 @@
 const rollDice = require('./game')
 const {RollDice, Player} = require('../config/sqlconnect');
+const { response } = require('express');
 
 const postRoll = async (req,res) => {
     const idPlayer = req.params.id;
@@ -24,31 +25,36 @@ const postRoll = async (req,res) => {
         const winRate = (winGames/totalGames)*100;
         await Player.update({winRate},{where:{_id:idPlayer}})
         const playerRolled = await Player.findAll({attribute:['playerName'],where:{_id:idPlayer}})
-        res.send({playerRolled, roll})
+        res.status(200).json({playerRolled, roll})
      } 
     catch (error) {
-        res.status(500).send({message:error.message})
+        res.status(500).json({message:error.message})
     }
 };
     
 const delPlayerRoll = async (req,res) => {
-        const idPlayer = req.params.id;
-    try {
-        await Player.update({
-            totalGames:0,
-            winGames:0,
-            winRate:0,
-        },{where:{_id:idPlayer}})
-        await RollDice.destroy({where:{_id:idPlayer}})
-        const player = await Player.findAll({where:{_id:idPlayer}})
-        res.status(200).send({player})
-    } catch (error) {
-        res.status(500).send({message: error.message})
+    const idPlayer = req.params.id;
+    const player = await Player.findAll({where:{_id:idPlayer}})
+    if(player.length === 0) {
+        res.status(400).json({msg:'El jugador no existe'})
+    } else {
+        try {
+        
+            await Player.update({
+                totalGames:0,
+                winGames:0,
+                winRate:0,
+            },{where:{_id:idPlayer}})
+            await RollDice.destroy({where:{_id:idPlayer}})
+            res.status(200).json({msg:'Jugadas eliminadas'})
+        } catch (error) {
+            res.status(500).json({message: error.message})
+        }
     }
 }  
 const getPlayerRoll = async (req, res) => {
         const idPlayer = req.params.id;
         const player = await Player.findAll({where:{_id:idPlayer}})
-        res.status(201).send({player})
+        res.status(201).json({player})
     };
 module.exports = {postRoll, delPlayerRoll, getPlayerRoll}

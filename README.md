@@ -18,6 +18,11 @@ Proyecto creado con:
 
 Construirem una API que doni suport a un joc de daus ;)
 
+### Instrucciones ###
+Para crear un nuevo jugador se debe completar el nombre.  
+El sistema no permite nombres repetidos.  
+Permite jugar en modo anónimo, debes escribir 'Invitado'.    
+
 Al joc de daus s’hi juga amb dos daus de sis cares:
 
 En cas que el resultat dels dos daus sigui 7 la partida es guanya, si no es perd.
@@ -40,6 +45,6 @@ Has de tenir en compte els següents detalls de construcció:
 * POST /players/{id}/games: un jugador específic realitza una tirada.
 ### Ranking ###
 * GET /players: retorna el llistat de tots els jugadors del sistema amb el seu percentatge mig d’èxits.
-* GET /players/ranking/ranking: retorna el percentatge mig d’èxits del conjunt de tots els jugadors.
+* GET /players/ranking/: retorna el percentatge mig d’èxits del conjunt de tots els jugadors.
 * GET /players/ranking/loser: retorna el jugador amb pitjor percentatge d’èxit.
 * GET /players/ranking/winner: retorna el jugador amb millor percentatge d’èxit.

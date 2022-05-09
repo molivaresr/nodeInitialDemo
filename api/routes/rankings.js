@@ -1,15 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const {getRanking, getFirstPlayer, getLastPlayer, getPlayers} = require('../controllers/rankings')
+const {getRanking, getFirstPlayer, getLastPlayer} = require('../controllers/rankings')
 
-router.get('/', getPlayers);
+router.get('/ranking', getRanking); // Retorna el listado de los jugadores y su % medio de éxito
+router.get('/ranking/looser', getLastPlayer); //Retorna el Looser jugador
+router.get('/ranking/winner', getFirstPlayer); // Retorna el Winner
 
-router.get('/ranking', getRanking); // Esta línea no funciona
-
-router.get('/ranking/ranking', getRanking);
-
-router.get('/ranking/lastplayer', getLastPlayer); //Aqui funciona 
-
-router.get('/ranking/firstplayer', getFirstPlayer);
 
 module.exports = router;

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "7c0893f4-a3d8-4130-b21c-98e20c2a3d1c",
+		"_postman_id": "19921c46-44e5-4436-b01b-b42776292d41",
 		"name": "Joc de Daus",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"playerName\":\"Cassidy\"\r\n}",
+					"raw": "{\r\n    \"playerName\":\"HolaMundo\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -41,7 +41,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"playerName\":\"Cassidy!!!\"\r\n}",
+					"raw": "{\r\n    \"playerName\":\" \"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -49,7 +49,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/players/4",
+					"raw": "http://localhost:8080/api/players/3",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -58,7 +58,7 @@
 					"path": [
 						"api",
 						"players",
-						"4"
+						"3"
 					]
 				}
 			},
@@ -67,11 +67,11 @@
 		{
 			"name": "Delete -> Elimina las jugadas de un jugador",
 			"request": {
-				"method": "PUT",
+				"method": "DELETE",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"playerName\":\"Cassidy!!!\"\r\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -79,7 +79,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/players/4",
+					"raw": "http://localhost:8080/api/players/8/games/",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -88,14 +88,16 @@
 					"path": [
 						"api",
 						"players",
-						"4"
+						"8",
+						"games",
+						""
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Delete -> Retorna las jugadas de un jugador",
+			"name": "Get -> Retorna las jugadas de un jugador",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -104,7 +106,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"playerName\":\"Cassidy!!!\"\r\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -135,7 +137,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"playerName\":\"Cassidy!!!\"\r\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -143,7 +145,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/players/4/games",
+					"raw": "http://localhost:8080/api/players/2/games",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -152,7 +154,7 @@
 					"path": [
 						"api",
 						"players",
-						"4",
+						"2",
 						"games"
 					]
 				}
@@ -168,14 +170,8 @@
 				"method": "GET",
 				"header": [],
 				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "user",
-							"value": "Diego",
-							"type": "default"
-						}
-					],
+					"mode": "raw",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -206,14 +202,8 @@
 				"method": "GET",
 				"header": [],
 				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "user",
-							"value": "Diego",
-							"type": "default"
-						}
-					],
+					"mode": "raw",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -221,7 +211,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/players/ranking/ranking",
+					"raw": "http://localhost:8080/api/players/ranking/",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -231,7 +221,7 @@
 						"api",
 						"players",
 						"ranking",
-						"ranking"
+						""
 					]
 				}
 			},
@@ -246,14 +236,8 @@
 				"method": "GET",
 				"header": [],
 				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "user",
-							"value": "Diego",
-							"type": "default"
-						}
-					],
+					"mode": "raw",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -261,7 +245,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/players/ranking/ranking",
+					"raw": "http://localhost:8080/api/players/ranking/looser",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -271,7 +255,7 @@
 						"api",
 						"players",
 						"ranking",
-						"ranking"
+						"looser"
 					]
 				}
 			},
@@ -293,15 +277,10 @@
 							"value": "Diego",
 							"type": "default"
 						}
-					],
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					]
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/players/ranking/firstplayer",
+					"raw": "http://localhost:8080/api/players/ranking/winner",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -311,7 +290,7 @@
 						"api",
 						"players",
 						"ranking",
-						"firstplayer"
+						"winner"
 					]
 				}
 			},
