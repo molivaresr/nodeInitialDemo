@@ -35,7 +35,7 @@ Para acceder es necesario registrarse.
 
 👤 **Mauricio**
 
-- Github: [@molro] (https://github.com/molro)
+- Github: [@molro](https://github.com/molro)
 
 ## Dame tu apoyo
 
